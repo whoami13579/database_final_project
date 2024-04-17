@@ -1,2 +1,3 @@
 final project
-I'm J
+
+pip install -r requirements.txt
