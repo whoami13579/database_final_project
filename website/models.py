@@ -9,7 +9,7 @@ class Role(db.Model):
     role_type = db.Column(db.Integer, unique=True, primary_key=True)
     role_name = db.Column(db.String(20), unique=True)
 
-    teachers = db.relationship("Teacher", back_populates="role")
+    teachers = db.relationship("Teacher", backref="role")
 
     def __repr__(self):
         return str(id) + " " + self.role_type + " " + self.role_name
@@ -25,7 +25,6 @@ class Teacher(db.Model, UserMixin):
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     self_introduction = db.Column(db.String(500))
 
-    role = db.relationship("Role", back_populates="teachers")
     role_type = db.Column(db.Integer, db.ForeignKey("roles.role_type"))
 
     def __repr__(self):
