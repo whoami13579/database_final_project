@@ -2,6 +2,7 @@ from flask_login import UserMixin
 from . import db
 from sqlalchemy.sql import func
 
+
 class Role(db.Model):
     __tablename__ = "roles"
 

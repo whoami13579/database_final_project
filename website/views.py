@@ -6,6 +6,7 @@ from datetime import datetime
 
 views = Blueprint("views", __name__)
 
+
 @views.route("/")
 @views.route("/home")
 def home():
