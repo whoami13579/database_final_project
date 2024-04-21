@@ -5,14 +5,14 @@ from sqlalchemy.sql import func
 class Role(db.Model):
     __tablename__ = "roles"
 
-    id = db.Column(db.Integer, primary_key=True)
-    role_type = db.Column(db.Integer, unique=True)
+    # id = db.Column(db.Integer, primary_key=True)
+    role_type = db.Column(db.Integer, unique=True, primary_key=True)
     role_name = db.Column(db.String(20), unique=True)
 
     teachers = db.relationship("Teacher", back_populates="role")
 
     def __repr__(self):
-        return str(id) + " " + self.teacher_name
+        return str(id) + " " + self.role_type + " " + self.role_name
 
 
 class Teacher(db.Model, UserMixin):
@@ -25,8 +25,8 @@ class Teacher(db.Model, UserMixin):
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     self_introduction = db.Column(db.String(500))
 
-    role_id = db.mapped_column(db.ForeignKey("roles.id"))
-    parent = db.relationship("Role", back_populates="teachers")
+    role = db.relationship("Role", back_populates="teachers")
+    role_type = db.Column(db.Integer, db.ForeignKey("roles.role_type"))
 
     def __repr__(self):
         return str(id) + " " + self.teacher_name
