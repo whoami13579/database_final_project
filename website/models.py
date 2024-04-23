@@ -1,32 +1,64 @@
 from flask_login import UserMixin
 from . import db
 from sqlalchemy.sql import func
+from flask_sqlalchemy import SQLAlchemy
 
 
 class Role(db.Model):
     __tablename__ = "roles"
 
-    # id = db.Column(db.Integer, primary_key=True)
-    role_type = db.Column(db.Integer, unique=True, primary_key=True)
+    def __init__(self, type, name):
+        self.role_type = type
+        self.role_name = name
+
+    id = db.Column(db.Integer, primary_key=True)
+    role_type = db.Column(db.Integer, unique=True)
     role_name = db.Column(db.String(20), unique=True)
 
     teachers = db.relationship("Teacher", backref="role")
 
     def __repr__(self):
-        return str(id) + " " + self.role_type + " " + self.role_name
+        return f"id: {id}, role_ytpe: {self.role_type}, role_name{self.role_name}"
+
+
+class Class_schedule(db.Model):
+    __tablename__ = "class_schedule"
+
+    def __init__(self, week, time, name):
+        self.week = week
+        self.time = time
+        self.name = name
+
+    id = db.Column(db.Integer, primary_key=True)
+    week = db.Column(db.Integer)
+    time = db.Column(db.Integer)
+    name = db.Column(db.String(20))
+
+    teachers = db.relationship("Teacher", backref="schedule")
+
+    teacher = db.Column(db.Integer, db.ForeignKey("teachers.id"))
+
+    def __repr__(self):
+        return f"id: {self.id}, week: {self.week}, time: {self.time}, name: {self.name}"
 
 
 class Teacher(db.Model, UserMixin):
     __tablename__ = "teachers"
 
+    def __init__(self, email, name, password):
+        self.email = email
+        self.name = name
+        password = password
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
-    teacher_name = db.Column(db.String(150), unique=True)
+    name = db.Column(db.String(150))
     password = db.Column(db.String(150))
-    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
-    self_introduction = db.Column(db.String(500))
+    self_introduction = db.Column(db.String(500), nullable=True)
 
-    role_type = db.Column(db.Integer, db.ForeignKey("roles.role_type"))
+    role_type = db.Column(db.Integer, db.ForeignKey("roles.id"))
+
+    # class_schedules = db.relationship("Class_schedule", backref="teacher")
 
     def __repr__(self):
-        return str(id) + " " + self.teacher_name
+        return f"id: {self.id}, email: {self.email}, name: {self.name}"
