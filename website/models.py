@@ -12,7 +12,7 @@ class Role(db.Model):
         self.role_name = name
 
     # id = db.Column(db.Integer, primary_key=True)
-    role_type = db.Column(db.Integer, primary_key=True)
+    role_id = db.Column(db.Integer, primary_key=True)
     # role_type = db.Column(db.Integer, unique=True)
     role_name = db.Column(db.String(20), unique=True)
 
@@ -35,8 +35,7 @@ class Class_schedule(db.Model):
     time = db.Column(db.Integer)
     name = db.Column(db.String(20))
 
-    teacher_id = db.Column(db.ForeignKey("teachers.email"))
-
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     def __repr__(self):
         return f"id: {self.id}, week: {self.week}, time: {self.time}, name: {self.name}"
@@ -50,13 +49,13 @@ class Teacher(db.Model, UserMixin):
         self.name = name
         self.password = password
 
-    id = db.Column(db.Integer, primary_key=True)
+    teacher_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     name = db.Column(db.String(150))
     password = db.Column(db.String(150))
     self_introduction = db.Column(db.String(500), nullable=True)
 
-    role_type = db.Column(db.ForeignKey("roles.role_type"))
+    role_id = db.Column(db.ForeignKey("roles.role_id"))
 
     class_schedules = db.relationship("Class_schedule", backref="teacher")
 
