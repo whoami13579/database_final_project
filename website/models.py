@@ -71,7 +71,8 @@ class Teacher(db.Model, UserMixin):
         return f"id: {self.id}, email: {self.email}, name: {self.name}"
 
 
-class Reward(db.Model):  # Reward_and_guide_students_to_win_wards
+# Reward_and_guide_students_to_win_wards
+class Reward(db.Model):
     __tablename__ = "rewards"
 
     def __init__(self, id, time, award, school, attribute, name):
@@ -94,3 +95,26 @@ class Reward(db.Model):  # Reward_and_guide_students_to_win_wards
     def __repr__(self):
         return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}"
 
+
+# Approved_patents
+class Patent(db.Model):
+    __tablename__ = "patents"
+
+    def __init__(self, name, date, number, patent_type, teacher_id):
+        self.patent_name = name
+        self.date = date
+        self.number = number
+        self.patent_type = patent_type
+        self.teacher_id = teacher_id
+
+    patent_id = db.Column(db.Integer, primary_key=True)
+    patent_name = db.Column(db.String(150))
+    date = db.Column(db.Date)
+    number = db.Column(db.Integer)
+    patent_type = db.Column(db.String(50))
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="patents")
+
+    def __repr__(self):
+        return f"id: {self.patent_id}, name: {self.patent_name}, date: {self.date}, number: {self.number}, type: {self.patent_type}, teacher_id: {self.teacher_id}"
