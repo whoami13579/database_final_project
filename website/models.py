@@ -9,13 +9,6 @@ Reward_teacher = db.Table(
     db.Column("reward_id", db.Integer, db.ForeignKey("rewards.reward_id")),
 )
 
-# class Reward_teacher(db.Model):
-#     __tablename__ = "rewards_teachers"
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
-#     reward_id = db.Column(db.ForeignKey("rewards.reward_id"))
-
 
 class Role(db.Model):
     __tablename__ = "roles"
@@ -101,10 +94,3 @@ class Reward(db.Model):  # Reward_and_guide_students_to_win_wards
     def __repr__(self):
         return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}"
 
-
-# class Reward_teacher(db.Model):
-#     __tablename__ = "rewards_teachers"
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
-#     reward_id = db.Column(db.ForeignKey("rewards.reward_id"))
