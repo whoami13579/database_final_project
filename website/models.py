@@ -118,3 +118,20 @@ class Patent(db.Model):
 
     def __repr__(self):
         return f"id: {self.patent_id}, name: {self.patent_name}, date: {self.date}, number: {self.number}, type: {self.patent_type}, teacher_id: {self.teacher_id}"
+
+
+class InternalExperience(db.Model):
+    __tablename__ = "internal_experiences"
+
+    def __init__(self, department, teacher_id):
+        self.department = department
+        self.teacher_id = teacher_id
+
+    internal_experience_id = db.Column(db.Integer, primary_key=True)
+    department = db.Column(db.String(50))
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="internal_experiencs")
+
+    def __repr__(self):
+        return f"id: {self.internal_experience_id}, department: {self.department}, teacher_id: {self.teacher_id}"
