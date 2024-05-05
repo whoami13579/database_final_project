@@ -9,6 +9,16 @@ Reward_teacher = db.Table(
     db.Column("reward_id", db.Integer, db.ForeignKey("rewards.reward_id")),
 )
 
+JournalArtical_teacher = db.Table(
+    "journalArtical_teachers",
+    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
+    db.Column(
+        "journal_artical_id",
+        db.Integer,
+        db.ForeignKey("journal_articals.journal_artical_id"),
+    ),
+)
+
 
 class Role(db.Model):
     __tablename__ = "roles"
@@ -158,3 +168,38 @@ class ExternalExperience(db.Model):
 
     def __repr__(self):
         return f"id: {self.external_experience_id}, date: {self.date}, school: {self.school}, department: {self.department}, position: {self.position}, teacher_id: {self.teacher_id}"
+
+
+class JournalArtical(db.Model):
+    __tablename__ = "journal_articals"
+
+    def __init__(
+        self,
+        course_name,
+        journal_name,
+        collaborators,
+        page_number_of_the_journal,
+        indexed_website,
+        indexed_time,
+    ):
+        self.course_name = course_name
+        self.journal_name = journal_name
+        self.collaborators = collaborators
+        self.page_number_of_the_journal = page_number_of_the_journal
+        self.indexed_website = indexed_website
+        self.indexed_time = indexed_time
+
+    journal_artical_id = db.Column(db.Integer, primary_key=True)
+    course_name = db.Column(db.String(50))
+    journal_name = db.Column(db.String(50))
+    collaborators = db.Column(db.String(50))
+    page_number_of_the_journal = db.Column(db.Integer)
+    indexed_website = db.Column(db.String(150))
+    indexed_time = db.Column(db.Date)
+
+    teachers = db.relationship(
+        "Teacher", secondary=JournalArtical_teacher, backref="journal_articals"
+    )
+
+    def __repr__(self):
+        return f"id: {self.journal_artical_id}, course name: {self.course_name}, journal name: {self.journal_name}, collaborators: {self.collaborators}, page number of the journal: {self.page_number_of_the_journal}, indexed website: {self.indexed_website}, indexed time: {self.indexed_time}"
