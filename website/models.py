@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 Reward_teacher = db.Table(
     "rewards_teachers",
     db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
-    db.Column("reward_id", db.Integer, db.ForeignKey("rewards.reward_id")),
+    db.Column("reward_id", db.Integer, db.ForeignKey("rewards.reward_id"))
 )
 
 JournalArtical_teacher = db.Table(
@@ -15,8 +15,8 @@ JournalArtical_teacher = db.Table(
     db.Column(
         "journal_artical_id",
         db.Integer,
-        db.ForeignKey("journal_articals.journal_artical_id"),
-    ),
+        db.ForeignKey("journal_articals.journal_artical_id")
+    )
 )
 
 
