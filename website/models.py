@@ -135,3 +135,26 @@ class InternalExperience(db.Model):
 
     def __repr__(self):
         return f"id: {self.internal_experience_id}, department: {self.department}, teacher_id: {self.teacher_id}"
+
+
+class ExternalExperience(db.Model):
+    __tablename__ = "external_experiences"
+
+    def __init__(self, date, school, department, position, teacher_id):
+        self.date = date
+        self.school = school
+        self.department = department
+        self.position = position
+        self.teacher_id = teacher_id
+
+    external_experience_id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date)
+    school = db.Column(db.String(50))
+    department = db.Column(db.String(50))
+    position = db.Column(db.String(50))
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="external_experiences")
+
+    def __repr__(self):
+        return f"id: {self.external_experience_id}, date: {self.date}, school: {self.school}, department: {self.department}, position: {self.position}, teacher_id: {self.teacher_id}"
