@@ -15,12 +15,22 @@ JournalArtical_teacher = db.Table(
 )
 
 TeachingMaterialsAndWork_teacher = db.Table(
-    "TeachingMaterialsAndWork_teacher",
+    "teachingMaterialsAndWork_teacher",
     db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
     db.Column(
         "teaching_materials_and_work_id",
         db.Integer,
         db.ForeignKey("teaching_materials_and_works.teaching_materials_and_work_id"),
+    ),
+)
+
+ProceedingArtical_teacher = db.Table(
+    "proceedingArtical_teacher",
+    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
+    db.Column(
+        "proceeding_artical_id",
+        db.Integer,
+        db.ForeignKey("proceeding_articals.proceeding_artical_id"),
     ),
 )
 
@@ -280,3 +290,35 @@ class Award(db.Model):
 
     def __repr__(self):
         return f"id: {self.award_id}, government: {self.government}, award name: {self.award_name}, year: {self.year}, students: {self.students}, teacher id: {self.teacher_id}"
+
+
+class ProceedingArtical(db.Model):
+    __tablename__ = "proceeding_articals"
+
+    def __init__(
+        self,
+        artical_name,
+        collaborators,
+        page_number_of_the_artical,
+        session_value,
+        time,
+    ):
+        self.artical_name = artical_name
+        self.collaborators = collaborators
+        self.page_number_of_the_artical = page_number_of_the_artical
+        self.session_value = session_value
+        self.time = time
+
+    proceeding_artical_id = db.Column(db.Integer, primary_key=True)
+    artical_name = db.Column(db.String(150))
+    collaborators = db.Column(db.String(150))
+    page_number_of_the_artical = db.Column(db.String(50))
+    session_venue = db.Column(db.String(50))
+    time = db.Column(db.Date)
+
+    teachers = db.relationship(
+        "Teacher", secondary=ProceedingArtical_teacher, backref="proceeding_articals"
+    )
+
+    def __repr__(self):
+        return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session value: {self.session_value}, time: {self.time}"
