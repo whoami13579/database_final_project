@@ -44,6 +44,16 @@ BookChapter_teacher = db.Table(
     ),
 )
 
+BooksAndTechnicalReport_teacher = db.Table(
+    "booksAndTechnicalReport_teacher",
+    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
+    db.Column(
+        "books_and_technical_report_id",
+        db.Integer,
+        db.ForeignKey("books_and_technical_reports.books_and_technical_report_id"),
+    ),
+)
+
 
 class Role(db.Model):
     __tablename__ = "roles"
@@ -355,3 +365,34 @@ class BookChapter(db.Model):
 
     def __repr__(self):
         return f"id: {self.book_chapter_id}, book name: {self.book_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, time: {self.time}"
+
+
+class BooksAndTechnicalReport(db.Model):
+    __tablename__ = "books_and_technical_reports"
+
+    def __init__(
+        self, book_and_technical_report_type, authors, name, publisher, country, date
+    ):
+        self.book_and_technical_report_type = book_and_technical_report_type
+        self.authors = authors
+        self.name = name
+        self.publisher = publisher
+        self.country = country
+        self.date = date
+
+    books_and_technical_report_id = db.Column(db.Integer, primary_key=True)
+    book_and_technical_report_type = db.Column(db.String(50))
+    authors = db.Column(db.String(150))
+    name = db.Column(db.String(50))
+    publisher = db.Column(db.String(50))
+    country = db.Column(db.String(50))
+    date = db.Column(db.Date)
+
+    teachers = db.relationship(
+        "Teacher",
+        secondary=BooksAndTechnicalReport_teacher,
+        backref="books_and_technical_reports",
+    )
+
+    def __repr__(self):
+        return f"id: {self.books_and_technical_report_id}, book and technical report type: {self.book_and_technical_report_type}, authors: {self.authors}, name: {self.name}, publisher: {self.publisher}, country: {self.country}, date: {self.date}"
