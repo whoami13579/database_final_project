@@ -14,13 +14,13 @@ JournalArtical_teacher = db.Table(
     ),
 )
 
-TeachingMaterialsAndWork_teacher = db.Table(
-    "teachingMaterialsAndWork_teacher",
+TeachingWork_teacher = db.Table(
+    "teachingWork_teacher",
     db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
     db.Column(
-        "teaching_materials_and_work_id",
+        "teaching_work_id",
         db.Integer,
-        db.ForeignKey("teaching_materials_and_works.teaching_materials_and_work_id"),
+        db.ForeignKey("teaching_works.teaching_work_id"),
     ),
 )
 
@@ -71,7 +71,7 @@ class Role(db.Model):
         return f"id: {id}, role_ytpe: {self.role_type}, role_name{self.role_name}"
 
 
-class Class_schedule(db.Model):
+class ClassSchedule(db.Model):
     __tablename__ = "class_schedule"
 
     def __init__(self, week, time, name):
@@ -242,29 +242,30 @@ class JournalArtical(db.Model):
         return f"id: {self.journal_artical_id}, course name: {self.course_name}, journal name: {self.journal_name}, collaborators: {self.collaborators}, page number of the journal: {self.page_number_of_the_journal}, indexed website: {self.indexed_website}, indexed time: {self.indexed_time}"
 
 
-class TeachingMaterialsAndWork(db.Model):
-    __tablename__ = "teaching_materials_and_works"
+# teaching_materials_and_works
+class TeachingWork(db.Model):
+    __tablename__ = "teaching_works"
 
-    def __init__(self, publisher, name, authros, teaching_materials_and_work_type):
+    def __init__(self, publisher, name, authros, teaching_work_type):
         self.publisher = publisher
         self.name = name
         self.authors = authros
-        self.teaching_materials_and_work_type = teaching_materials_and_work_type
+        self.teaching_materials_and_work_type = teaching_work_type
 
-    teaching_materials_and_work_id = db.Column(db.Integer, primary_key=True)
+    teaching_work_id = db.Column(db.Integer, primary_key=True)
     publisher = db.Column(db.String(50))
     name = db.Column(db.String(50))
     authors = db.Column(db.String(150))
-    teaching_materials_and_work_type = db.Column(db.String(50))
+    teaching_work_type = db.Column(db.String(50))
 
     teachers = db.relationship(
         "Teacher",
-        secondary=TeachingMaterialsAndWork_teacher,
-        backref="teaching_materials_and_works",
+        secondary=TeachingWork_teacher,
+        backref="teaching_works",
     )
 
     def __repr__(self):
-        return f"id: {self.teaching_materials_and_work_id}, publisher: {self.publisher}, name: {self.name}, authors: {self.authors}, type: {self.teaching_materials_and_work_type}"
+        return f"id: {self.teaching_work_id}, publisher: {self.publisher}, name: {self.name}, authors: {self.authors}, type: {self.teaching_work_type}"
 
 
 class Speech(db.Model):
