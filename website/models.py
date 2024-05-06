@@ -422,3 +422,25 @@ class NationalProject(db.Model):
 
     def __repr__(self):
         return f"id: {self.national_project_id}, name: {self.name}, time: {self.time}, number: {self.number}, attribute: {self.attribute}, host: {self.host}, teacher_id: {self.teacher_id}"
+
+
+# university_industry_cooperation_projects
+class UniversityProject(db.Model):
+    __tablename__ = "university_projects"
+
+    def __init__(self, name, time, host, teacher_id):
+        self.name = name
+        self.time = time
+        self.host = host
+        self.teacher_id = teacher_id
+
+    university_project_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    time = db.Column(db.Date)
+    host = db.Column(db.Boolean)
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="university_projects")
+
+    def __repr__(self):
+        return f"id: {self.university_project_id}, name: {self.name}, time: {self.time}, host: {self.host}, teacher_id: {self.teacher_id}"
