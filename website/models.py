@@ -372,9 +372,7 @@ class BookChapter(db.Model):
 class BookReport(db.Model):
     __tablename__ = "book_reports"
 
-    def __init__(
-        self, book_report_type, authors, name, publisher, country, date
-    ):
+    def __init__(self, book_report_type, authors, name, publisher, country, date):
         self.book_report_type = book_report_type
         self.authors = authors
         self.name = name
