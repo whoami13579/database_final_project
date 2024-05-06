@@ -3,11 +3,6 @@ from . import db
 from sqlalchemy.sql import func
 from flask_sqlalchemy import SQLAlchemy
 
-Reward_teacher = db.Table(
-    "rewards_teachers",
-    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
-    db.Column("reward_id", db.Integer, db.ForeignKey("rewards.reward_id")),
-)
 
 JournalArtical_teacher = db.Table(
     "journalArtical_teachers",
@@ -95,13 +90,14 @@ class Teacher(db.Model, UserMixin):
 class Reward(db.Model):
     __tablename__ = "rewards"
 
-    def __init__(self, id, time, award, school, attribute, name):
+    def __init__(self, id, time, award, school, attribute, name, teacher_id):
         self.reward_id = id
         self.reward_time = time
         self.award = award
         self.school = school
         self.attribute = attribute
         self.name = name
+        self.teacher_id = teacher_id
 
     reward_id = db.Column(db.Integer, primary_key=True)
     reward_time = db.Column(db.Date)
@@ -109,11 +105,12 @@ class Reward(db.Model):
     school = db.Column(db.String(50))
     attribute = db.Column(db.String(50))
     name = db.Column(db.String(50))
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
-    teacher = db.relationship("Teacher", secondary=Reward_teacher, backref="rewards")
+    teacher = db.relationship("Teacher", backref="rewards")
 
     def __repr__(self):
-        return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}"
+        return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}, teacher_id: {self.teacher_id}"
 
 
 # Approved_patents
@@ -259,3 +256,27 @@ class Speech(db.Model):
 
     def __repr__(self):
         return f"id: {self.speech_id}, name: {self.speech_id}, location: {self.location}, date: {self.date}, teacher_id: {self.teacher_id}"
+
+
+# awards_and_honors
+class Award(db.Model):
+    __tablename__ = "awards"
+
+    def __init__(self, government, award_name, year, students, teacher_id):
+        self.government = government
+        self.award_name = award_name
+        self.year = year
+        self.students = students
+        self.teacher_id = teacher_id
+
+    award_id = db.Column(db.Integer, primary_key=True)
+    government = db.Column(db.String(50))
+    award_name = db.Column(db.String(50))
+    year = db.Column(db.Integer)
+    students = db.Column(db.String(50))
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="awards")
+
+    def __repr__(self):
+        return f"id: {self.award_id}, government: {self.government}, award name: {self.award_name}, year: {self.year}, students: {self.students}, teacher id: {self.teacher_id}"
