@@ -396,3 +396,29 @@ class BooksAndTechnicalReport(db.Model):
 
     def __repr__(self):
         return f"id: {self.books_and_technical_report_id}, book and technical report type: {self.book_and_technical_report_type}, authors: {self.authors}, name: {self.name}, publisher: {self.publisher}, country: {self.country}, date: {self.date}"
+
+
+# national_science_and_technology_council_projects
+class NationalProject(db.Model):
+    __tablename__ = "national_projects"
+
+    def __init__(self, name, time, number, attribute, host, teacher_id):
+        self.name = name
+        self.time = time
+        self.number = number
+        self.attribute = attribute
+        self.host = host
+        self.teacher_id = teacher_id
+
+    national_project_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    time = db.Column(db.Date)
+    number = db.Column(db.String(50))
+    attribute = db.Column(db.String(50))
+    host = db.Column(db.Boolean)
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="national_projects")
+
+    def __repr__(self):
+        return f"id: {self.national_project_id}, name: {self.name}, time: {self.time}, number: {self.number}, attribute: {self.attribute}, host: {self.host}, teacher_id: {self.teacher_id}"
