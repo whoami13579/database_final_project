@@ -34,6 +34,16 @@ ProceedingArtical_teacher = db.Table(
     ),
 )
 
+BookChapter_teacher = db.Table(
+    "bookChapter_teacher",
+    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
+    db.Column(
+        "book_chapter_id",
+        db.Integer,
+        db.ForeignKey("book_chapters.book_chapter_id"),
+    ),
+)
+
 
 class Role(db.Model):
     __tablename__ = "roles"
@@ -322,3 +332,26 @@ class ProceedingArtical(db.Model):
 
     def __repr__(self):
         return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session value: {self.session_value}, time: {self.time}"
+
+
+class BookChapter(db.Model):
+    __tablename__ = "book_chapters"
+
+    def __init__(self, book_name, collaborators, page_number_of_the_artical, time):
+        self.book_name = book_name
+        self.collaborators = collaborators
+        self.page_number_of_the_artical = page_number_of_the_artical
+        self.time = time
+
+    book_chapter_id = db.Column(db.Integer, primary_key=True)
+    book_name = db.Column(db.String(50))
+    collaborators = db.Column(db.String(150))
+    page_number_of_the_artical = db.Column(db.String(50))
+    time = db.Column(db.Date)
+
+    teachers = db.relationship(
+        "Teacher", secondary=BookChapter_teacher, backref="book_chapters"
+    )
+
+    def __repr__(self):
+        return f"id: {self.book_chapter_id}, book name: {self.book_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, time: {self.time}"
