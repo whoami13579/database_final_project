@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
         </ul>
         <!-- <form class="d-flex" role="search">
@@ -28,14 +28,14 @@
         <ul class="navbar-nav me-end mb-2 mb-lg-0">
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Loggout</a>
+                    <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Login</a>
+                    <a class="nav-link active" aria-current="page" href="/login">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Sing Up</a>
+                    <a class="nav-link active" aria-current="page" href="/sign-up">Sing Up</a>
                 </li>
             {% endif %}
         </ul>

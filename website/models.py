@@ -95,10 +95,14 @@ class ClassSchedule(db.Model):
 class Teacher(db.Model, UserMixin):
     __tablename__ = "teachers"
 
-    def __init__(self, email, name, password):
+    def __init__(self, email, name, password, role_id):
         self.email = email
         self.name = name
         self.password = password
+        self.role_id = role_id
+    
+    def get_id(self):
+        return (self.teacher_id)
 
     teacher_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True)
