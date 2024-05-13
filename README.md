@@ -4,7 +4,7 @@ This is a simple teacher website application built with Python 3.10 and Flask fr
 
 ## Features
 
-- [ ] **User Authentication**: Teachers can sign up for an account and log in securely.
+- [x] **User Authentication**: Teachers can sign up for an account and log in securely.
 - [ ] **Add Introduction**: Teachers can add their selfintroduction.
 
 ## Installation
