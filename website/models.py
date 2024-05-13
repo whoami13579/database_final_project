@@ -3,10 +3,55 @@ from . import db
 from sqlalchemy.sql import func
 from flask_sqlalchemy import SQLAlchemy
 
-Reward_teacher = db.Table(
-    "rewards_teachers",
+
+JournalArtical_teacher = db.Table(
+    "journalArtical_teachers",
     db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
-    db.Column("reward_id", db.Integer, db.ForeignKey("rewards.reward_id")),
+    db.Column(
+        "journal_artical_id",
+        db.Integer,
+        db.ForeignKey("journal_articals.journal_artical_id"),
+    ),
+)
+
+TeachingWork_teacher = db.Table(
+    "teachingWork_teacher",
+    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
+    db.Column(
+        "teaching_work_id",
+        db.Integer,
+        db.ForeignKey("teaching_works.teaching_work_id"),
+    ),
+)
+
+ProceedingArtical_teacher = db.Table(
+    "proceedingArtical_teacher",
+    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
+    db.Column(
+        "proceeding_artical_id",
+        db.Integer,
+        db.ForeignKey("proceeding_articals.proceeding_artical_id"),
+    ),
+)
+
+BookChapter_teacher = db.Table(
+    "bookChapter_teacher",
+    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
+    db.Column(
+        "book_chapter_id",
+        db.Integer,
+        db.ForeignKey("book_chapters.book_chapter_id"),
+    ),
+)
+
+BookReport_teacher = db.Table(
+    "bookReport_teacher",
+    db.Column("teacher_id", db.Integer, db.ForeignKey("teachers.teacher_id")),
+    db.Column(
+        "book_report_id",
+        db.Integer,
+        db.ForeignKey("book_reports.book_report_id"),
+    ),
 )
 
 
@@ -26,7 +71,7 @@ class Role(db.Model):
         return f"id: {id}, role_ytpe: {self.role_type}, role_name{self.role_name}"
 
 
-class Class_schedule(db.Model):
+class ClassSchedule(db.Model):
     __tablename__ = "class_schedule"
 
     def __init__(self, week, time, name):
@@ -75,13 +120,14 @@ class Teacher(db.Model, UserMixin):
 class Reward(db.Model):
     __tablename__ = "rewards"
 
-    def __init__(self, id, time, award, school, attribute, name):
+    def __init__(self, id, time, award, school, attribute, name, teacher_id):
         self.reward_id = id
         self.reward_time = time
         self.award = award
         self.school = school
         self.attribute = attribute
         self.name = name
+        self.teacher_id = teacher_id
 
     reward_id = db.Column(db.Integer, primary_key=True)
     reward_time = db.Column(db.Date)
@@ -89,11 +135,12 @@ class Reward(db.Model):
     school = db.Column(db.String(50))
     attribute = db.Column(db.String(50))
     name = db.Column(db.String(50))
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
-    teacher = db.relationship("Teacher", secondary=Reward_teacher, backref="rewards")
+    teacher = db.relationship("Teacher", backref="rewards")
 
     def __repr__(self):
-        return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}"
+        return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}, teacher_id: {self.teacher_id}"
 
 
 # Approved_patents
@@ -158,3 +205,242 @@ class ExternalExperience(db.Model):
 
     def __repr__(self):
         return f"id: {self.external_experience_id}, date: {self.date}, school: {self.school}, department: {self.department}, position: {self.position}, teacher_id: {self.teacher_id}"
+
+
+class JournalArtical(db.Model):
+    __tablename__ = "journal_articals"
+
+    def __init__(
+        self,
+        course_name,
+        journal_name,
+        collaborators,
+        page_number_of_the_journal,
+        indexed_website,
+        indexed_time,
+    ):
+        self.course_name = course_name
+        self.journal_name = journal_name
+        self.collaborators = collaborators
+        self.page_number_of_the_journal = page_number_of_the_journal
+        self.indexed_website = indexed_website
+        self.indexed_time = indexed_time
+
+    journal_artical_id = db.Column(db.Integer, primary_key=True)
+    course_name = db.Column(db.String(50))
+    journal_name = db.Column(db.String(50))
+    collaborators = db.Column(db.String(50))
+    page_number_of_the_journal = db.Column(db.Integer)
+    indexed_website = db.Column(db.String(150))
+    indexed_time = db.Column(db.Date)
+
+    teachers = db.relationship(
+        "Teacher", secondary=JournalArtical_teacher, backref="journal_articals"
+    )
+
+    def __repr__(self):
+        return f"id: {self.journal_artical_id}, course name: {self.course_name}, journal name: {self.journal_name}, collaborators: {self.collaborators}, page number of the journal: {self.page_number_of_the_journal}, indexed website: {self.indexed_website}, indexed time: {self.indexed_time}"
+
+
+# teaching_materials_and_works
+class TeachingWork(db.Model):
+    __tablename__ = "teaching_works"
+
+    def __init__(self, publisher, name, authros, teaching_work_type):
+        self.publisher = publisher
+        self.name = name
+        self.authors = authros
+        self.teaching_materials_and_work_type = teaching_work_type
+
+    teaching_work_id = db.Column(db.Integer, primary_key=True)
+    publisher = db.Column(db.String(50))
+    name = db.Column(db.String(50))
+    authors = db.Column(db.String(150))
+    teaching_work_type = db.Column(db.String(50))
+
+    teachers = db.relationship(
+        "Teacher",
+        secondary=TeachingWork_teacher,
+        backref="teaching_works",
+    )
+
+    def __repr__(self):
+        return f"id: {self.teaching_work_id}, publisher: {self.publisher}, name: {self.name}, authors: {self.authors}, type: {self.teaching_work_type}"
+
+
+class Speech(db.Model):
+    __tablename__ = "speeches"
+
+    def __init__(self, name, location, date, teacher_id):
+        self.name = name
+        self.location = location
+        self.date = date
+        self.teacher_id = teacher_id
+
+    speech_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    location = db.Column(db.String(50))
+    date = db.Column(db.Date)
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="speechs")
+
+    def __repr__(self):
+        return f"id: {self.speech_id}, name: {self.speech_id}, location: {self.location}, date: {self.date}, teacher_id: {self.teacher_id}"
+
+
+# awards_and_honors
+class Award(db.Model):
+    __tablename__ = "awards"
+
+    def __init__(self, government, award_name, year, students, teacher_id):
+        self.government = government
+        self.award_name = award_name
+        self.year = year
+        self.students = students
+        self.teacher_id = teacher_id
+
+    award_id = db.Column(db.Integer, primary_key=True)
+    government = db.Column(db.String(50))
+    award_name = db.Column(db.String(50))
+    year = db.Column(db.Integer)
+    students = db.Column(db.String(50))
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="awards")
+
+    def __repr__(self):
+        return f"id: {self.award_id}, government: {self.government}, award name: {self.award_name}, year: {self.year}, students: {self.students}, teacher id: {self.teacher_id}"
+
+
+class ProceedingArtical(db.Model):
+    __tablename__ = "proceeding_articals"
+
+    def __init__(
+        self,
+        artical_name,
+        collaborators,
+        page_number_of_the_artical,
+        session_value,
+        time,
+    ):
+        self.artical_name = artical_name
+        self.collaborators = collaborators
+        self.page_number_of_the_artical = page_number_of_the_artical
+        self.session_value = session_value
+        self.time = time
+
+    proceeding_artical_id = db.Column(db.Integer, primary_key=True)
+    artical_name = db.Column(db.String(150))
+    collaborators = db.Column(db.String(150))
+    page_number_of_the_artical = db.Column(db.String(50))
+    session_venue = db.Column(db.String(50))
+    time = db.Column(db.Date)
+
+    teachers = db.relationship(
+        "Teacher", secondary=ProceedingArtical_teacher, backref="proceeding_articals"
+    )
+
+    def __repr__(self):
+        return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session value: {self.session_value}, time: {self.time}"
+
+
+class BookChapter(db.Model):
+    __tablename__ = "book_chapters"
+
+    def __init__(self, book_name, collaborators, page_number_of_the_artical, time):
+        self.book_name = book_name
+        self.collaborators = collaborators
+        self.page_number_of_the_artical = page_number_of_the_artical
+        self.time = time
+
+    book_chapter_id = db.Column(db.Integer, primary_key=True)
+    book_name = db.Column(db.String(50))
+    collaborators = db.Column(db.String(150))
+    page_number_of_the_artical = db.Column(db.String(50))
+    time = db.Column(db.Date)
+
+    teachers = db.relationship(
+        "Teacher", secondary=BookChapter_teacher, backref="book_chapters"
+    )
+
+    def __repr__(self):
+        return f"id: {self.book_chapter_id}, book name: {self.book_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, time: {self.time}"
+
+
+# books_and_technical_reports
+class BookReport(db.Model):
+    __tablename__ = "book_reports"
+
+    def __init__(self, book_report_type, authors, name, publisher, country, date):
+        self.book_report_type = book_report_type
+        self.authors = authors
+        self.name = name
+        self.publisher = publisher
+        self.country = country
+        self.date = date
+
+    book_report_id = db.Column(db.Integer, primary_key=True)
+    book_report_type = db.Column(db.String(50))
+    authors = db.Column(db.String(150))
+    name = db.Column(db.String(50))
+    publisher = db.Column(db.String(50))
+    country = db.Column(db.String(50))
+    date = db.Column(db.Date)
+
+    teachers = db.relationship(
+        "Teacher",
+        secondary=BookReport_teacher,
+        backref="book_reports",
+    )
+
+    def __repr__(self):
+        return f"id: {self.book_report_id}, book and technical report type: {self.book_report_type}, authors: {self.authors}, name: {self.name}, publisher: {self.publisher}, country: {self.country}, date: {self.date}"
+
+
+# national_science_and_technology_council_projects
+class NationalProject(db.Model):
+    __tablename__ = "national_projects"
+
+    def __init__(self, name, time, number, attribute, host, teacher_id):
+        self.name = name
+        self.time = time
+        self.number = number
+        self.attribute = attribute
+        self.host = host
+        self.teacher_id = teacher_id
+
+    national_project_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    time = db.Column(db.Date)
+    number = db.Column(db.String(50))
+    attribute = db.Column(db.String(50))
+    host = db.Column(db.Boolean)
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="national_projects")
+
+    def __repr__(self):
+        return f"id: {self.national_project_id}, name: {self.name}, time: {self.time}, number: {self.number}, attribute: {self.attribute}, host: {self.host}, teacher_id: {self.teacher_id}"
+
+
+# university_industry_cooperation_projects
+class UniversityProject(db.Model):
+    __tablename__ = "university_projects"
+
+    def __init__(self, name, time, host, teacher_id):
+        self.name = name
+        self.time = time
+        self.host = host
+        self.teacher_id = teacher_id
+
+    university_project_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    time = db.Column(db.Date)
+    host = db.Column(db.Boolean)
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+
+    teacher = db.relationship("Teacher", backref="university_projects")
+
+    def __repr__(self):
+        return f"id: {self.university_project_id}, name: {self.name}, time: {self.time}, host: {self.host}, teacher_id: {self.teacher_id}"
