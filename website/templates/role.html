@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Role{% endblock %}
+{% block content %}
+<div align="center">
+    <h2>{{role.role_name}}</h2>
+
+    {% for teacher in teachers %}
+        <a>{{teacher.name}}</a>
+        <a>{{teacher.email}}</a>
+        <br>
+        <br>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    {% endif %}
+</div>
+{% endblock %}
