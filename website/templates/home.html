@@ -3,6 +3,97 @@
 {% block content %}
 <div align="center">
     <h1>Home Page</h1>
+
+    <h2>系主任</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 1%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <h2>榮譽特聘講座</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 2%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <h2>講座教授</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 3%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <h2>特約講座</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 4%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <h2>特聘教授</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 5%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <h2>專任教師</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 6%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <h2>兼任教師</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 7%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <h2>行政人員</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 8%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <h2>退休教師</h2>
+    {% for teacher in teachers %}
+        {% if teacher.role_id == 9%}
+            <a>{{teacher.name}}</a>
+            <a>{{teacher.email}}</a>
+            <br>
+            <br>
+        {% endif %}
+    {% endfor %}
+
     {% if user.is_authenticated %}
     {% endif %}
 </div>

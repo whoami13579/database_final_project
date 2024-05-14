@@ -117,7 +117,7 @@ class Teacher(db.Model, UserMixin):
     role_id = db.Column(db.ForeignKey("roles.role_id"))
 
     def __repr__(self):
-        return f"id: {self.id}, email: {self.email}, name: {self.name}"
+        return f"id: {self.teacher_id}, email: {self.email}, name: {self.name}"
 
 
 # Reward_and_guide_students_to_win_wards
