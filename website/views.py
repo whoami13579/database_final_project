@@ -11,3 +11,8 @@ views = Blueprint("views", __name__)
 @views.route("/home")
 def home():
     return render_template("home.html", user=current_user, teachers=Teacher.query.all())
+
+
+@views.route("/role/<role_id>")
+def role(role_id):
+    return render_template("role.html", user=current_user, teachers=Teacher.query.filter_by(role_id=role_id), role=Role.query.filter_by(role_id=role_id).first())
