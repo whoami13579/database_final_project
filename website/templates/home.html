@@ -24,7 +24,8 @@
       {% for role in roles %}
         <h2>{{role.role_name}}</h2>
         {% for teacher in role.teachers %}
-            <a>{{teacher.name}}</a>
+            <a href="/teacher/{{teacher.teacher_id}}">{{teacher.name}}</a>
+            <br>
             <a>{{teacher.email}}</a>
             <br>
             <br>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{teacher.name}}{% endblock %}
+{% block content %}
+<div align="center">
+    <h1>{{teacher.name}}</h1>
+
+    <h3>信箱: {{teacher.email}}</h3>
+
+    <h3>學歷</h3>
+    <br>
+    <pre>{{teacher.school}}</pre>
+
+    {% if user.is_authenticated %}
+    {% endif %}
+</div>
+{% endblock %}

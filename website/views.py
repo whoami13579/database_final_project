@@ -16,3 +16,8 @@ def home():
 @views.route("/role/<role_id>")
 def role(role_id):
     return render_template("role.html", user=current_user, role=Role.query.filter_by(role_id=role_id).first())
+
+
+@views.route("/teacher/<teacher_id>")
+def teacher(teacher_id):
+    return render_template("teacher.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
