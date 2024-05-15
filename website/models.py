@@ -113,6 +113,7 @@ class Teacher(db.Model, UserMixin):
     offict_phone = db.Column(db.String(10), nullable=True)
     personal_website = db.Column(db.String(150), nullable=True)
     interest = db.Column(db.String(150), nullable=True)
+    school = db.Column(db.String(150), nullable=True)
 
     role_id = db.Column(db.ForeignKey("roles.role_id"))
 
