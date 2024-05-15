@@ -18,6 +18,13 @@
     <br>
     <pre>{{teacher.interest}}</pre>
 
+    <h3>校內經歷</h3>
+    <br>
+    {% for experience in teacher.internal_experiencs %}
+    <pre>{{experience.department}}</pre>
+    {% endfor %}
+    
+
     {% if user.is_authenticated %}
     {% endif %}
 </div>
