@@ -10,7 +10,7 @@ views = Blueprint("views", __name__)
 @views.route("/")
 @views.route("/home")
 def home():
-    return render_template("home.html", user=current_user, teachers=Teacher.query.all())
+    return render_template("home.html", user=current_user, teachers=Teacher.query.all(), roles=Role.query.all())
 
 
 @views.route("/role/<role_id>")
