@@ -36,11 +36,18 @@ def add_journal_artical():
         indexed_time = request.form.get("indexed_time")
         date_format = "%Y-%m-%d"
         indexed_time = datetime.strptime(indexed_time, date_format)
+        journalArtical = JournalArtical(course_name, journal_name, collaborators, page_number_of_the_journal, indexed_website, indexed_time)
         
         if JournalArtical.query.filter_by(course_name=course_name).first():
-            flash("Journal Artical already exists", category="error")
+            artical = JournalArtical.query.filter_by(course_name=course_name).first()
+            if artical.compare(journalArtical):
+                artical.teachers.append(current_user)
+                db.session.commit()
+
+                return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+            else:
+                flash("Journal Artical already exists", category="error")
         else:
-            journalArtical = JournalArtical(course_name, journal_name, collaborators, page_number_of_the_journal, indexed_website, indexed_time)
             current_user.journal_articals.append(journalArtical)
             journalArtical.teachers.append(current_user)
             db.session.add(journalArtical)
