@@ -42,13 +42,14 @@ def add_journal_artical():
             artical = JournalArtical.query.filter_by(course_name=course_name).first()
             if artical.compare(journalArtical):
                 artical.teachers.append(current_user)
+                # current_user.journal_articals.append(journalArtical)
                 db.session.commit()
 
                 return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
             else:
                 flash("Journal Artical already exists", category="error")
         else:
-            current_user.journal_articals.append(journalArtical)
+            # current_user.journal_articals.append(journalArtical)
             journalArtical.teachers.append(current_user)
             db.session.add(journalArtical)
             db.session.commit()
