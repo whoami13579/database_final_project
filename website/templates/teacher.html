@@ -42,6 +42,10 @@
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
             <div class="accordion-body">
                 <a>data</a>
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-journal-artical">新增發表期刊論文</a>
+                  {% endif %}
             </div>
           </div>
         </div>
