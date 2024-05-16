@@ -175,18 +175,21 @@ class Patent(db.Model):
 class InternalExperience(db.Model):
     __tablename__ = "internal_experiences"
 
-    def __init__(self, department, teacher_id):
+    def __init__(self, department, position, teacher_id):
         self.department = department
+        self.position = position
         self.teacher_id = teacher_id
 
     internal_experience_id = db.Column(db.Integer, primary_key=True)
     department = db.Column(db.String(50))
+    position = db.Column(db.String(50))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="internal_experiencs")
 
     def __repr__(self):
-        return f"id: {self.internal_experience_id}, department: {self.department}, teacher_id: {self.teacher_id}"
+        return f"id: {self.internal_experience_id}, department: {self.department}, position: {self.position}, teacher_id: {self.teacher_id}"
+
 
 
 class ExternalExperience(db.Model):
