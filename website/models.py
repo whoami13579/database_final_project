@@ -251,23 +251,17 @@ class JournalArtical(db.Model):
 
     def compare(self, other):
         if self.course_name != other.course_name:
-            print("1")
             return False
         if self.journal_name != other.journal_name:
-            print("2")
             return False
         if self.collaborators != other.collaborators:
-            print("3")
             return False
         if self.page_number_of_the_journal != other.page_number_of_the_journal:
-            print("4")
             return False
         if self.indexed_website != other.indexed_website:
-            print("5")
             return False
-        # if self.indexed_time != other.indexed_time:
-        #     print("6")
-        #     return False
+        if self.indexed_time != other.indexed_time:
+            return False
          
         return True
 

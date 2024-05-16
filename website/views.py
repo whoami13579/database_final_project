@@ -35,7 +35,7 @@ def add_journal_artical():
         indexed_website = request.form.get("indexed_website")
         indexed_time = request.form.get("indexed_time")
         date_format = "%Y-%m-%d"
-        indexed_time = datetime.strptime(indexed_time, date_format)
+        indexed_time = datetime.strptime(indexed_time, date_format).date()
         journalArtical = JournalArtical(course_name, journal_name, collaborators, page_number_of_the_journal, indexed_website, indexed_time)
         
         if JournalArtical.query.filter_by(course_name=course_name).first():
