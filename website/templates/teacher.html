@@ -228,7 +228,15 @@
           </h2>
           <div id="panelsStayOpen-collapse10" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.teaching_works %}
+                <a>{{i.publisher}}, {{i.name}}, {{i.authors}}, {{i.teaching_work_type}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-teaching-work">新增教材與作品</a>
+                  {% endif %}
             </div>
           </div>
         </div>

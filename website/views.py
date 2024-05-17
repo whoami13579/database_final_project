@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter
+from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork
 from . import db
 from datetime import datetime
 
@@ -282,22 +282,23 @@ def add_teaching_work():
         publisher = request.form.get("publisher")
         name = request.form.get("name")
         authors = request.form.get("authors")
-        TeachingWork = TeachingWork(publisher, name, authors)
+        teaching_work_type = request.form.get("teaching_work_type")
+        teachingWork = TeachingWork(publisher, name, authors, teaching_work_type)
         
-        if TeachingWork.query.filter_by(publisher=publisher).first():
-            artical = TeachingWork.query.filter_by(publisher=publisher).first()
-            if artical.compare(TeachingWork):
-                artical.teachers.append(current_user)
-                # current_user.proceeding_articals.append(TeachingWork)
+        if TeachingWork.query.filter_by(name=name).first():
+            work = TeachingWork.query.filter_by(name=name).first()
+            if work.compare(teachingWork):
+                work.teachers.append(current_user)
+                # current_user.teaching_works.append(teachingWork)
                 db.session.commit()
 
                 return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
             else:
                 flash("The TeachingWork already exists", category="error")
         else:
-            # current_user.awards.append(TeachingWork)
-            TeachingWork.teachers.append(current_user)
-            db.session.add(TeachingWork)
+            # current_user.teaching_works.append(teachingWork)
+            teachingWork.teachers.append(current_user)
+            db.session.add(teachingWork)
             db.session.commit()
 
             flash("Add TeachingWorkes", category="success")

@@ -271,7 +271,7 @@ class TeachingWork(db.Model):
         self.publisher = publisher
         self.name = name
         self.authors = authros
-        self.teaching_materials_and_work_type = teaching_work_type
+        self.teaching_work_type = teaching_work_type
 
     teaching_work_id = db.Column(db.Integer, primary_key=True)
     publisher = db.Column(db.String(50))
@@ -287,6 +287,18 @@ class TeachingWork(db.Model):
 
     def __repr__(self):
         return f"id: {self.teaching_work_id}, publisher: {self.publisher}, name: {self.name}, authors: {self.authors}, type: {self.teaching_work_type}"
+    
+    def compare(self, other):
+        if self.publisher != other.publisher:
+            return False
+        if self.name != other.name:
+            return False
+        if self.authors != other.authors:
+            return False
+        if self.teaching_work_type != other.teaching_work_type:
+            return False
+
+        return True
 
 
 class Speech(db.Model):
