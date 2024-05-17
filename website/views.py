@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical
+from .models import Role, Teacher, JournalArtical, ProceedingArtical
 from . import db
 from datetime import datetime
 
@@ -57,3 +57,37 @@ def add_journal_artical():
             flash("Add Journal Artical", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_journal_artical.html", user=current_user)
+
+
+@views.route("/add-proceeding-artical/", methods=["GET", "POST"])
+@login_required
+def add_proceeding_artical():
+    if request.method == "POST":
+        artical_name = request.form.get("artical_name")
+        collaborators = request.form.get("collaborators")
+        page_number_of_the_artical = request.form.get("page_number_of_the_artical")
+        session_venue = request.form.get("session_venue")
+        time = request.form.get("time")
+        date_format = "%Y-%m-%d"
+        time = datetime.strptime(time, date_format).date()
+        proceedingArtical = ProceedingArtical(artical_name, collaborators, page_number_of_the_artical, session_venue, time)
+        
+        if ProceedingArtical.query.filter_by(artical_name=artical_name).first():
+            artical = ProceedingArtical.query.filter_by(artical_name=artical_name).first()
+            if artical.compare(proceedingArtical):
+                artical.teachers.append(current_user)
+                # current_user.proceeding_articals.append(proceedingArtical)
+                db.session.commit()
+
+                return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+            else:
+                flash("Journal Artical already exists", category="error")
+        else:
+            # current_user.proceeding_articals.append(proceedingArtical)
+            proceedingArtical.teachers.append(current_user)
+            db.session.add(proceedingArtical)
+            db.session.commit()
+
+            flash("Add Journal Artical", category="success")
+            return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+    return render_template("add_proceeding_artical.html", user=current_user)

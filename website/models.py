@@ -368,6 +368,20 @@ class ProceedingArtical(db.Model):
     def __repr__(self):
         return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session value: {self.session_value}, time: {self.time}"
 
+    def compare(self, other):
+        if self.artical_name != other.artical_name:
+            return False
+        if self.collaborators != other.collaborators:
+            return False
+        if self.page_number_of_the_artical != other.page_number_of_the_artical:
+            return False
+        if self.session_venue != other.session_venue:
+            return False
+        if self.time != other.time:
+            return False
+        
+        return True
+
 
 class BookChapter(db.Model):
     __tablename__ = "book_chapters"

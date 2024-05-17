@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}新增會議論文{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">新增會議論文</h1>
+      <div class="mb-3">
+        <label for="artical_name" class="form-label">Artical Name</label>
+        <input type="text" id="artical_name" name="artical_name" class="form-control" placeholder="Enter Artical Name" required>
+      </div>
+      <div class="mb-3">
+        <label for="collaborators" class="form-label">Collaborators</label>
+        <input type="text" id="collaborators" name="collaborators" class="form-control" placeholder="Enter Collaborators" required>
+      </div>
+      <div class="mb-3">
+        <label for="page_number_of_the_artical" class="form-label">Page Number of the Artical</label>
+        <input type="text" id="page_number_of_the_artical" name="page_number_of_the_artical" class="form-control" placeholder="Enter Page Number of the Artical" required>
+      </div>
+      <div class="mb-3">
+        <label for="session_venue" class="form-label">Session Venue</label>
+        <input type="text" id="session_venue" name="session_venue" class="form-control" placeholder="Enter Session Venue" required>
+      </div>
+      <div class="mb-3">
+        <label for="time" class="form-label">Time</label>
+        <input type="date" id="time" name="time" required>
+      </div>
+      <button type="submit" class="btn btn-primary">ADD</button>
+  </form>
+  <br>
+{% endblock %}

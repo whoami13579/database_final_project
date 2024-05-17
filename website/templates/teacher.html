@@ -61,7 +61,15 @@
           </h2>
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.proceeding_articals%}
+                <a>{{i.artical_name}}, {{i.collaborators}}, {{i.page_number_of_the_artical}}, {{i.session_venue}}, {{i.time}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-proceeding-artical">新增會議論文</a>
+                  {% endif %}
             </div>
           </div>
         </div>
