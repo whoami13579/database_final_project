@@ -491,7 +491,7 @@ class UniversityProject(db.Model):
     university_project_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     time = db.Column(db.Date)
-    host = db.Column(db.Boolean)
+    host = db.Column(db.String(20))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="university_projects")

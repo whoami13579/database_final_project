@@ -124,7 +124,15 @@
           </h2>
           <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.university_projects %}
+                <a>{{i.name}}, {{i.time}}, {{i.host}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-university-project">新增產學合作計畫</a>
+                  {% endif %}
             </div>
           </div>
         </div>

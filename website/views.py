@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject
+from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject
 from . import db
 from datetime import datetime
 
@@ -132,9 +132,6 @@ def add_book_report():
 @views.route("/add-national-project/", methods=["GET", "POST"])
 @login_required
 def add_national_project():
-    '''
-    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
-    '''
     if request.method == "POST":
         name = request.form.get("name")
         time = request.form.get("time")
@@ -164,3 +161,35 @@ def add_national_project():
             flash("Add National Project", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_national_project.html", user=current_user)
+
+
+@views.route("/add-university-project/", methods=["GET", "POST"])
+@login_required
+def add_university_project():
+    if request.method == "POST":
+        name = request.form.get("name")
+        time = request.form.get("time")
+        host = request.form.get("host")
+
+        if host == "0":
+            flash("請選擇職位名稱", category="error")
+            return render_template("add_university_project.html", user=current_user)
+        
+
+        date_format = "%Y-%m-%d"
+        time = datetime.strptime(time, date_format).date()
+        universityProject = UniversityProject(name, time, host, current_user.get_id())
+
+        project = UniversityProject.query.filter_by(name=name).first()
+        
+        if project:
+                flash("University Project already exists", category="error")
+        else:
+            # current_user.university_projects.append(universityProject)
+            universityProject.teacher = current_user
+            db.session.add(universityProject)
+            db.session.commit()
+
+            flash("Add University Project", category="success")
+            return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+    return render_template("add_university_project.html", user=current_user)
