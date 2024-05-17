@@ -148,7 +148,15 @@
           </h2>
           <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.awards %}
+                <a>{{i.government}}, {{i.award_name}}, {{i.year}}, {{i.students}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-award">新增校外獎勵及指導學生獲獎</a>
+                  {% endif %}
             </div>
           </div>
         </div>
@@ -160,7 +168,15 @@
           </h2>
           <div id="panelsStayOpen-collapse7" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.rewards %}
+                <a>{{i.reward_time}}, {{i.award}}, {{i.school}}, {{i.attribute}}, {{i.name}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-reward">新增校內獎勵及指導學生獲獎</a>
+                  {% endif %}
             </div>
           </div>
         </div>
@@ -172,7 +188,15 @@
           </h2>
           <div id="panelsStayOpen-collapse8" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.speeches %}
+                <a>{{i.name}}, {{i.location}}, {{i.date}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-speech">新增校內外演講</a>
+                  {% endif %}
             </div>
           </div>
         </div>
@@ -184,7 +208,15 @@
           </h2>
           <div id="panelsStayOpen-collapse9" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.book_chapters %}
+                <a>{{i.book_name}}, {{i.collaborators}}, {{i.page_number_of_the_artical}}, {{i.time}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-book-chapter">新增專書論文</a>
+                  {% endif %}
             </div>
           </div>
         </div>
@@ -196,7 +228,15 @@
           </h2>
           <div id="panelsStayOpen-collapse10" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.teaching_works %}
+                <a>{{i.publisher}}, {{i.name}}, {{i.authors}}, {{i.teaching_work_type}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-teaching-work">新增教材與作品</a>
+                  {% endif %}
             </div>
           </div>
         </div>
