@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award
+from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward
 from . import db
 from datetime import datetime
 
@@ -153,7 +153,8 @@ def add_national_project():
         project = NationalProject.query.filter_by(name=name).first()
         
         if project:
-                flash("National Project already exists", category="error")
+            flash("National Project already exists", category="error")
+            return render_template("add_national_project.html", user=current_user)
         else:
             # current_user.national_projects.append(nationalProject)
             nationalProject.teacher = current_user
@@ -185,7 +186,8 @@ def add_university_project():
         project = UniversityProject.query.filter_by(name=name).first()
         
         if project:
-                flash("University Project already exists", category="error")
+            flash("University Project already exists", category="error")
+            return render_template("add_university_project.html", user=current_user)
         else:
             # current_user.university_projects.append(universityProject)
             universityProject.teacher = current_user
@@ -209,6 +211,7 @@ def add_award():
         
         if Award.query.filter_by(award_name=award_name).first():
             flash("The award already exists", category="error")
+            return render_template("add_award.html", user=current_user)
         else:
             award = Award(government, award_name, year, students, current_user.get_id())
             # current_user.awards.append(award)
@@ -220,40 +223,34 @@ def add_award():
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_award.html", user=current_user)
 
-# --------------------
 @views.route("/add-reward/", methods=["GET", "POST"])
 @login_required
 def add_reward():
     if request.method == "POST":
+        reward_time = request.form.get("reward_time")
         award = request.form.get("award")
         school = request.form.get("school")
         attribute = request.form.get("attribute")
         name = request.form.get("name")
-        reward_time = request.form.get("reward_time")
         date_format = "%Y-%m-%d"
         reward_time = datetime.strptime(reward_time, date_format).date()
-        Reward = Reward(reward_time, award, school, attribute, name)
+        reward = Reward(reward_time, award, school, attribute, name, current_user.get_id())
         
-        if Reward.query.filter_by(award=award).first():
-            artical = Reward.query.filter_by(award=award).first()
-            if artical.compare(Reward):
-                artical.teachers.append(current_user)
-                # current_user.proceeding_articals.append(Reward)
-                db.session.commit()
-
-                return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
-            else:
-                flash("The reward already exists", category="error")
+        if Reward.query.filter_by(name=name).first():
+            flash("The reward already exists", category="error")
+            return render_template("add_reward.html", user=current_user)
         else:
-            # current_user.awards.append(Reward)
-            Reward.teachers.append(current_user)
-            db.session.add(Reward)
+            # current_user.awards.append(reward)
+            Reward.teacher = current_user
+            db.session.add(reward)
             db.session.commit()
 
             flash("Add Rewards", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_reward.html", user=current_user)
 
+
+# --------------------
 @views.route("/add-speech/", methods=["GET", "POST"])
 @login_required
 def add_speech():

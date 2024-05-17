@@ -125,8 +125,7 @@ class Teacher(db.Model, UserMixin):
 class Reward(db.Model):
     __tablename__ = "rewards"
 
-    def __init__(self, id, time, award, school, attribute, name, teacher_id):
-        self.reward_id = id
+    def __init__(self, time, award, school, attribute, name, teacher_id):
         self.reward_time = time
         self.award = award
         self.school = school
