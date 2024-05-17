@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}課表{% endblock %}
+{% block content %}
+<style>
+    table {
+        width: 80%; 
+        table-layout: auto;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #e8e8e8;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background-color: #dedede;
+    }
+</style>
+<form method="POST">
+    <h3 align="left">課表</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>時間</th>
+                <th>星期一</th>
+                <th>星期二</th>
+                <th>星期三</th>
+                <th>星期四</th>
+                <th>星期五</th>
+                <th>星期六</th>
+                <th>星期日</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for time in range(1, 15) %}
+            <tr>
+                <td>第{{ time }}節</td>
+                {% for week in range(1, 8) %}
+                {% set class_found = False %}
+                {% for class in teacher.class_schedule %}
+                    {% if class.week == week and class.time == time %}
+                        <td>{{ class.name }}</td>
+                        {% set class_found = True %}
+                    {% endif %}
+                {% endfor %}
+                {% if not class_found %}
+                    <td> - </td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+{% endblock %}

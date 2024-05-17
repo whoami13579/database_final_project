@@ -22,7 +22,10 @@ def role(role_id):
 def teacher(teacher_id):
     return render_template("teacher.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
 
-
+@views.route("/teacher/<teacher_id>/class-schedule")
+def class_schedule(teacher_id):
+    return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
+    
 @views.route("/add-journal-artical/", methods=["GET", "POST"])
 @login_required
 def add_journal_artical():
