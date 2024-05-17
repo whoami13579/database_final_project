@@ -208,7 +208,15 @@
           </h2>
           <div id="panelsStayOpen-collapse9" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.book_chapters %}
+                <a>{{i.book_name}}, {{i.collaborators}}, {{i.page_number_of_the_artical}}, {{i.time}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-book-chapter">新增專書論文</a>
+                  {% endif %}
             </div>
           </div>
         </div>

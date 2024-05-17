@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech
+from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter
 from . import db
 from datetime import datetime
 
@@ -304,34 +304,34 @@ def add_teaching_work():
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_teaching_work.html", user=current_user)
 
-@views.route("/add-patent/", methods=["GET", "POST"])
+@views.route("/add-book-chapter/", methods=["GET", "POST"])
 @login_required
-def add_patent():
+def add_book_chapter():
     if request.method == "POST":
-        patent_name = request.form.get("patent_name")
-        number = request.form.get("number")
-        patent_type = request.form.get("patent_type")
-        date = request.form.get("date")
+        book_name = request.form.get("book_name")
+        collaborators = request.form.get("collaborators")
+        page_number_of_the_artical = request.form.get("page_number_of_the_artical")
+        time = request.form.get("time")
         date_format = "%Y-%m-%d"
-        date = datetime.strptime(date, date_format).date()
-        Patent = Patent(patent_name, date, number, patent_type)
+        time = datetime.strptime(time, date_format).date()
+        bookChapter = BookChapter(book_name, collaborators, page_number_of_the_artical, time)
         
-        if Patent.query.filter_by(patent_name=patent_name).first():
-            artical = Patent.query.filter_by(patent_name=patent_name).first()
-            if artical.compare(Patent):
-                artical.teachers.append(current_user)
-                # current_user.proceeding_articals.append(Patent)
+        if BookChapter.query.filter_by(book_name=book_name).first():
+            book = BookChapter.query.filter_by(book_name=book_name).first()
+            if book.compare(bookChapter):
+                book.teachers.append(current_user)
+                # current_user.book_chapters.append(bookChapter)
                 db.session.commit()
 
                 return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
             else:
                 flash("The Patent already exists", category="error")
         else:
-            # current_user.awards.append(Patent)
-            Patent.teachers.append(current_user)
-            db.session.add(Patent)
+            # current_user.book_chapters.append(bookChapter)
+            bookChapter.teachers.append(current_user)
+            db.session.add(bookChapter)
             db.session.commit()
 
             flash("Add Patentes", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
-    return render_template("add_patent.html", user=current_user)
+    return render_template("add_book_chapter.html", user=current_user)

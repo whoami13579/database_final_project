@@ -402,6 +402,18 @@ class BookChapter(db.Model):
     def __repr__(self):
         return f"id: {self.book_chapter_id}, book name: {self.book_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, time: {self.time}"
 
+    def compare(self, other):
+        if self.book_name != other.book_name:
+            return False
+        if self.collaborators != other.collaborators:
+            return False
+        if self.page_number_of_the_artical != other.page_number_of_the_artical:
+            return False
+        if self.time != other.time:
+            return False
+
+        return True
+
 
 # books_and_technical_reports
 class BookReport(db.Model):
