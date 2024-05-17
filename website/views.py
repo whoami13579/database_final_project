@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork
+from .models import Role, Teacher, ClassSchedule, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork
 from . import db
 from datetime import datetime
 
@@ -25,6 +25,10 @@ def teacher(teacher_id):
 @views.route("/teacher/<teacher_id>/class-schedule")
 def class_schedule(teacher_id):
     return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
+
+@views.route("/teacher/<teacher_id>/class-schedule/add-class")
+def add_class_schedule(teacher_id):
+    return render_template("add_class.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
 
 @views.route("/add-journal-artical/", methods=["GET", "POST"])
 @login_required
