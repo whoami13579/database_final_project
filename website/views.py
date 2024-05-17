@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical
+from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport
 from . import db
 from datetime import datetime
 
@@ -81,13 +81,49 @@ def add_proceeding_artical():
 
                 return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
             else:
-                flash("Journal Artical already exists", category="error")
+                flash("Proceeding Artical already exists", category="error")
         else:
             # current_user.proceeding_articals.append(proceedingArtical)
             proceedingArtical.teachers.append(current_user)
             db.session.add(proceedingArtical)
             db.session.commit()
 
-            flash("Add Journal Artical", category="success")
+            flash("Add Proceeding Artical", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_proceeding_artical.html", user=current_user)
+
+
+@views.route("/add-book-report/", methods=["GET", "POST"])
+@login_required
+def add_book_report():
+    if request.method == "POST":
+        book_report_type = request.form.get("book_report_type")
+        authors = request.form.get("authors")
+        name = request.form.get("name")
+        publisher = request.form.get("publisher")
+        country = request.form.get("country")
+        date = request.form.get("date")
+        date_format = "%Y-%m-%d"
+        date = datetime.strptime(date, date_format).date()
+        bookReport = BookReport(book_report_type, authors, name, publisher, country, date)
+
+        book = BookReport.query.filter_by(name=name).first()
+        
+        if book:
+            if book.compare(bookReport):
+                book.teachers.append(current_user)
+                # current_user.book_reports.append(bookReport)
+                db.session.commit()
+
+                return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+            else:
+                flash("Book Report already exists", category="error")
+        else:
+            # current_user.book_reports.append(bookReport)
+            bookReport.teachers.append(current_user)
+            db.session.add(bookReport)
+            db.session.commit()
+
+            flash("Add Book Report", category="success")
+            return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+    return render_template("add_book_report.html", user=current_user)

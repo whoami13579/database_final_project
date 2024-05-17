@@ -81,7 +81,15 @@
           </h2>
           <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.book_reports %}
+                <a>{{i.book_report_type}}, {{i.authors}}, {{i.name}}, {{i.publisher}}, {{i.country}}, {{i.date}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-book-report">新增專書及技術報告</a>
+                  {% endif %}
             </div>
           </div>
         </div>

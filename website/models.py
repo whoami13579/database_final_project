@@ -434,6 +434,22 @@ class BookReport(db.Model):
 
     def __repr__(self):
         return f"id: {self.book_report_id}, book and technical report type: {self.book_report_type}, authors: {self.authors}, name: {self.name}, publisher: {self.publisher}, country: {self.country}, date: {self.date}"
+    
+    def compare(self, other):
+        if self.book_report_type != other.book_report_type:
+            return False
+        if self.authors != other.authors:
+            return False
+        if self.name != other.name:
+            return False
+        if self.publisher != other.publisher:
+            return False
+        if self.country != other.country:
+            return False
+        if self.date != other.date:
+            return False
+
+        return True
 
 
 # national_science_and_technology_council_projects
