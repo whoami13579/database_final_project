@@ -2,200 +2,220 @@
 {% block title %}{{teacher.name}}{% endblock %}
 {% block content %}
 <div align="center">
-    <h1>{{teacher.name}}</h1>
+  <h1>{{teacher.name}}</h1>
 
-    <h3>信箱: {{teacher.email}}</h3>
+  <h3>信箱: {{teacher.email}}</h3>
 
-    <h3>個人簡介</h3>
-    <br>
-    <pre>{{teacher.self_introduction}}</pre>
+  <h3>個人簡介</h3>
+  <br>
+  <pre>{{teacher.self_introduction}}</pre>
 
-    <h3>學歷</h3>
-    <br>
-    <pre>{{teacher.school}}</pre>
+  <h3>學歷</h3>
+  <br>
+  <pre>{{teacher.school}}</pre>
 
-    <h3>專長</h3>
-    <br>
-    <pre>{{teacher.interest}}</pre>
+  <h3>專長</h3>
+  <br>
+  <pre>{{teacher.interest}}</pre>
 
-    <h3>校內經歷</h3>
-    <br>
-    {% for experience in teacher.internal_experiencs %}
-    <pre>{{experience.department}}</pre>
-    {% endfor %}
+  <h3>校內經歷</h3>
+  <br>
+  {% for experience in teacher.internal_experiencs %}
+  <pre>{{experience.department}}</pre>
+  {% endfor %}
 
-    <h3>校外經歷</h3>
-    <br>
-    {% for experience in teacher.external_experiences %}
-    <pre>{{experience.position}}</pre>
-    {% endfor %}
+  <h3>校外經歷</h3>
+  <br>
+  {% for experience in teacher.external_experiences %}
+  <pre>{{experience.position}}</pre>
+  {% endfor %}
 
-    <h3>論文及參與計畫</h3>
-    <br>
-    <div class="accordion" id="accordionPanelsStayOpenExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                發表期刊論文
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-            <div class="accordion-body">
-                {% for i in teacher.journal_articals%}
-                <a>{{i.course_name}}, {{i.journal_name}}, {{i.collaborators}}, {{i.page_number_of_the_journal}}, {{i.indexed_website}}, {{i.indexed_time}}</a>
-                <br>
-                <br>
-                {% endfor %}
-                <br>
-                  {% if user.teacher_id == teacher.teacher_id %}
-                    <a href="/add-journal-artical">新增發表期刊論文</a>
-                  {% endif %}
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                會議論文
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                {% for i in teacher.proceeding_articals%}
-                <a>{{i.artical_name}}, {{i.collaborators}}, {{i.page_number_of_the_artical}}, {{i.session_venue}}, {{i.time}}</a>
-                <br>
-                <br>
-                {% endfor %}
-                <br>
-                  {% if user.teacher_id == teacher.teacher_id %}
-                    <a href="/add-proceeding-artical">新增會議論文</a>
-                  {% endif %}
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                專書及技術報告
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                {% for i in teacher.book_reports %}
-                <a>{{i.book_report_type}}, {{i.authors}}, {{i.name}}, {{i.publisher}}, {{i.country}}, {{i.date}}</a>
-                <br>
-                <br>
-                {% endfor %}
-                <br>
-                  {% if user.teacher_id == teacher.teacher_id %}
-                    <a href="/add-book-report">新增專書及技術報告</a>
-                  {% endif %}
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                國科會計畫
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                {% for i in teacher.national_projects %}
-                <a>{{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}</a>
-                {% if i.host == True %}
-                <a>, 主持人</a>
-                {% endif %}
-                <br>
-                <br>
-                {% endfor %}
-                <br>
-                  {% if user.teacher_id == teacher.teacher_id %}
-                    <a href="/add-national-project">新增國科會計畫</a>
-                  {% endif %}
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                產學合作計畫
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                <a>data</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse6" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                校外獎勵及指導學生獲獎
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                <a>data</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse7" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                校內獎勵及指導學生獲獎
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapse7" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                <a>data</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse8" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                校內外演講
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapse8" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                <a>data</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse9" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                專書論文
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapse9" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                <a>data</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse10" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                教材與作品
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapse10" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                <a>data</a>
-            </div>
-          </div>
+  <h3>論文及參與計畫</h3>
+  <br>
+  <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".hide"
+    aria-expanded="false" aria-controls="panelsStayOpen-collapseOne panelsStayOpen-collapseTwo panelsStayOpen-collapseThree">Show all elements</button>
+  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".show"
+    aria-expanded="false" aria-controls="panelsStayOpen-collapseOne panelsStayOpen-collapseTwo panelsStayOpen-collapseThree">Collapse all elements</button> -->
+  <button class="btn btn-primary" type="button" id="show-all-btn">Show all</button>
+  <button class="btn btn-primary" type="button" id="close-all-btn">Collapse all</button>
+  <div class="accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+          發表期刊論文
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+        <div class="accordion-body">
+          {% for i in teacher.journal_articals%}
+          <a>{{i.course_name}}, {{i.journal_name}}, {{i.collaborators}}, {{i.page_number_of_the_journal}},
+            {{i.indexed_website}}, {{i.indexed_time}}</a>
+          <br>
+          <br>
+          {% endfor %}
+          <br>
+          {% if user.teacher_id == teacher.teacher_id %}
+          <a href="/add-journal-artical">新增發表期刊論文</a>
+          {% endif %}
         </div>
       </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+          會議論文
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          {% for i in teacher.proceeding_articals%}
+          <a>{{i.artical_name}}, {{i.collaborators}}, {{i.page_number_of_the_artical}}, {{i.session_venue}},
+            {{i.time}}</a>
+          <br>
+          <br>
+          {% endfor %}
+          <br>
+          {% if user.teacher_id == teacher.teacher_id %}
+          <a href="/add-proceeding-artical">新增會議論文</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+          aria-controls="panelsStayOpen-collapseThree">
+          專書及技術報告
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          {% for i in teacher.book_reports %}
+          <a>{{i.book_report_type}}, {{i.authors}}, {{i.name}}, {{i.publisher}}, {{i.country}}, {{i.date}}</a>
+          <br>
+          <br>
+          {% endfor %}
+          <br>
+          {% if user.teacher_id == teacher.teacher_id %}
+          <a href="/add-book-report">新增專書及技術報告</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+          國科會計畫
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          {% for i in teacher.national_projects %}
+          <a>{{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}</a>
+          {% if i.host == True %}
+          <a>, 主持人</a>
+          {% endif %}
+          <br>
+          <br>
+          {% endfor %}
+          <br>
+          {% if user.teacher_id == teacher.teacher_id %}
+          <a href="/add-national-project">新增國科會計畫</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapse5" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+          產學合作計畫
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <a>data</a>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapse6" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+          校外獎勵及指導學生獲獎
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <a>data</a>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapse7" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+          校內獎勵及指導學生獲獎
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapse7" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <a>data</a>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapse8" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+          校內外演講
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapse8" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <a>data</a>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapse9" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+          專書論文
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapse9" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <a>data</a>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapse10" aria-expanded="false"
+          aria-controls="panelsStayOpen-collapseThree">
+          教材與作品
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapse10" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <a>data</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <br>
-    <br>
-    <br>
-    <br>
+  <br>
+  <br>
+  <br>
+  <br>
 
-    {% if user.is_authenticated %}
-    {% endif %}
+  {% if user.is_authenticated %}
+  {% endif %}
 </div>
 {% endblock %}
