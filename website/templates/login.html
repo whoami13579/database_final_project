@@ -5,7 +5,11 @@
     <h1 align="left">Login</h1>
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="text" id="email" name="email" class="form-control" placeholder="Enter Your Email" required>
+        {% if last_email %}
+          <input value={{last_email}} type="text" id="email" name="email" class="form-control" placeholder="Enter Your Email" required>
+        {% else %}
+          <input type="text" id="email" name="email" class="form-control" placeholder="Enter Your Email" required>
+        {% endif %}
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
