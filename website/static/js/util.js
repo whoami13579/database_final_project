@@ -1,5 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Show all and Collapse all button
     var myShowAllBtn = document.getElementById('show-all-btn')
     var myCloseAllBtn = document.getElementById('close-all-btn')
 
