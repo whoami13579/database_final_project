@@ -188,7 +188,15 @@
           </h2>
           <div id="panelsStayOpen-collapse8" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.speeches %}
+                <a>{{i.name}}, {{i.location}}, {{i.date}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-speech">新增校內外演講</a>
+                  {% endif %}
             </div>
           </div>
         </div>

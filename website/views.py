@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward
+from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech
 from . import db
 from datetime import datetime
 
@@ -250,7 +250,6 @@ def add_reward():
     return render_template("add_reward.html", user=current_user)
 
 
-# --------------------
 @views.route("/add-speech/", methods=["GET", "POST"])
 @login_required
 def add_speech():
@@ -260,28 +259,22 @@ def add_speech():
         date = request.form.get("date")
         date_format = "%Y-%m-%d"
         date = datetime.strptime(date, date_format).date()
-        Speech = Speech(name, location, date)
+        speech = Speech(name, location, date, current_user.get_id())
         
         if Speech.query.filter_by(name=name).first():
-            artical = Speech.query.filter_by(name=name).first()
-            if artical.compare(Speech):
-                artical.teachers.append(current_user)
-                # current_user.proceeding_articals.append(Speech)
-                db.session.commit()
-
-                return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
-            else:
-                flash("The Speech already exists", category="error")
+            flash("The Speech already exists", category="error")
+            return render_template("add_speech.html", user=current_user)
         else:
-            # current_user.awards.append(Speech)
-            Speech.teachers.append(current_user)
-            db.session.add(Speech)
+            # current_user.speeches.append(speech)
+            speech.teacher = current_user
+            db.session.add(speech)
             db.session.commit()
 
             flash("Add Speeches", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_speech.html", user=current_user)
 
+# --------------------
 @views.route("/add-teaching-work/", methods=["GET", "POST"])
 @login_required
 def add_teaching_work():

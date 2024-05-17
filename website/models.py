@@ -304,7 +304,7 @@ class Speech(db.Model):
     date = db.Column(db.Date)
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
-    teacher = db.relationship("Teacher", backref="speechs")
+    teacher = db.relationship("Teacher", backref="speeches")
 
     def __repr__(self):
         return f"id: {self.speech_id}, name: {self.speech_id}, location: {self.location}, date: {self.date}, teacher_id: {self.teacher_id}"
