@@ -139,10 +139,9 @@ def add_national_project():
         attribute = request.form.get("attribute")
         host = request.form.get("host")
 
-        if host == "on":
-            host = True
-        else:
-            host = False
+        if host == "0":
+            flash("請選擇職位名稱", category="error")
+            return render_template("add_national_project.html", user=current_user)
 
         date_format = "%Y-%m-%d"
         time = datetime.strptime(time, date_format).date()

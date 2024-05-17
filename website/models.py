@@ -469,7 +469,7 @@ class NationalProject(db.Model):
     time = db.Column(db.Date)
     number = db.Column(db.String(50))
     attribute = db.Column(db.String(50))
-    host = db.Column(db.Boolean)
+    host = db.Column(db.String(20))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="national_projects")

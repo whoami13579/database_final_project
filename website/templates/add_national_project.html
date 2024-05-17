@@ -20,8 +20,13 @@
         <input type="text" id="attribute" name="attribute" class="form-control" placeholder="Enter Attribute" required>
       </div>
       <div class="mb-3">
-        <label for="host">Host</label>
-        <input type="checkbox" id="host" name="host">
+        <label for="host" class="form-label">Host</label>
+        <select id="host" name="host" class="form-select" required>
+            <option value="0">職位名稱</option>
+            <option value="主持人">主持人</option>
+            <option value="共同主持人">共同主持人</option>
+            <option value="協同主持人">協同主持人</option>
+        </select>
       </div>
       <button type="submit" class="btn btn-primary">ADD</button>
   </form>
