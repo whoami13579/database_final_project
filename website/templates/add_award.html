@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}校外獎勵及指導學生獲獎{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">校外獎勵及指導學生獲獎</h1>
+      <div class="mb-3">
+        <label for="government" class="form-label">Government</label>
+        <input type="text" id="government" name="government" class="form-control" placeholder="Enter Gouvernment" required>
+      </div>
+      <div class="mb-3">
+        <label for="award_name" class="form-label">Award Name</label>
+        <input type="text" id="award_name" name="award_name" class="form-control" placeholder="Enter Award Name" required>
+      </div>
+      <div class="mb-3">
+        <label for="year" class="form-label">Year</label>
+        <input type="text" id="year" name="year" class="form-control" placeholder="Enter Year" required>
+      </div>
+      <div class="mb-3">
+        <label for="students" class="form-label">Students</label>
+        <input type="text" id="students" name="students" class="form-control" placeholder="Enter Students Name" required>
+      </div>
+      <button type="submit" class="btn btn-primary">ADD</button>
+  </form>
+  <br>
+{% endblock %}

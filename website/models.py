@@ -125,8 +125,7 @@ class Teacher(db.Model, UserMixin):
 class Reward(db.Model):
     __tablename__ = "rewards"
 
-    def __init__(self, id, time, award, school, attribute, name, teacher_id):
-        self.reward_id = id
+    def __init__(self, time, award, school, attribute, name, teacher_id):
         self.reward_time = time
         self.award = award
         self.school = school
@@ -148,7 +147,6 @@ class Reward(db.Model):
         return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}, teacher_id: {self.teacher_id}"
 
 
-# Approved_patents
 class Patent(db.Model):
     __tablename__ = "patents"
 
@@ -162,7 +160,7 @@ class Patent(db.Model):
     patent_id = db.Column(db.Integer, primary_key=True)
     patent_name = db.Column(db.String(150))
     date = db.Column(db.Date)
-    number = db.Column(db.Integer)
+    number = db.Column(db.String(50))
     patent_type = db.Column(db.String(50))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
@@ -170,7 +168,6 @@ class Patent(db.Model):
 
     def __repr__(self):
         return f"id: {self.patent_id}, name: {self.patent_name}, date: {self.date}, number: {self.number}, type: {self.patent_type}, teacher_id: {self.teacher_id}"
-
 
 class InternalExperience(db.Model):
     __tablename__ = "internal_experiences"
@@ -274,7 +271,7 @@ class TeachingWork(db.Model):
         self.publisher = publisher
         self.name = name
         self.authors = authros
-        self.teaching_materials_and_work_type = teaching_work_type
+        self.teaching_work_type = teaching_work_type
 
     teaching_work_id = db.Column(db.Integer, primary_key=True)
     publisher = db.Column(db.String(50))
@@ -290,6 +287,18 @@ class TeachingWork(db.Model):
 
     def __repr__(self):
         return f"id: {self.teaching_work_id}, publisher: {self.publisher}, name: {self.name}, authors: {self.authors}, type: {self.teaching_work_type}"
+    
+    def compare(self, other):
+        if self.publisher != other.publisher:
+            return False
+        if self.name != other.name:
+            return False
+        if self.authors != other.authors:
+            return False
+        if self.teaching_work_type != other.teaching_work_type:
+            return False
+
+        return True
 
 
 class Speech(db.Model):
@@ -307,7 +316,7 @@ class Speech(db.Model):
     date = db.Column(db.Date)
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
-    teacher = db.relationship("Teacher", backref="speechs")
+    teacher = db.relationship("Teacher", backref="speeches")
 
     def __repr__(self):
         return f"id: {self.speech_id}, name: {self.speech_id}, location: {self.location}, date: {self.date}, teacher_id: {self.teacher_id}"
@@ -405,6 +414,18 @@ class BookChapter(db.Model):
     def __repr__(self):
         return f"id: {self.book_chapter_id}, book name: {self.book_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, time: {self.time}"
 
+    def compare(self, other):
+        if self.book_name != other.book_name:
+            return False
+        if self.collaborators != other.collaborators:
+            return False
+        if self.page_number_of_the_artical != other.page_number_of_the_artical:
+            return False
+        if self.time != other.time:
+            return False
+
+        return True
+
 
 # books_and_technical_reports
 class BookReport(db.Model):
@@ -469,7 +490,7 @@ class NationalProject(db.Model):
     time = db.Column(db.Date)
     number = db.Column(db.String(50))
     attribute = db.Column(db.String(50))
-    host = db.Column(db.Boolean)
+    host = db.Column(db.String(20))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="national_projects")
@@ -491,7 +512,7 @@ class UniversityProject(db.Model):
     university_project_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     time = db.Column(db.Date)
-    host = db.Column(db.Boolean)
+    host = db.Column(db.String(20))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="university_projects")
