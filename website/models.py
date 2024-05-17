@@ -148,7 +148,6 @@ class Reward(db.Model):
         return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}, teacher_id: {self.teacher_id}"
 
 
-# Approved_patents
 class Patent(db.Model):
     __tablename__ = "patents"
 
@@ -162,7 +161,7 @@ class Patent(db.Model):
     patent_id = db.Column(db.Integer, primary_key=True)
     patent_name = db.Column(db.String(150))
     date = db.Column(db.Date)
-    number = db.Column(db.Integer)
+    number = db.Column(db.String(50))
     patent_type = db.Column(db.String(50))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
@@ -170,7 +169,6 @@ class Patent(db.Model):
 
     def __repr__(self):
         return f"id: {self.patent_id}, name: {self.patent_name}, date: {self.date}, number: {self.number}, type: {self.patent_type}, teacher_id: {self.teacher_id}"
-
 
 class InternalExperience(db.Model):
     __tablename__ = "internal_experiences"

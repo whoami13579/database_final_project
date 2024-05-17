@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}核准專利{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">核准專利</h1>
+      <div class="mb-3">
+        <label for="patent_name" class="form-label">Patent Name</label>
+        <input type="text" id="patent_name" name="patent_name" class="form-control" placeholder="Enter Patent Name" required>
+      </div>
+      <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" id="date" name="date" class="form-control" placeholder="Enter Date" required>
+      </div>
+      <div class="mb-3">
+        <label for="number" class="form-label">Number</label>
+        <input type="text" id="number" name="number" class="form-control" placeholder="Enter The Patent Number" required>
+      </div>
+      <div class="mb-3">
+        <label for="patent_type" class="form-label">Patent_type</label>
+        <input type="text" id="patent_type" name="patent_type" class="form-control" placeholder="Enter Patent Type" required>
+      </div>
+      <button type="submit" class="btn btn-primary">ADD</button>
+  </form>
+  <br>
+{% endblock %}
