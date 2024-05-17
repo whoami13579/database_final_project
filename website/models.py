@@ -249,6 +249,22 @@ class JournalArtical(db.Model):
     def __repr__(self):
         return f"id: {self.journal_artical_id}, course name: {self.course_name}, journal name: {self.journal_name}, collaborators: {self.collaborators}, page number of the journal: {self.page_number_of_the_journal}, indexed website: {self.indexed_website}, indexed time: {self.indexed_time}"
 
+    def compare(self, other):
+        if self.course_name != other.course_name:
+            return False
+        if self.journal_name != other.journal_name:
+            return False
+        if self.collaborators != other.collaborators:
+            return False
+        if self.page_number_of_the_journal != other.page_number_of_the_journal:
+            return False
+        if self.indexed_website != other.indexed_website:
+            return False
+        if self.indexed_time != other.indexed_time:
+            return False
+         
+        return True
+
 
 # teaching_materials_and_works
 class TeachingWork(db.Model):
@@ -352,6 +368,20 @@ class ProceedingArtical(db.Model):
     def __repr__(self):
         return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session value: {self.session_value}, time: {self.time}"
 
+    def compare(self, other):
+        if self.artical_name != other.artical_name:
+            return False
+        if self.collaborators != other.collaborators:
+            return False
+        if self.page_number_of_the_artical != other.page_number_of_the_artical:
+            return False
+        if self.session_venue != other.session_venue:
+            return False
+        if self.time != other.time:
+            return False
+        
+        return True
+
 
 class BookChapter(db.Model):
     __tablename__ = "book_chapters"
@@ -404,6 +434,22 @@ class BookReport(db.Model):
 
     def __repr__(self):
         return f"id: {self.book_report_id}, book and technical report type: {self.book_report_type}, authors: {self.authors}, name: {self.name}, publisher: {self.publisher}, country: {self.country}, date: {self.date}"
+    
+    def compare(self, other):
+        if self.book_report_type != other.book_report_type:
+            return False
+        if self.authors != other.authors:
+            return False
+        if self.name != other.name:
+            return False
+        if self.publisher != other.publisher:
+            return False
+        if self.country != other.country:
+            return False
+        if self.date != other.date:
+            return False
+
+        return True
 
 
 # national_science_and_technology_council_projects
@@ -423,7 +469,7 @@ class NationalProject(db.Model):
     time = db.Column(db.Date)
     number = db.Column(db.String(50))
     attribute = db.Column(db.String(50))
-    host = db.Column(db.Boolean)
+    host = db.Column(db.String(20))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="national_projects")
@@ -445,7 +491,7 @@ class UniversityProject(db.Model):
     university_project_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     time = db.Column(db.Date)
-    host = db.Column(db.Boolean)
+    host = db.Column(db.String(20))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="university_projects")

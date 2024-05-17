@@ -41,7 +41,15 @@
           </h2>
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.journal_articals%}
+                <a>{{i.course_name}}, {{i.journal_name}}, {{i.collaborators}}, {{i.page_number_of_the_journal}}, {{i.indexed_website}}, {{i.indexed_time}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-journal-artical">新增發表期刊論文</a>
+                  {% endif %}
             </div>
           </div>
         </div>
@@ -53,7 +61,15 @@
           </h2>
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.proceeding_articals%}
+                <a>{{i.artical_name}}, {{i.collaborators}}, {{i.page_number_of_the_artical}}, {{i.session_venue}}, {{i.time}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-proceeding-artical">新增會議論文</a>
+                  {% endif %}
             </div>
           </div>
         </div>
@@ -65,7 +81,15 @@
           </h2>
           <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.book_reports %}
+                <a>{{i.book_report_type}}, {{i.authors}}, {{i.name}}, {{i.publisher}}, {{i.country}}, {{i.date}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-book-report">新增專書及技術報告</a>
+                  {% endif %}
             </div>
           </div>
         </div>
@@ -77,7 +101,18 @@
           </h2>
           <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.national_projects %}
+                <a>{{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}</a>
+                {% if i.host == True %}
+                <a>, 主持人</a>
+                {% endif %}
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-national-project">新增國科會計畫</a>
+                  {% endif %}
             </div>
           </div>
         </div>
@@ -89,7 +124,15 @@
           </h2>
           <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.university_projects %}
+                <a>{{i.name}}, {{i.time}}, {{i.host}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-university-project">新增產學合作計畫</a>
+                  {% endif %}
             </div>
           </div>
         </div>
