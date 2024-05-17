@@ -148,7 +148,15 @@
           </h2>
           <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.awards %}
+                <a>{{i.government}}, {{i.award_name}}, {{i.year}}, {{i.students}}</a>
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-award">新增校外獎勵及指導學生獲獎</a>
+                  {% endif %}
             </div>
           </div>
         </div>

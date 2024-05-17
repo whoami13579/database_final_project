@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject
+from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award
 from . import db
 from datetime import datetime
 
@@ -196,36 +196,31 @@ def add_university_project():
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_university_project.html", user=current_user)
 
+
 @views.route("/add-award/", methods=["GET", "POST"])
 @login_required
 def add_award():
     if request.method == "POST":
         government = request.form.get("government")
         award_name = request.form.get("award_name")
-        year = request.form.get("year")
+        year = int(request.form.get("year"))
         students = request.form.get("students")
-        Award = Award(government, award_name, year, students)
         
-        if Award.query.filter_by(government=government).first():
-            artical = Award.query.filter_by(government=government).first()
-            if artical.compare(Award):
-                artical.teachers.append(current_user)
-                # current_user.proceeding_articals.append(Award)
-                db.session.commit()
-
-                return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
-            else:
-                flash("The award already exists", category="error")
+        
+        if Award.query.filter_by(award_name=award_name).first():
+            flash("The award already exists", category="error")
         else:
-            # current_user.awards.append(Award)
-            Award.teachers.append(current_user)
-            db.session.add(Award)
+            award = Award(government, award_name, year, students, current_user.get_id())
+            # current_user.awards.append(award)
+            award.teacheri = current_user
+            db.session.add(award)
             db.session.commit()
 
             flash("Add Awards", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_award.html", user=current_user)
 
+# --------------------
 @views.route("/add-reward/", methods=["GET", "POST"])
 @login_required
 def add_reward():
