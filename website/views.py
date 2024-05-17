@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport
+from .models import Role, Teacher, JournalArtical, ProceedingArtical, BookReport, NationalProject
 from . import db
 from datetime import datetime
 
@@ -127,3 +127,40 @@ def add_book_report():
             flash("Add Book Report", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_book_report.html", user=current_user)
+
+
+@views.route("/add-national-project/", methods=["GET", "POST"])
+@login_required
+def add_national_project():
+    '''
+    teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
+    '''
+    if request.method == "POST":
+        name = request.form.get("name")
+        time = request.form.get("time")
+        number = request.form.get("number")
+        attribute = request.form.get("attribute")
+        host = request.form.get("host")
+
+        if host == "on":
+            host = True
+        else:
+            host = False
+
+        date_format = "%Y-%m-%d"
+        time = datetime.strptime(time, date_format).date()
+        nationalProject = NationalProject(name, time, number, attribute, host, current_user.get_id())
+
+        project = NationalProject.query.filter_by(name=name).first()
+        
+        if project:
+                flash("National Project already exists", category="error")
+        else:
+            # current_user.national_projects.append(nationalProject)
+            nationalProject.teacher = current_user
+            db.session.add(nationalProject)
+            db.session.commit()
+
+            flash("Add National Project", category="success")
+            return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+    return render_template("add_national_project.html", user=current_user)

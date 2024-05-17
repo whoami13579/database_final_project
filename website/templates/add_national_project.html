@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}新增國科會計畫{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">新增國科會計畫</h1>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required>
+      </div>
+      <div class="mb-3">
+        <label for="time" class="form-label">Time</label>
+        <input type="date" id="time" name="time" required>
+      </div>
+      <div class="mb-3">
+        <label for="number" class="form-label">Number</label>
+        <input type="text" id="number" name="number" class="form-control" placeholder="Enter Number" required>
+      </div>
+      <div class="mb-3">
+        <label for="attribute" class="form-label">Attribute</label>
+        <input type="text" id="attribute" name="attribute" class="form-control" placeholder="Enter Attribute" required>
+      </div>
+      <div class="mb-3">
+        <label for="host">Host</label>
+        <input type="checkbox" id="host" name="host">
+      </div>
+      <button type="submit" class="btn btn-primary">ADD</button>
+  </form>
+  <br>
+{% endblock %}

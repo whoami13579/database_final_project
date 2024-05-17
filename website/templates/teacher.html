@@ -101,7 +101,18 @@
           </h2>
           <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <a>data</a>
+                {% for i in teacher.national_projects %}
+                <a>{{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}</a>
+                {% if i.host == True %}
+                <a>, 主持人</a>
+                {% endif %}
+                <br>
+                <br>
+                {% endfor %}
+                <br>
+                  {% if user.teacher_id == teacher.teacher_id %}
+                    <a href="/add-national-project">新增國科會計畫</a>
+                  {% endif %}
             </div>
           </div>
         </div>
