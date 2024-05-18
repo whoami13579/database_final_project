@@ -66,7 +66,7 @@ def add_journal_artical():
         journal_name = request.form.get("journal_name")
         collaborators = request.form.get("collaborators")
         page_number_of_the_journal = request.form.get("page_number_of_the_journal")
-        page_number_of_the_journal = int(page_number_of_the_journal)
+        # page_number_of_the_journal = int(page_number_of_the_journal)
         indexed_website = request.form.get("indexed_website")
         indexed_time = request.form.get("indexed_time")
         date_format = "%Y-%m-%d"
