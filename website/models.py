@@ -74,22 +74,23 @@ class Role(db.Model):
 class ClassSchedule(db.Model):
     __tablename__ = "class_schedule"
 
-    def __init__(self, week, time, name):
+    def __init__(self, week, time, name, teacher_id):
         self.week = week
         self.time = time
         self.name = name
+        self.teacher_id = teacher_id
 
     schedule_id = db.Column(db.Integer, primary_key=True)
     week = db.Column(db.Integer)
     time = db.Column(db.Integer)
     name = db.Column(db.String(20))
-
+   
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="class_schedules")
 
     def __repr__(self):
-        return f"id: {self.id}, week: {self.week}, time: {self.time}, name: {self.name}"
+        return f"id: {self.id}, week: {self.week}, time: {self.time}, name: {self.name}, teacher_id: {self.teacher_id}"
 
 
 class Teacher(db.Model, UserMixin):

@@ -26,8 +26,21 @@ def teacher(teacher_id):
 def class_schedule(teacher_id):
     return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
 
-@views.route("/teacher/<teacher_id>/class-schedule/add-class")
+@views.route("/teacher/<teacher_id>/class-schedule/add-class", methods=['GET', 'POST'])
 def add_class_schedule(teacher_id):
+    if request.method == "POST":
+        week = request.form.get("week")
+        time = request.form.get("time")
+        name = request.form.get("name")
+        teacher_id = request.form.get("teacher_id")
+
+        classSchedule = ClassSchedule(week, time, name, teacher_id)
+        db.session.add(classSchedule)
+        db.session.commit()
+
+        #return redirect(url_for("views.class_schedule", teacher_id=current_user.get_id()))
+        
+    #else:
     return render_template("add_class.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
 
 @views.route("/add-journal-artical/", methods=["GET", "POST"])

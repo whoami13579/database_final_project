@@ -1,13 +1,42 @@
 {% extends "base.html" %}
 {% block title %}{{teacher.name}}{% endblock %}
 {% block content %}
+<style>
+  table {
+      width: 80%; 
+      table-layout: auto;
+      border-collapse: collapse;
+  }
+  th, td {
+      border: 1px solid #e8e8e8;
+      padding: 8px;
+      text-align: center;
+  }
+  th {
+      background-color: #dedede;
+  }
+  .add-class-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      color: rgb(60, 60, 60);
+      border: 2px solid rgb(60, 60, 60);
+      background-color: white;
+      border-radius: 20px;
+      text-decoration: none;
+      text-align: center;
+  }
+  .add-class-btn:hover {
+      background-color: #f0f0f0;
+  }
+</style>
+
 <div align="center">
   <h1>{{teacher.name}}</h1>
 
   <h3>信箱: {{teacher.email}}</h3>
 
     <div class="accordion-body">
-      <a href="/teacher/<teacher_id>/class-schedule">課表</a>
+      <a href="/teacher/<teacher_id>/class-schedule" class="add-class-btn">課表時間</a>
     </div>
 
     <h3>個人簡介</h3>

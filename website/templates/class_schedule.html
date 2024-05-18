@@ -15,6 +15,19 @@
     th {
         background-color: #dedede;
     }
+    .add-class-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        color: rgb(60, 60, 60);
+        border: 2px solid rgb(60, 60, 60);
+        background-color: white;
+        border-radius: 20px;
+        text-decoration: none;
+        text-align: center;
+    }
+    .add-class-btn:hover {
+        background-color: #f0f0f0;
+    }
 </style>
 <form method="POST">
     <h3 align="left">課表</h3>
@@ -53,7 +66,7 @@
     </table>
     <div class="accordion-body">
         {% if user.teacher_id == teacher.teacher_id %}
-        <a href="/teacher/<teacher_id>/class-schedule/add-class">新增課程</a>
+        <a href="/teacher/<teacher_id>/class-schedule/add-class" class="add-class-btn">新增課程</a>
         {% endif %}
     </div>
 </form>
