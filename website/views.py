@@ -33,7 +33,6 @@ def class_schedule(teacher_id):
     for schedule in schedules:
         schedules_table[schedule.week-1][schedule.time-1] = schedule.name
     
-    print(schedules_table)
 
     return render_template("class_schedule.html", user=current_user, teacher=teacher, schedules_table=schedules_table)
 
@@ -302,7 +301,7 @@ def add_speech():
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_speech.html", user=current_user)
 
-# --------------------
+
 @views.route("/add-teaching-work/", methods=["GET", "POST"])
 @login_required
 def add_teaching_work():
