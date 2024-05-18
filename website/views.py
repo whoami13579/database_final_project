@@ -42,9 +42,14 @@ def add_class_schedule(teacher_id):
         week = request.form.get("week")
         time = request.form.get("time")
         name = request.form.get("name")
-        teacher_id = request.form.get("teacher_id")
+
+        if ClassSchedule.query.filter_by(week=week, time=time, teacher_id=teacher_id).first():
+            flash("This time is not vacant.", category="error")
+
+            return render_template("add_class.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
 
         classSchedule = ClassSchedule(week, time, name, teacher_id)
+        classSchedule.teacher = current_user
         db.session.add(classSchedule)
         db.session.commit()
 
