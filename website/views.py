@@ -37,7 +37,7 @@ def class_schedule(teacher_id):
     return render_template("class_schedule.html", user=current_user, teacher=teacher, schedules_table=schedules_table)
 
 @views.route("/teacher/<int:teacher_id>/<int:schedule_id>/class-schedule/update-class-schedule", methods=['GET', 'POST'])
-def update_class_schedule(schedule_id):
+def update_class_schedule(teacher_id, schedule_id):
     class_schedule = ClassSchedule.query.get(schedule_id)
     if request.method == "POST":
         week = request.form.get("week")
@@ -80,6 +80,15 @@ def add_class_schedule(teacher_id):
     else:
         return render_template("add_class.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
 
+@views.route("/teacher/<int:teacher_id>/<int:schedule_id>/class-schedule/delete-class", methods=['GET'])
+def delete_class_schedule(teacher_id, schedule_id):
+    class_schedule = ClassSchedule.query.get(schedule_id)
+    
+    db.session.delete(class_schedule)
+    db.session.commit()
+    
+    return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
+    
 @views.route("/add-journal-artical/", methods=["GET", "POST"])
 @login_required
 def add_journal_artical():

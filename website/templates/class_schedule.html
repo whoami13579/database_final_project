@@ -52,6 +52,7 @@
                         <td>{{ schedules_table[week-1][time-1] }}</td>
                         {% if user.teacher_id == teacher.teacher_id %}
                         <a href="/teacher/{{teacher.teacher_id}}/{{class_schedule.schedule_id}}/class-schedule/update-class" role="button">修改</a>
+                        <a href="/teacher/{{teacher.teacher_id}}/{{class_schedule.schedule_id}}/class-schedule/delete-class" role="botton">刪除</a>
                         {% endif %}
                     {% endfor %}
                 </tr>
