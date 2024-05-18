@@ -89,6 +89,9 @@
             {% endif %}
             {{i.page_number_of_the_journal}}, {{i.indexed_website}}, {{i.indexed_time}}
           </a>
+          {% if user.teacher_id == teacher.teacher_id %}
+              <a href="/teacher/{{user.teacher_id}}/modify-journal-artical/{{i.journal_artical_id}}" class="add-class-btn">修改</a>
+          {% endif %}
           <br>
           <br>
           {% endfor %}
