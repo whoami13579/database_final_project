@@ -237,7 +237,7 @@ class JournalArtical(db.Model):
     course_name = db.Column(db.String(50))
     journal_name = db.Column(db.String(50))
     collaborators = db.Column(db.String(50))
-    page_number_of_the_journal = db.Column(db.Integer)
+    page_number_of_the_journal = db.Column(db.String(50))
     indexed_website = db.Column(db.String(150))
     indexed_time = db.Column(db.Date)
 
