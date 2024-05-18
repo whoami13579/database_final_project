@@ -143,10 +143,7 @@
           <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse">
             <div class="accordion-body">
                 {% for i in teacher.national_projects %}
-                <a>{{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}</a>
-                {% if i.host == True %}
-                <a>, 主持人</a>
-                {% endif %}
+                <a>{{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}, {{i.host}}</a>
                 <br>
                 <br>
                 {% endfor %}
