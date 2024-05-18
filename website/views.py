@@ -24,7 +24,18 @@ def teacher(teacher_id):
 
 @views.route("/teacher/<teacher_id>/class-schedule")
 def class_schedule(teacher_id):
-    return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
+    teacher = Teacher.query.filter_by(teacher_id=teacher_id).first()
+    schedules = teacher.class_schedules
+    schedules_table = []
+    for i in range(8):
+        schedules_table.append([" "]*14)
+    
+    for schedule in schedules:
+        schedules_table[schedule.week-1][schedule.time-1] = schedule.name
+    
+    print(schedules_table)
+
+    return render_template("class_schedule.html", user=current_user, teacher=teacher, schedules_table=schedules_table)
 
 @views.route("/teacher/<teacher_id>/class-schedule/add-class", methods=['GET', 'POST'])
 def add_class_schedule(teacher_id):

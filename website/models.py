@@ -90,7 +90,8 @@ class ClassSchedule(db.Model):
     teacher = db.relationship("Teacher", backref="class_schedules")
 
     def __repr__(self):
-        return f"id: {self.id}, week: {self.week}, time: {self.time}, name: {self.name}, teacher_id: {self.teacher_id}"
+        return f"id: {self.schedule_id}, week: {self.week}, time: {self.time}, name: {self.name}, teacher_id: {self.teacher_id}"
+
 
 
 class Teacher(db.Model, UserMixin):
