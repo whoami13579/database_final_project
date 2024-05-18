@@ -22,7 +22,7 @@ def role(role_id):
 def teacher(teacher_id):
     return render_template("teacher.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
 
-@views.route("/teacher/<teacher_id>/class-schedule")
+@views.route("/teacher/<int:teacher_id>/class-schedule")
 def class_schedule(teacher_id):
     teacher = Teacher.query.filter_by(teacher_id=teacher_id).first()
     schedules = teacher.class_schedules
@@ -36,7 +36,29 @@ def class_schedule(teacher_id):
 
     return render_template("class_schedule.html", user=current_user, teacher=teacher, schedules_table=schedules_table)
 
-@views.route("/teacher/<teacher_id>/class-schedule/add-class", methods=['GET', 'POST'])
+@views.route("/teacher/<int:teacher_id>/<int:schedule_id>/class-schedule/update-class-schedule", methods=['GET', 'POST'])
+def update_class_schedule(schedule_id):
+    class_schedule = ClassSchedule.query.get(schedule_id)
+    if request.method == "POST":
+        week = request.form.get("week")
+        time = request.form.get("time")
+        name = request.form.get("name")
+
+        if ClassSchedule.query.filter_by(schedule_id=schedule_id).first():
+            flash("This time is not vacant.", category="error")
+
+            return render_template("update_class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
+
+        classSchedule = ClassSchedule(week, time, name, teacher_id)
+        classSchedule.teacher = current_user
+        db.session.commit()
+
+        return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
+        
+    else:
+        return render_template("update_class.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
+
+@views.route("/teacher/<int:teacher_id>/class-schedule/add-class", methods=['GET', 'POST'])
 def add_class_schedule(teacher_id):
     if request.method == "POST":
         week = request.form.get("week")
@@ -53,10 +75,10 @@ def add_class_schedule(teacher_id):
         db.session.add(classSchedule)
         db.session.commit()
 
-        #return redirect(url_for("views.class_schedule", teacher_id=current_user.get_id()))
+        return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
         
-    #else:
-    return render_template("add_class.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
+    else:
+        return render_template("add_class.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=teacher_id).first())
 
 @views.route("/add-journal-artical/", methods=["GET", "POST"])
 @login_required
