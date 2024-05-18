@@ -356,13 +356,13 @@ class ProceedingArtical(db.Model):
         artical_name,
         collaborators,
         page_number_of_the_artical,
-        session_value,
+        session_venue,
         time,
     ):
         self.artical_name = artical_name
         self.collaborators = collaborators
         self.page_number_of_the_artical = page_number_of_the_artical
-        self.session_value = session_value
+        self.session_venue = session_venue
         self.time = time
 
     proceeding_artical_id = db.Column(db.Integer, primary_key=True)
@@ -377,7 +377,7 @@ class ProceedingArtical(db.Model):
     )
 
     def __repr__(self):
-        return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session value: {self.session_value}, time: {self.time}"
+        return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session venue: {self.session_venue}, time: {self.time}"
 
     def compare(self, other):
         if self.artical_name != other.artical_name:

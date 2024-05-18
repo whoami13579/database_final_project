@@ -81,9 +81,14 @@
       </h2>
       <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
         <div class="accordion-body">
-          {% for i in teacher.journal_articals%}
-          <a>{{i.course_name}}, {{i.journal_name}}, {{i.collaborators}}, {{i.page_number_of_the_journal}},
-            {{i.indexed_website}}, {{i.indexed_time}}</a>
+          {% for i in teacher.journal_articals %}
+          <a>
+            {{i.course_name}}, {{i.journal_name}}, 
+            {% if i.collaborators != "" %}
+              {{i.collaborators}}, 
+            {% endif %}
+            {{i.page_number_of_the_journal}}, {{i.indexed_website}}, {{i.indexed_time}}
+          </a>
           <br>
           <br>
           {% endfor %}
@@ -103,7 +108,13 @@
           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
             <div class="accordion-body">
                 {% for i in teacher.proceeding_articals%}
-                <a>{{i.artical_name}}, {{i.collaborators}}, {{i.page_number_of_the_artical}}, {{i.session_venue}}, {{i.time}}</a>
+                <a>
+                  {{i.artical_name}}, 
+                  {% if i.collaborators != "" %}
+                    {{i.collaborators}}, 
+                  {% endif %}
+                  {{i.page_number_of_the_artical}}, {{i.session_venue}}, {{i.time}}
+                </a>
                 <br>
                 <br>
                 {% endfor %}
@@ -243,7 +254,13 @@
           <div id="panelsStayOpen-collapse9" class="accordion-collapse collapse">
             <div class="accordion-body">
                 {% for i in teacher.book_chapters %}
-                <a>{{i.book_name}}, {{i.collaborators}}, {{i.page_number_of_the_artical}}, {{i.time}}</a>
+                <a>
+                  {{i.book_name}}, 
+                  {% if i.collaborators != "" %}
+                    {{i.collaborators}}, 
+                  {% endif %}
+                  {{i.page_number_of_the_artical}}, {{i.time}}
+                </a>
                 <br>
                 <br>
                 {% endfor %}
