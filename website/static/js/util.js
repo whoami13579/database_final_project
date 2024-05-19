@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (myShowAllBtn != null) {
         myShowAllBtn.addEventListener('click', function () {
             $('.collapse').collapse('show')
-        });
+        })
     }
     if (myCloseAllBtn != null) {
         myCloseAllBtn.addEventListener('click', function () {

@@ -369,13 +369,14 @@ def add_book_chapter():
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_book_chapter.html", user=current_user)
 
+# Modification Part
 @views.route("/teacher/<teacher_id>/modify-journal-artical/<journal_artical_id>", methods=["GET", "POST"])
 @login_required
 def modify_journal_artical(teacher_id, journal_artical_id):
-    artical_to_mod = dict()
     # If user wants to modify
+    artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id).first()
     if request.method == "GET":
-        artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id).first()
+        artical_to_mod = dict()
         if artical is not None:
             artical_to_mod["course_name"] = artical.course_name
             artical_to_mod["journal_name"] = artical.journal_name
@@ -384,8 +385,9 @@ def modify_journal_artical(teacher_id, journal_artical_id):
             artical_to_mod["indexed_website"] = artical.indexed_website
             artical_to_mod["indexed_time"] = artical.indexed_time
             return render_template("modify_journal_artical.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+        else:  # I think this line will never be run
+            return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     # Else if user submit the modify
-    ''' TODO: when user submit their modification, needs to alter the database
     else:
         course_name = request.form.get("course_name")
         journal_name = request.form.get("journal_name")
@@ -395,26 +397,24 @@ def modify_journal_artical(teacher_id, journal_artical_id):
         indexed_time = request.form.get("indexed_time")
         date_format = "%Y-%m-%d"
         indexed_time = datetime.strptime(indexed_time, date_format).date()
-        journalArtical = JournalArtical(course_name, journal_name, collaborators, page_number_of_the_journal, indexed_website, indexed_time)
+        # journalArtical = JournalArtical(course_name, journal_name, collaborators, page_number_of_the_journal, indexed_website, indexed_time)
         
-        if JournalArtical.query.filter_by(course_name=course_name).first():
-            artical = JournalArtical.query.filter_by(course_name=course_name).first()
-            if artical.compare(journalArtical):
-                artical.teachers.append(current_user)
-                # current_user.journal_articals.append(journalArtical)
-                db.session.commit()
+        artical.course_name = course_name
+        artical.journal_name = journal_name
+        artical.collaborators = collaborators
+        artical.page_number_of_the_journal = page_number_of_the_journal
+        artical.indexed_website = indexed_website
+        artical.indexed_time = indexed_time
+        db.session.commit()
+        flash("Modify Journal Artical", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
-                return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
-            else:
-                flash("Journal Artical already exists", category="error")
-                # return redirect(url_for("modify_journal_artical", teacher_id=current_user.get_id()))
-                return render_template("modify_journal_artical.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
-        else:
-            # current_user.journal_articals.append(journalArtical)
-            journalArtical.teachers.append(current_user)
-            db.session.add(journalArtical)
-            db.session.commit()
-
-            flash("Modify Journal Artical", category="success")
-            return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
-    '''
+# Deletion Part
+@views.route("/teacher/<teacher_id>/delete-journal-artical/<journal_artical_id>", methods=["POST"])
+@login_required
+def delete_journal_artical(teacher_id, journal_artical_id):
+    artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Journal Artical", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
