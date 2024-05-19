@@ -51,8 +51,8 @@
                     {% for week in range(1, 8) %}
                         <td>{{ schedules_table[week-1][time-1] }}</td>
                         {% if user.teacher_id == teacher.teacher_id %}
-                        <a href="/teacher/{{teacher.teacher_id}}/{{class_schedule.schedule_id}}/class-schedule/update-class" role="button">修改</a>
-                        <a href="/teacher/{{teacher.teacher_id}}/{{class_schedule.schedule_id}}/class-schedule/delete-class" role="botton">刪除</a>
+                        <a href="/update-class-schedule/{{class_schedule.schedule_id}}" role="button">修改</a>
+                        <a href="/delete-class-schedule/{{class_schedule.schedule_id}}" role="botton">刪除</a>
                         {% endif %}
                     {% endfor %}
                 </tr>
@@ -61,7 +61,7 @@
     </table>
     <div class="accordion-body">
         {% if user.teacher_id == teacher.teacher_id %}
-        <a href="/teacher/{{teacher.teacher_id}}/class-schedule/add-class" class="add-class-btn">新增課程</a>
+        <a href="/add-class" class="add-class-btn">新增課程</a>
         {% endif %}
     </div>
 </form>
