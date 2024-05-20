@@ -3,10 +3,13 @@
 {% block content %}
 <form method="POST">
     <h1 align="left">校外獎勵及指導學生獲獎</h1>
+        <!-- <textarea name="introduction" id="introduction">{{teacher.self_introduction}}</textarea>
+        <br> -->
+      <div class="mb-3">
         <label for="introduction" class="form-label">Self Introduction</label>
         <br>
-        <textarea name="introduction" id="introduction">{{teacher.self_introduction}}</textarea>
-        <br>
+        <textarea class="form-control" id="introduction" name="introduction" rows="10">{{teacher.self_introduction}}</textarea>
+      </div>
       <button type="submit" class="btn btn-primary">Save</button>
   </form>
   <br>
