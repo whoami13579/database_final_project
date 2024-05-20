@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}新增專書及技術報告{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">新增專書及技術報告</h1>
+      <div class="mb-3">
+        <label for="book_report_type" class="form-label">Book Report Type</label>
+        <input type="text" id="book_report_type" name="book_report_type" class="form-control" placeholder="Enter Book Report Type" required>
+      </div>
+      <div class="mb-3">
+        <label for="authors" class="form-label">Authors</label>
+        <input type="text" id="authors" name="authors" class="form-control" placeholder="Enter Authors" required>
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required>
+      </div>
+      <div class="mb-3">
+        <label for="publisher" class="form-label">Publisher</label>
+        <input type="text" id="publisher" name="publisher" class="form-control" placeholder="Enter Publisher" required>
+      </div>
+      <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" id="country" name="country" class="form-control" placeholder="Enter Country" required>
+      </div>
+      <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <button type="submit" class="btn btn-primary">ADD</button>
+  </form>
+  <br>
+{% endblock %}

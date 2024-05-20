@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}新增課程{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">新增課程</h1>
+      <div class="mb-3">
+        <label for="week" class="form-label">Week</label>
+        <select id="week" name="week" class="form-control" required>
+          <option value="1">星期一</option>
+          <option value="2">星期二</option>
+          <option value="3">星期三</option>
+          <option value="4">星期四</option>
+          <option value="5">星期五</option>
+          <option value="6">星期六</option>
+          <option value="7">星期日</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="time" class="form-label">Time</label>
+        <select id="time" name="time" class="form-control" required>
+          <option value="1">第1節</option>
+          <option value="2">第2節</option>
+          <option value="3">第3節</option>
+          <option value="4">第4節</option>
+          <option value="5">第5節</option>
+          <option value="6">第6節</option>
+          <option value="7">第7節</option>
+          <option value="8">第8節</option>
+          <option value="9">第9節</option>
+          <option value="10">第10節</option>
+          <option value="11">第11節</option>
+          <option value="12">第12節</option>
+          <option value="13">第13節</option>
+          <option value="14">第14節</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Class Name</label>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Class Name" required>
+      </div>
+      <button type="submit" class="btn btn-primary">ADD</button>
+</form>
+{% endblock %}

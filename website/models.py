@@ -74,22 +74,24 @@ class Role(db.Model):
 class ClassSchedule(db.Model):
     __tablename__ = "class_schedule"
 
-    def __init__(self, week, time, name):
+    def __init__(self, week, time, name, teacher_id):
         self.week = week
         self.time = time
         self.name = name
+        self.teacher_id = teacher_id
 
     schedule_id = db.Column(db.Integer, primary_key=True)
     week = db.Column(db.Integer)
     time = db.Column(db.Integer)
     name = db.Column(db.String(20))
-
+   
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="class_schedules")
 
     def __repr__(self):
-        return f"id: {self.id}, week: {self.week}, time: {self.time}, name: {self.name}"
+        return f"id: {self.schedule_id}, week: {self.week}, time: {self.time}, name: {self.name}, teacher_id: {self.teacher_id}"
+
 
 
 class Teacher(db.Model, UserMixin):
@@ -113,6 +115,7 @@ class Teacher(db.Model, UserMixin):
     offict_phone = db.Column(db.String(10), nullable=True)
     personal_website = db.Column(db.String(150), nullable=True)
     interest = db.Column(db.String(150), nullable=True)
+    school = db.Column(db.String(150), nullable=True)
 
     role_id = db.Column(db.ForeignKey("roles.role_id"))
 
@@ -124,8 +127,7 @@ class Teacher(db.Model, UserMixin):
 class Reward(db.Model):
     __tablename__ = "rewards"
 
-    def __init__(self, id, time, award, school, attribute, name, teacher_id):
-        self.reward_id = id
+    def __init__(self, time, award, school, attribute, name, teacher_id):
         self.reward_time = time
         self.award = award
         self.school = school
@@ -147,7 +149,6 @@ class Reward(db.Model):
         return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}, teacher_id: {self.teacher_id}"
 
 
-# Approved_patents
 class Patent(db.Model):
     __tablename__ = "patents"
 
@@ -161,7 +162,7 @@ class Patent(db.Model):
     patent_id = db.Column(db.Integer, primary_key=True)
     patent_name = db.Column(db.String(150))
     date = db.Column(db.Date)
-    number = db.Column(db.Integer)
+    number = db.Column(db.String(50))
     patent_type = db.Column(db.String(50))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
@@ -170,22 +171,24 @@ class Patent(db.Model):
     def __repr__(self):
         return f"id: {self.patent_id}, name: {self.patent_name}, date: {self.date}, number: {self.number}, type: {self.patent_type}, teacher_id: {self.teacher_id}"
 
-
 class InternalExperience(db.Model):
     __tablename__ = "internal_experiences"
 
-    def __init__(self, department, teacher_id):
+    def __init__(self, department, position, teacher_id):
         self.department = department
+        self.position = position
         self.teacher_id = teacher_id
 
     internal_experience_id = db.Column(db.Integer, primary_key=True)
     department = db.Column(db.String(50))
+    position = db.Column(db.String(50))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="internal_experiencs")
 
     def __repr__(self):
-        return f"id: {self.internal_experience_id}, department: {self.department}, teacher_id: {self.teacher_id}"
+        return f"id: {self.internal_experience_id}, department: {self.department}, position: {self.position}, teacher_id: {self.teacher_id}"
+
 
 
 class ExternalExperience(db.Model):
@@ -234,7 +237,7 @@ class JournalArtical(db.Model):
     course_name = db.Column(db.String(50))
     journal_name = db.Column(db.String(50))
     collaborators = db.Column(db.String(50))
-    page_number_of_the_journal = db.Column(db.Integer)
+    page_number_of_the_journal = db.Column(db.String(50))
     indexed_website = db.Column(db.String(150))
     indexed_time = db.Column(db.Date)
 
@@ -245,6 +248,22 @@ class JournalArtical(db.Model):
     def __repr__(self):
         return f"id: {self.journal_artical_id}, course name: {self.course_name}, journal name: {self.journal_name}, collaborators: {self.collaborators}, page number of the journal: {self.page_number_of_the_journal}, indexed website: {self.indexed_website}, indexed time: {self.indexed_time}"
 
+    def compare(self, other):
+        if self.course_name != other.course_name:
+            return False
+        if self.journal_name != other.journal_name:
+            return False
+        if self.collaborators != other.collaborators:
+            return False
+        if self.page_number_of_the_journal != other.page_number_of_the_journal:
+            return False
+        if self.indexed_website != other.indexed_website:
+            return False
+        if self.indexed_time != other.indexed_time:
+            return False
+         
+        return True
+
 
 # teaching_materials_and_works
 class TeachingWork(db.Model):
@@ -254,7 +273,7 @@ class TeachingWork(db.Model):
         self.publisher = publisher
         self.name = name
         self.authors = authros
-        self.teaching_materials_and_work_type = teaching_work_type
+        self.teaching_work_type = teaching_work_type
 
     teaching_work_id = db.Column(db.Integer, primary_key=True)
     publisher = db.Column(db.String(50))
@@ -270,6 +289,18 @@ class TeachingWork(db.Model):
 
     def __repr__(self):
         return f"id: {self.teaching_work_id}, publisher: {self.publisher}, name: {self.name}, authors: {self.authors}, type: {self.teaching_work_type}"
+    
+    def compare(self, other):
+        if self.publisher != other.publisher:
+            return False
+        if self.name != other.name:
+            return False
+        if self.authors != other.authors:
+            return False
+        if self.teaching_work_type != other.teaching_work_type:
+            return False
+
+        return True
 
 
 class Speech(db.Model):
@@ -287,7 +318,7 @@ class Speech(db.Model):
     date = db.Column(db.Date)
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
-    teacher = db.relationship("Teacher", backref="speechs")
+    teacher = db.relationship("Teacher", backref="speeches")
 
     def __repr__(self):
         return f"id: {self.speech_id}, name: {self.speech_id}, location: {self.location}, date: {self.date}, teacher_id: {self.teacher_id}"
@@ -325,13 +356,13 @@ class ProceedingArtical(db.Model):
         artical_name,
         collaborators,
         page_number_of_the_artical,
-        session_value,
+        session_venue,
         time,
     ):
         self.artical_name = artical_name
         self.collaborators = collaborators
         self.page_number_of_the_artical = page_number_of_the_artical
-        self.session_value = session_value
+        self.session_venue = session_venue
         self.time = time
 
     proceeding_artical_id = db.Column(db.Integer, primary_key=True)
@@ -346,7 +377,21 @@ class ProceedingArtical(db.Model):
     )
 
     def __repr__(self):
-        return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session value: {self.session_value}, time: {self.time}"
+        return f"id: {self.proceeding_artical_id}, artical name: {self.artical_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, session venue: {self.session_venue}, time: {self.time}"
+
+    def compare(self, other):
+        if self.artical_name != other.artical_name:
+            return False
+        if self.collaborators != other.collaborators:
+            return False
+        if self.page_number_of_the_artical != other.page_number_of_the_artical:
+            return False
+        if self.session_venue != other.session_venue:
+            return False
+        if self.time != other.time:
+            return False
+        
+        return True
 
 
 class BookChapter(db.Model):
@@ -370,6 +415,18 @@ class BookChapter(db.Model):
 
     def __repr__(self):
         return f"id: {self.book_chapter_id}, book name: {self.book_name}, collaborators: {self.collaborators}, page number of the artical: {self.page_number_of_the_artical}, time: {self.time}"
+
+    def compare(self, other):
+        if self.book_name != other.book_name:
+            return False
+        if self.collaborators != other.collaborators:
+            return False
+        if self.page_number_of_the_artical != other.page_number_of_the_artical:
+            return False
+        if self.time != other.time:
+            return False
+
+        return True
 
 
 # books_and_technical_reports
@@ -400,6 +457,22 @@ class BookReport(db.Model):
 
     def __repr__(self):
         return f"id: {self.book_report_id}, book and technical report type: {self.book_report_type}, authors: {self.authors}, name: {self.name}, publisher: {self.publisher}, country: {self.country}, date: {self.date}"
+    
+    def compare(self, other):
+        if self.book_report_type != other.book_report_type:
+            return False
+        if self.authors != other.authors:
+            return False
+        if self.name != other.name:
+            return False
+        if self.publisher != other.publisher:
+            return False
+        if self.country != other.country:
+            return False
+        if self.date != other.date:
+            return False
+
+        return True
 
 
 # national_science_and_technology_council_projects
@@ -419,7 +492,7 @@ class NationalProject(db.Model):
     time = db.Column(db.Date)
     number = db.Column(db.String(50))
     attribute = db.Column(db.String(50))
-    host = db.Column(db.Boolean)
+    host = db.Column(db.String(20))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="national_projects")
@@ -441,7 +514,7 @@ class UniversityProject(db.Model):
     university_project_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     time = db.Column(db.Date)
-    host = db.Column(db.Boolean)
+    host = db.Column(db.String(20))
     teacher_id = db.Column(db.ForeignKey("teachers.teacher_id"))
 
     teacher = db.relationship("Teacher", backref="university_projects")

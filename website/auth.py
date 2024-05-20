@@ -8,6 +8,8 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
+    name = ""
+    email = ""
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
@@ -22,6 +24,8 @@ def sign_up():
             flash("Password should be at least 6 characters.", category="error")
         elif password1 != password2:
             flash("Passwords don\'t match.", category="error")
+        elif role_id == 0:
+            flash("Please choose a role.", category="error")
         else:
             role = Role.query.filter_by(role_id=role_id).first()
             teacher = Teacher(email, name, generate_password_hash(password1), role_id)
@@ -34,8 +38,7 @@ def sign_up():
             return redirect(url_for("views.home"))
 
 
-
-    return render_template("signup.html", user=current_user)
+    return render_template("signup.html", user=current_user, last_name=name, last_email=email)
 
 
 @auth.route("/logout")
@@ -46,6 +49,7 @@ def logout():
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
+    email = ""
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -63,4 +67,4 @@ def login():
         else:
             flash("User does not exist.", category="error")
 
-    return render_template("login.html", user=current_user)
+    return render_template("login.html", user=current_user, last_email=email)
