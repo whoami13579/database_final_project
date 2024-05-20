@@ -112,7 +112,7 @@ class Teacher(db.Model, UserMixin):
     name = db.Column(db.String(50))
     password = db.Column(db.String(150))
     self_introduction = db.Column(db.String(500), nullable=True)
-    photo_path = db.Column(db.String(150), nullable=True)
+    photo = db.Column(db.String(150), nullable=True)
     offict_phone = db.Column(db.String(10), nullable=True)
     personal_website = db.Column(db.String(150), nullable=True)
     interest = db.Column(db.String(150), nullable=True)
