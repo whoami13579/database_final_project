@@ -40,6 +40,10 @@
   .add-class-btn:hover {
       background-color: #f0f0f0;
   }
+
+  form {
+    display: inline-block;
+  }
 </style>
 
 <div align="center">
@@ -82,10 +86,6 @@
 
   <h3>論文及參與計畫</h3>
   <br>
-  <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".hide"
-    aria-expanded="false" aria-controls="panelsStayOpen-collapseOne panelsStayOpen-collapseTwo panelsStayOpen-collapseThree">Show all elements</button>
-  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".show"
-    aria-expanded="false" aria-controls="panelsStayOpen-collapseOne panelsStayOpen-collapseTwo panelsStayOpen-collapseThree">Collapse all elements</button> -->
   <button class="btn btn-primary" type="button" id="show-all-btn">Show all</button>
   <button class="btn btn-primary" type="button" id="close-all-btn">Collapse all</button>
   <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -108,8 +108,8 @@
           </a>
           {% if user.teacher_id == teacher.teacher_id %}
             <a href="/teacher/{{user.teacher_id}}/modify-journal-artical/{{i.journal_artical_id}}" class="add-class-btn">修改</a>
-            <form action="/teacher/{{user.teacher_id}}/delete-journal-artical/{{i.journal_artical_id}}" onsubmit="return confirm('Do you really wanto to delete journal_artical: {{ i.journal_name }}')" method="post">
-              <button type="submit" class="add-class-btn" style="background-color:rgb(255, 219, 219);">刪除</button>
+            <form action="/teacher/{{user.teacher_id}}/delete-journal-artical/{{i.journal_artical_id}}" onsubmit="return confirm('Do you really want to delete journal_artical: {{ i.journal_name }}')" method="post">
+              <button type="submit" class="add-class-btn">刪除</button>
             </form>
           {% endif %}
           <br>
@@ -138,6 +138,12 @@
                   {% endif %}
                   {{i.page_number_of_the_artical}}, {{i.session_venue}}, {{i.time}}
                 </a>
+                {% if user.teacher_id == teacher.teacher_id %}
+                  <a href="/teacher/{{user.teacher_id}}/modify-proceeding-artical/{{i.proceeding_artical_id}}" class="add-class-btn">修改</a>
+                  <form action="/teacher/{{user.teacher_id}}/delete-proceeding-artical/{{i.proceeding_artical_id}}" onsubmit="return confirm('Do you really want to delete proceeding_artical: {{ i.artical_name }}')" method="post">
+                    <button type="submit" class="add-class-btn">刪除</button>
+                  </form>
+                {% endif %}
                 <br>
                 <br>
                 {% endfor %}
