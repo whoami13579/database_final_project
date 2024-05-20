@@ -102,7 +102,6 @@ class Teacher(db.Model, UserMixin):
         self.name = name
         self.password = password
         self.role_id = role_id
-        self.self_introduction = ""
     
     def get_id(self):
         return (self.teacher_id)
