@@ -174,9 +174,9 @@ def add_national_project():
         attribute = request.form.get("attribute")
         host = request.form.get("host")
 
-        if host == "0":
-            flash("請選擇職位名稱", category="error")
-            return render_template("add_national_project.html", user=current_user)
+        # if host == "0":
+        #     flash("請選擇職位名稱", category="error")
+        #     return render_template("add_national_project.html", user=current_user)
 
         date_format = "%Y-%m-%d"
         time = datetime.strptime(time, date_format).date()
@@ -206,10 +206,9 @@ def add_university_project():
         time = request.form.get("time")
         host = request.form.get("host")
 
-        if host == "0":
-            flash("請選擇職位名稱", category="error")
-            return render_template("add_university_project.html", user=current_user)
-        
+        # if host == "0":
+        #     flash("請選擇職位名稱", category="error")
+        #     return render_template("add_university_project.html", user=current_user)
 
         date_format = "%Y-%m-%d"
         time = datetime.strptime(time, date_format).date()

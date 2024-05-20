@@ -24,8 +24,8 @@ def sign_up():
             flash("Password should be at least 6 characters.", category="error")
         elif password1 != password2:
             flash("Passwords don\'t match.", category="error")
-        elif role_id == 0:
-            flash("Please choose a role.", category="error")
+        # elif role_id == 0:
+        #     flash("Please choose a role.", category="error")
         else:
             role = Role.query.filter_by(role_id=role_id).first()
             teacher = Teacher(email, name, generate_password_hash(password1), role_id)
