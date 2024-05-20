@@ -373,7 +373,7 @@ def add_book_chapter():
 @views.route("/teacher/<teacher_id>/edit-introduction", methods=["GET", "POST"])
 @login_required
 def edit_introduction(teacher_id):
-    teacher = Teacher.query.filter_by(teacher_id = teacher_id)
+    teacher = Teacher.query.filter_by(teacher_id = teacher_id).first()
     if request.method == "POST":
         self_introduction = request.form.get("introduction")
         teacher.self_introduction = self_introduction
