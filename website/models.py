@@ -522,3 +522,4 @@ class UniversityProject(db.Model):
 
     def __repr__(self):
         return f"id: {self.university_project_id}, name: {self.name}, time: {self.time}, host: {self.host}, teacher_id: {self.teacher_id}"
+
