@@ -102,6 +102,7 @@ class Teacher(db.Model, UserMixin):
         self.name = name
         self.password = password
         self.role_id = role_id
+        self.self_introduction = ""
     
     def get_id(self):
         return (self.teacher_id)
@@ -521,3 +522,4 @@ class UniversityProject(db.Model):
 
     def __repr__(self):
         return f"id: {self.university_project_id}, name: {self.name}, time: {self.time}, host: {self.host}, teacher_id: {self.teacher_id}"
+

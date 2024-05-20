@@ -417,3 +417,19 @@ def delete_journal_artical(teacher_id, journal_artical_id):
     db.session.commit()
     flash("Delete Journal Artical", category="success")
     return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+
+@views.route("/teacher/<teacher_id>/edit-introduction", methods=["GET", "POST"])
+@login_required
+def edit_introduction(teacher_id):
+    teacher = Teacher.query.filter_by(teacher_id = teacher_id).first()
+    if request.method == "POST":
+        self_introduction = request.form.get("introduction")
+        teacher.self_introduction = self_introduction
+
+        db.session.commit()
+        flash("Change saved", category="success")
+
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("self_introduction.html", user=current_user, teacher=teacher)
