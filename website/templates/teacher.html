@@ -56,6 +56,9 @@
     <div class="wrapper">
       <p class="demo-1" align="left">{{teacher.self_introduction}}</p>
     </div>
+    {% if user.teacher_id == teacher.teacher_id %}
+      <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-introduction">Edit</a>
+    {% endif %}
 
   <h3>學歷</h3>
   <br>

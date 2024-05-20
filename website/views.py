@@ -368,3 +368,19 @@ def add_book_chapter():
             flash("Add Patentes", category="success")
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_book_chapter.html", user=current_user)
+
+
+@views.route("/teacher/<teacher_id>/edit-introduction", methods=["GET", "POST"])
+@login_required
+def edit_introduction(teacher_id):
+    teacher = Teacher.query.filter_by(teacher_id = teacher_id)
+    if request.method == "POST":
+        self_introduction = request.form.get("introduction")
+        teacher.self_introduction = self_introduction
+
+        db.session.commit()
+        flash("Change saved", category="success")
+
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("self_introduction.html", user=current_user, teacher=teacher)
