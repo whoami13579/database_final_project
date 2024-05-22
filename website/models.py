@@ -262,8 +262,10 @@ class JournalArtical(db.Model):
             return False
         if self.indexed_time != other.indexed_time:
             return False
-         
         return True
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 # teaching_materials_and_works
@@ -391,9 +393,10 @@ class ProceedingArtical(db.Model):
             return False
         if self.time != other.time:
             return False
-        
         return True
 
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 class BookChapter(db.Model):
     __tablename__ = "book_chapters"
@@ -472,8 +475,10 @@ class BookReport(db.Model):
             return False
         if self.date != other.date:
             return False
-
         return True
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 # national_science_and_technology_council_projects

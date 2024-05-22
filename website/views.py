@@ -373,36 +373,20 @@ def add_book_chapter():
 @login_required
 def modify_journal_artical(teacher_id, journal_artical_id):
     # If user wants to modify
-    artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id).first()
     if request.method == "GET":
-        artical_to_mod = dict()
-        if artical is not None:
-            artical_to_mod["course_name"] = artical.course_name
-            artical_to_mod["journal_name"] = artical.journal_name
-            artical_to_mod["collaborators"] = artical.collaborators
-            artical_to_mod["page_number_of_the_journal"] = artical.page_number_of_the_journal
-            artical_to_mod["indexed_website"] = artical.indexed_website
-            artical_to_mod["indexed_time"] = artical.indexed_time
-            return render_template("modify_journal_artical.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
-        else:  # I think this line will never be run
-            return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+        artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id).first()
+        artical_to_mod = artical.to_dict()
+        return render_template("modify_journal_artical.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
     # Else if user submit the modify
     else:
-        course_name = request.form.get("course_name")
-        journal_name = request.form.get("journal_name")
-        collaborators = request.form.get("collaborators")
-        page_number_of_the_journal = request.form.get("page_number_of_the_journal")
-        indexed_website = request.form.get("indexed_website")
-        indexed_time = request.form.get("indexed_time")
+        submission = request.form.to_dict()
+        indexed_time = submission["indexed_time"]
         date_format = "%Y-%m-%d"
-        indexed_time = datetime.strptime(indexed_time, date_format).date()
+        submission["indexed_time"] = datetime.strptime(indexed_time, date_format).date()
 
-        artical.course_name = course_name
-        artical.journal_name = journal_name
-        artical.collaborators = collaborators
-        artical.page_number_of_the_journal = page_number_of_the_journal
-        artical.indexed_website = indexed_website
-        artical.indexed_time = indexed_time
+        artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id)
+        artical.update(submission)
+
         db.session.commit()
         flash("Modify Journal Artical", category="success")
         return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
@@ -410,36 +394,46 @@ def modify_journal_artical(teacher_id, journal_artical_id):
 @views.route("/teacher/<teacher_id>/modify-proceeding-artical/<proceeding_artical_id>", methods=["GET", "POST"])
 @login_required
 def modify_proceeding_artical(teacher_id, proceeding_artical_id):
-    artical = db.session.query(ProceedingArtical).filter_by(proceeding_artical_id=proceeding_artical_id).first()
     if request.method == "GET":
-        if artical is not None:
-            artical_to_mod = dict()
-            artical_to_mod["artical_name"] = artical.artical_name
-            artical_to_mod["collaborators"] = artical.collaborators
-            artical_to_mod["page_number_of_the_artical"] = artical.page_number_of_the_artical
-            artical_to_mod["session_venue"] = artical.session_venue
-            artical_to_mod["time"] = artical.time
-            return render_template("modify_proceeding_artical.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
-        else:  # I think this line will never be run
-            return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+        artical = db.session.query(ProceedingArtical).filter_by(proceeding_artical_id=proceeding_artical_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_proceeding_artical.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
     # Else if user submit the modify
     else:
-        artical_name = request.form.get("artical_name")
-        collaborators = request.form.get("collaborators")
-        page_number_of_the_artical = request.form.get("page_number_of_the_artical")
-        session_venue = request.form.get("session_venue")
-        time = request.form.get("time")
+        submission = request.form.to_dict()
+        time = submission["time"]
         date_format = "%Y-%m-%d"
-        time = datetime.strptime(time, date_format).date()
+        submission["time"] = datetime.strptime(time, date_format).date()
 
-        artical.artical_name = artical_name
-        artical.collaborators = collaborators
-        artical.page_number_of_the_artical = page_number_of_the_artical
-        artical.session_venue = session_venue
-        artical.time = time
+        artical = db.session.query(ProceedingArtical).filter_by(proceeding_artical_id=proceeding_artical_id)
+        artical.update(submission)
+
         db.session.commit()
         flash("Modify Proceeding Artical", category="success")
         return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-book-report/<book_report_id>", methods=["GET", "POST"])
+@login_required
+def modify_book_report(teacher_id, book_report_id):
+    if request.method == "GET":
+        artical = db.session.query(BookReport).filter_by(book_report_id=book_report_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_book_report.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        date = submission["date"]
+        date_format = "%Y-%m-%d"
+        submission["date"] = datetime.strptime(date, date_format).date()
+        artical = db.session.query(BookReport).filter_by(book_report_id=book_report_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Book Report", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
 
 # Deletion Part
 @views.route("/teacher/<teacher_id>/delete-journal-artical/<journal_artical_id>", methods=["POST"])
@@ -460,7 +454,15 @@ def delete_proceeding_artical(teacher_id, proceeding_artical_id):
     flash("Delete Proceeding Artical", category="success")
     return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
+@views.route("/teacher/<teacher_id>/delete-book-report/<book_report_id>", methods=["GET", "POST"])
+@login_required
+def delete_book_report(teacher_id, book_report_id):
+    artical = db.session.query(BookReport).filter_by(book_report_id=book_report_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Book Report", category="success")
 
+# Edit introduction
 @views.route("/teacher/<teacher_id>/edit-introduction", methods=["GET", "POST"])
 @login_required
 def edit_introduction(teacher_id):
