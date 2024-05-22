@@ -190,6 +190,12 @@
             <div class="accordion-body">
                 {% for i in teacher.national_projects %}
                 <a>{{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}, {{i.host}}</a>
+                {% if user.teacher_id == teacher.teacher_id %}
+                  <a href="/teacher/{{user.teacher_id}}/modify-national-project/{{i.national_project_id}}" class="add-class-btn">修改</a>
+                  <form action="/teacher/{{user.teacher_id}}/delete-national-project/{{i.national_project_id}}" onsubmit="return confirm('Do you really want to delete national project: {{ i.name }}')" method="post">
+                    <button type="submit" class="add-class-btn">刪除</button>
+                  </form>
+                {% endif %}
                 <br>
                 <br>
                 {% endfor %}

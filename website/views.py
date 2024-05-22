@@ -368,6 +368,7 @@ def add_book_chapter():
             return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
     return render_template("add_book_chapter.html", user=current_user)
 
+
 # Modification Part
 @views.route("/teacher/<teacher_id>/modify-journal-artical/<journal_artical_id>", methods=["GET", "POST"])
 @login_required
@@ -394,6 +395,7 @@ def modify_journal_artical(teacher_id, journal_artical_id):
 @views.route("/teacher/<teacher_id>/modify-proceeding-artical/<proceeding_artical_id>", methods=["GET", "POST"])
 @login_required
 def modify_proceeding_artical(teacher_id, proceeding_artical_id):
+    # If user wants to modify
     if request.method == "GET":
         artical = db.session.query(ProceedingArtical).filter_by(proceeding_artical_id=proceeding_artical_id).first()
         artical_to_mod = artical.to_dict()
@@ -416,6 +418,7 @@ def modify_proceeding_artical(teacher_id, proceeding_artical_id):
 @views.route("/teacher/<teacher_id>/modify-book-report/<book_report_id>", methods=["GET", "POST"])
 @login_required
 def modify_book_report(teacher_id, book_report_id):
+    # If user wants to modify
     if request.method == "GET":
         artical = db.session.query(BookReport).filter_by(book_report_id=book_report_id).first()
         artical_to_mod = artical.to_dict()
@@ -432,6 +435,28 @@ def modify_book_report(teacher_id, book_report_id):
 
         db.session.commit()
         flash("Modify Book Report", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-national-project/<national_project_id>", methods=["GET", "POST"])
+@login_required
+def modify_national_project(teacher_id, national_project_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(NationalProject).filter_by(national_project_id=national_project_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_national_project.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        time = submission["time"]
+        date_format = "%Y-%m-%d"
+        submission["time"] = datetime.strptime(time, date_format).date()
+        artical = db.session.query(NationalProject).filter_by(national_project_id=national_project_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify National Project", category="success")
         return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
 
@@ -461,6 +486,17 @@ def delete_book_report(teacher_id, book_report_id):
     db.session.delete(artical)
     db.session.commit()
     flash("Delete Book Report", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-national-project/<national_project_id>", methods=["GET", "POST"])
+@login_required
+def delete_national_project(teacher_id, national_project_id):
+    artical = db.session.query(NationalProject).filter_by(national_project_id=national_project_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete National Project", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+    
 
 # Edit introduction
 @views.route("/teacher/<teacher_id>/edit-introduction", methods=["GET", "POST"])

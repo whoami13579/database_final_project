@@ -506,6 +506,9 @@ class NationalProject(db.Model):
     def __repr__(self):
         return f"id: {self.national_project_id}, name: {self.name}, time: {self.time}, number: {self.number}, attribute: {self.attribute}, host: {self.host}, teacher_id: {self.teacher_id}"
 
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
+
 
 # university_industry_cooperation_projects
 class UniversityProject(db.Model):
