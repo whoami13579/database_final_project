@@ -149,6 +149,9 @@ class Reward(db.Model):
     def __repr__(self):
         return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}, teacher_id: {self.teacher_id}"
 
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
+
 
 class Patent(db.Model):
     __tablename__ = "patents"
@@ -302,8 +305,10 @@ class TeachingWork(db.Model):
             return False
         if self.teaching_work_type != other.teaching_work_type:
             return False
-
         return True
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 class Speech(db.Model):
@@ -325,6 +330,9 @@ class Speech(db.Model):
 
     def __repr__(self):
         return f"id: {self.speech_id}, name: {self.speech_id}, location: {self.location}, date: {self.date}, teacher_id: {self.teacher_id}"
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 # awards_and_honors
@@ -349,6 +357,9 @@ class Award(db.Model):
 
     def __repr__(self):
         return f"id: {self.award_id}, government: {self.government}, award name: {self.award_name}, year: {self.year}, students: {self.students}, teacher id: {self.teacher_id}"
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 class ProceedingArtical(db.Model):
@@ -431,6 +442,9 @@ class BookChapter(db.Model):
             return False
 
         return True
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 # books_and_technical_reports
@@ -531,3 +545,5 @@ class UniversityProject(db.Model):
     def __repr__(self):
         return f"id: {self.university_project_id}, name: {self.name}, time: {self.time}, host: {self.host}, teacher_id: {self.teacher_id}"
 
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}

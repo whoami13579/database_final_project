@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}修改教材與作品{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">修改教材與作品</h1>
+      <div class="mb-3">
+        <label for="publisher" class="form-label">Publisher</label>
+        {% if artical_to_mod['publisher']%}
+        <input value={{artical_to_mod['publisher']}} type="text" id="publisher" name="publisher" class="form-control" placeholder="Enter Publisher" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        {% if artical_to_mod['name']%}
+        <input value={{artical_to_mod['name']}} type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="authors" class="form-label">Authors</label>
+        {% if artical_to_mod['authors']%}
+        <input value={{artical_to_mod['authors']}} type="text" id="authors" name="authors" class="form-control" placeholder="Enter Authors" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="teaching_work_type" class="form-label">Teaching Work Type</label>
+        {% if artical_to_mod['teaching_work_type']%}
+        <input value={{artical_to_mod['teaching_work_type']}} type="text" id="teaching_work_type" name="teaching_work_type" class="form-control" placeholder="Enter Teaching Work Type" required>
+        {% endif %}
+      </div>
+      <button type="submit" class="btn btn-primary">SUBMIT</button>
+  </form>
+  <br>
+{% endblock %}

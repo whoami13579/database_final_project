@@ -216,6 +216,12 @@
             <div class="accordion-body">
                 {% for i in teacher.university_projects %}
                 <a>{{i.name}}, {{i.time}}, {{i.host}}</a>
+                {% if user.teacher_id == teacher.teacher_id %}
+                  <a href="/teacher/{{user.teacher_id}}/modify-university-project/{{i.university_project_id}}" class="add-class-btn">修改</a>
+                  <form action="/teacher/{{user.teacher_id}}/delete-university-project/{{i.university_project_id}}" onsubmit="return confirm('Do you really want to delete national project: {{ i.name }}')" method="post">
+                    <button type="submit" class="add-class-btn">刪除</button>
+                  </form>
+                {% endif %}
                 <br>
                 <br>
                 {% endfor %}
@@ -236,6 +242,12 @@
             <div class="accordion-body">
                 {% for i in teacher.awards %}
                 <a>{{i.government}}, {{i.award_name}}, {{i.year}}, {{i.students}}</a>
+                {% if user.teacher_id == teacher.teacher_id %}
+                  <a href="/teacher/{{user.teacher_id}}/modify-award/{{i.award_id}}" class="add-class-btn">修改</a>
+                  <form action="/teacher/{{user.teacher_id}}/delete-award/{{i.award_id}}" onsubmit="return confirm('Do you really want to delete award: {{ i.award_name }}')" method="post">
+                    <button type="submit" class="add-class-btn">刪除</button>
+                  </form>
+                {% endif %}
                 <br>
                 <br>
                 {% endfor %}
@@ -256,6 +268,12 @@
             <div class="accordion-body">
                 {% for i in teacher.rewards %}
                 <a>{{i.reward_time}}, {{i.award}}, {{i.school}}, {{i.attribute}}, {{i.name}}</a>
+                {% if user.teacher_id == teacher.teacher_id %}
+                  <a href="/teacher/{{user.teacher_id}}/modify-reward/{{i.reward_id}}" class="add-class-btn">修改</a>
+                  <form action="/teacher/{{user.teacher_id}}/delete-reward/{{i.reward_id}}" onsubmit="return confirm('Do you really want to delete reward: {{ i.name }}')" method="post">
+                    <button type="submit" class="add-class-btn">刪除</button>
+                  </form>
+                {% endif %}
                 <br>
                 <br>
                 {% endfor %}
@@ -276,6 +294,12 @@
             <div class="accordion-body">
                 {% for i in teacher.speeches %}
                 <a>{{i.name}}, {{i.location}}, {{i.date}}</a>
+                {% if user.teacher_id == teacher.teacher_id %}
+                  <a href="/teacher/{{user.teacher_id}}/modify-speech/{{i.speech_id}}" class="add-class-btn">修改</a>
+                  <form action="/teacher/{{user.teacher_id}}/delete-speech/{{i.speech_id}}" onsubmit="return confirm('Do you really want to delete speech: {{ i.name }}')" method="post">
+                    <button type="submit" class="add-class-btn">刪除</button>
+                  </form>
+                {% endif %}
                 <br>
                 <br>
                 {% endfor %}
@@ -302,6 +326,12 @@
                   {% endif %}
                   {{i.page_number_of_the_artical}}, {{i.time}}
                 </a>
+                {% if user.teacher_id == teacher.teacher_id %}
+                  <a href="/teacher/{{user.teacher_id}}/modify-book-chapter/{{i.book_chapter_id}}" class="add-class-btn">修改</a>
+                  <form action="/teacher/{{user.teacher_id}}/delete-book-chapter/{{i.book_chapter_id}}" onsubmit="return confirm('Do you really want to delete book chapter: {{ i.book_name }}')" method="post">
+                    <button type="submit" class="add-class-btn">刪除</button>
+                  </form>
+                {% endif %}
                 <br>
                 <br>
                 {% endfor %}
@@ -322,6 +352,12 @@
             <div class="accordion-body">
                 {% for i in teacher.teaching_works %}
                 <a>{{i.publisher}}, {{i.name}}, {{i.authors}}, {{i.teaching_work_type}}</a>
+                {% if user.teacher_id == teacher.teacher_id %}
+                  <a href="/teacher/{{user.teacher_id}}/modify-teaching-work/{{i.teaching_work_id}}" class="add-class-btn">修改</a>
+                  <form action="/teacher/{{user.teacher_id}}/delete-teaching-work/{{i.teaching_work_id}}" onsubmit="return confirm('Do you really want to delete teaching work: {{ i.name }}')" method="post">
+                    <button type="submit" class="add-class-btn">刪除</button>
+                  </form>
+                {% endif %}
                 <br>
                 <br>
                 {% endfor %}
