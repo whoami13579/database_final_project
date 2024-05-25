@@ -65,26 +65,49 @@
     {% if user.teacher_id == teacher.teacher_id %}
       <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-introduction">Edit</a>
     {% endif %}
+    <br>
+    <br>
 
   <h3>學歷</h3>
   <br>
   <pre>{{teacher.school}}</pre>
 
+    {% if user.teacher_id == teacher.teacher_id %}
+      <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-school">Edit</a>
+    {% endif %}
+    <br>
+    <br>
+
   <h3>專長</h3>
   <br>
   <pre>{{teacher.interest}}</pre>
+    {% if user.teacher_id == teacher.teacher_id %}
+      <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-interest">Edit</a>
+    {% endif %}
+    <br>
+    <br>
 
   <h3>校內經歷</h3>
   <br>
   {% for experience in teacher.internal_experiencs %}
-  <pre>{{experience.department}}</pre>
+  <pre>{{experience.department}} {{ experience.position }}</pre>
   {% endfor %}
+  {% if user.teacher_id == teacher.teacher_id %}
+  <a href="/add-internal-experience">新增校內經歷</a>
+  {% endif %}
+  <br>
+  <br>
 
   <h3>校外經歷</h3>
   <br>
   {% for experience in teacher.external_experiences %}
   <pre>{{experience.position}}</pre>
   {% endfor %}
+  {% if user.teacher_id == teacher.teacher_id %}
+  <a href="/add-external-experience">新增校外經歷</a>
+  {% endif %}
+  <br>
+  <br>
 
   <h3>論文及參與計畫</h3>
   <br>
