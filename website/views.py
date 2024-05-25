@@ -710,3 +710,19 @@ def edit_school(teacher_id):
         return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
     return render_template("school.html", user=current_user, teacher=teacher)
+
+
+@views.route("/teacher/<teacher_id>/edit-interest", methods=["GET", "POST"])
+@login_required
+def edit_interest(teacher_id):
+    teacher = Teacher.query.filter_by(teacher_id = teacher_id).first()
+    if request.method == "POST":
+        interest = request.form.get("interest")
+        teacher.interest = interest
+
+        db.session.commit()
+        flash("Change saved", category="success")
+
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("interest.html", user=current_user, teacher=teacher)
