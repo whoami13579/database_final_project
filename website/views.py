@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, ClassSchedule, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork
+from .models import Role, Teacher, ClassSchedule, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork, InternalExperience
 from . import db
 from datetime import datetime
 
@@ -726,3 +726,22 @@ def edit_interest(teacher_id):
         return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
     return render_template("interest.html", user=current_user, teacher=teacher)
+
+
+@views.route("/add-internal-experience/", methods=["GET", "POST"])
+@login_required
+def add_internal_experience():
+    if request.method == "POST":
+        department = request.form.get("department")
+        position = request.form.get("position")
+
+        experience = InternalExperience(department, position, current_user.get_id())
+
+        experience.teacher = current_user
+        db.session.add(experience)
+        db.session.commit()
+
+        flash("Add Internal Experience", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("add_internal_experience.html", user=current_user)
