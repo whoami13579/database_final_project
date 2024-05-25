@@ -70,6 +70,10 @@
   <br>
   <pre>{{teacher.school}}</pre>
 
+    {% if user.teacher_id == teacher.teacher_id %}
+      <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-school">Edit</a>
+    {% endif %}
+
   <h3>專長</h3>
   <br>
   <pre>{{teacher.interest}}</pre>
