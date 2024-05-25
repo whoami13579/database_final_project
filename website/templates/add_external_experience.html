@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Add External Experience{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">Add External Experience</h1>
+      <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="mb-3">
+        <label for="school" class="form-label">School</label>
+        <input type="text" id="school" name="school" class="form-control" placeholder="Enter School" required>
+      </div>
+      <div class="mb-3">
+        <label for="department" class="form-label">Department</label>
+        <input type="text" id="department" name="department" class="form-control" placeholder="Enter Department" required>
+      </div>
+      <div class="mb-3">
+        <label for="position" class="form-label">Position</label>
+        <input type="text" id="position" name="position" class="form-control" placeholder="Enter Position" required>
+      </div>
+      <button type="submit" class="btn btn-primary">ADD</button>
+  </form>
+  <br>
+{% endblock %}

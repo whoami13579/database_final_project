@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, ClassSchedule, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork, InternalExperience
+from .models import Role, Teacher, ClassSchedule, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork, InternalExperience, ExternalExperience
 from . import db
 from datetime import datetime
 
@@ -745,3 +745,27 @@ def add_internal_experience():
         return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
     return render_template("add_internal_experience.html", user=current_user)
+
+
+@views.route("/add-external-experience/", methods=["GET", "POST"])
+@login_required
+def add_external_experience():
+    if request.method == "POST":
+        date = request.form.get("date")
+        school = request.form.get("school")
+        department = request.form.get("department")
+        position = request.form.get("position")
+
+        date_format = "%Y-%m-%d"
+        date = datetime.strptime(date, date_format).date()
+
+        experience = ExternalExperience(date, school, department, position, current_user.get_id())
+
+        experience.teacher = current_user
+        db.session.add(experience)
+        db.session.commit()
+
+        flash("Add Internal Experience", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("add_external_experience.html", user=current_user)
