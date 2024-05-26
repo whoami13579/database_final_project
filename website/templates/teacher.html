@@ -44,11 +44,31 @@
   form {
     display: inline-block;
   }
+  .img-thumbnail {
+    width: 200px;
+    height: 200px;
+  }
 </style>
 
 <div align="center">
-  <!-- <img src="./static/images/{{teacher.photo}}" class="img-thumbnail" alt="..."> -->
-  <img src="{{ url_for('static', filename='images/' ~ teacher.photo) }}" class="img-thumbnail" alt="...">
+  {% if teacher.photo %}
+    <!-- <img src="./static/images/{{teacher.photo}}" class="img-thumbnail" alt="..."> -->
+    <img src="{{ url_for('static', filename='images/' ~ teacher.photo) }}" class="img-thumbnail" alt="...">
+  {% else %}
+    <img src="{{ url_for('static', filename='images/default.jpg') }}" class="img-thumbnail" alt="..." loading="lazy">
+  {% endif %}
+  {% if user.teacher_id == teacher.teacher_id %}
+    <br>
+    <button type="button" id="edit-photo-btn" class="btn btn-primary">Edit photo</button>
+    <div id="edit-photo" style="display: none;">
+      <form method="POST" action="/teacher/{{user.teacher_id}}/edit-photo" enctype="multipart/form-data">
+        <label for="photo">Select image:</label>
+        <input type="file" id="img" name="img" accept="image/*">
+        <input type="submit" value="upload" class="btn btn-primary">
+      </form>
+    </div>
+  {% endif %}
+
   <h1>{{teacher.name}}</h1>
 
   <h3>信箱: {{teacher.email}}</h3>

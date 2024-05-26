@@ -14,4 +14,19 @@ document.addEventListener('DOMContentLoaded', function () {
             $('.collapse').collapse('hide')
         })
     }
+
+    var editPhotoBtn = document.getElementById('edit-photo-btn')
+    if (editPhotoBtn != null) {
+        editPhotoBtn.addEventListener('click', function() {
+            var editPhotoDiv = document.getElementById('edit-photo')
+            if (editPhotoDiv != null) {
+                if (editPhotoDiv.style.display === 'none'){
+                    editPhotoDiv.style.display = 'block'
+                }
+                else {
+                    editPhotoDiv.style.display = 'none'
+                }
+            }
+        })
+    }
 });

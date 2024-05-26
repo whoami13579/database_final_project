@@ -3,9 +3,11 @@ from flask_login import current_user, login_required
 from .models import Role, Teacher, ClassSchedule, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork, InternalExperience, ExternalExperience
 from . import db
 from datetime import datetime
+import os, sys
 
 views = Blueprint("views", __name__)
 
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "static/images/")
 
 @views.route("/")
 @views.route("/home")
@@ -711,6 +713,24 @@ def edit_school(teacher_id):
 
     return render_template("school.html", user=current_user, teacher=teacher)
 
+
+@views.route("/teacher/<teacher_id>/edit-photo", methods=["POST"])
+@login_required
+def edit_photo(teacher_id):
+    img = request.files['img']
+    if img.filename != '':
+        # Save image file
+        file_name = teacher_id + os.path.splitext(os.path.basename(img.filename))[1]
+        file_path = os.path.join(UPLOAD_FOLDER, file_name)
+        img.save(file_path)
+        # Update database
+        teacher = Teacher.query.filter_by(teacher_id = teacher_id).first()
+        teacher.photo = file_name
+        db.session.commit()
+    else:
+        flash("Please choose an image", category='error')
+
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
 @views.route("/teacher/<teacher_id>/edit-interest", methods=["GET", "POST"])
 @login_required

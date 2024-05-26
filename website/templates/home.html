@@ -33,7 +33,7 @@
         <h2>{{role.role_name}}</h2>
         {% for teacher in role.teachers %}
         <div class="card" style="width: 18rem;">
-          <img src="./static/images/{{teacher.photo}}" class="card-img-top" alt="...">
+          <img src="./static/images/{{teacher.photo}}" class="card-img-top" alt="..." loading="lazy">
           <div class="card-body">
             <h5 class="card-title">{{teacher.name}}</h5>
             <p class="card-text introduction">{{teacher.self_introduction}}</p>
