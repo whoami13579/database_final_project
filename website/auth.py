@@ -17,6 +17,7 @@ def sign_up():
         password2 = request.form.get("password2")
         role_type = request.form.get("role_type")
         role_id = ord(role_type) - ord("0")
+        verification = request.form.get("verification")
 
         if Teacher.query.filter_by(email=email).first():
             flash("Email is already in use.", category="error")
@@ -26,6 +27,8 @@ def sign_up():
             flash("Passwords don\'t match.", category="error")
         # elif role_id == 0:
         #     flash("Please choose a role.", category="error")
+        elif verification != "chuchuchu":
+            flash("Wrong verification", category="error")
         else:
             role = Role.query.filter_by(role_id=role_id).first()
             teacher = Teacher(email, name, generate_password_hash(password1), role_id)

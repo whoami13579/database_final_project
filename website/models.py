@@ -103,6 +103,7 @@ class Teacher(db.Model, UserMixin):
         self.password = password
         self.role_id = role_id
         self.self_introduction = ""
+        self.photo = "default.jpg"
     
     def get_id(self):
         return (self.teacher_id)
