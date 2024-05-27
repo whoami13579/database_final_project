@@ -8,6 +8,14 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   }
+  /* Handmade CSS Part */
+  #role-sep{
+    margin-top: 5%;
+    margin-bottom: 2.5%;
+    padding: 2% 0;
+    border-top: 1px dashed #aaa;
+    border-bottom: 1px dashed #aaa;
+  }
 </style>
 <div align="center">
     <h1>Home Page</h1>
@@ -30,7 +38,7 @@
       </div>
 
       {% for role in roles %}
-        <h2>{{role.role_name}}</h2>
+        <h2 id="role-sep">{{role.role_name}}</h2>
         {% for teacher in role.teachers %}
         <div class="card" style="width: 18rem;">
           <img src="./static/images/{{teacher.photo}}" class="card-img-top" alt="..." loading="lazy">
