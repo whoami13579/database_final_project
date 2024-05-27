@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}修改國科會計畫{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">修改國科會計畫</h1>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        {% if artical_to_mod["name"] %}
+        <input value={{artical_to_mod['name']}} type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="time" class="form-label">Time</label>
+        {% if artical_to_mod["time"] %}
+        <input value={{artical_to_mod['time']}} type="date" id="time" name="time" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="number" class="form-label">Number</label>
+        {% if artical_to_mod["number"] %}
+        <input value={{artical_to_mod['number']}} type="text" id="number" name="number" class="form-control" placeholder="Enter Number" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="attribute" class="form-label">Attribute</label>
+        {% if artical_to_mod["attribute"] %}
+        <input value={{artical_to_mod['attribute']}} type="text" id="attribute" name="attribute" class="form-control" placeholder="Enter Attribute" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="host" class="form-label">Host</label>
+        <select id="host" name="host" class="form-select" required>
+            {% if artical_to_mod["host"] %}
+                <option value={{artical_to_mod['host']}}>{{artical_to_mod['host']}}</option>
+            {% else %}
+                <option value="" disabled selected>職位名稱</option>
+            {% endif %}
+            <option value="主持人">主持人</option>
+            <option value="共同主持人">共同主持人</option>
+            <option value="協同主持人">協同主持人</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">SUBMIT</button>
+  </form>
+  <br>
+{% endblock %}

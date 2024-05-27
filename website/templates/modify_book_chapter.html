@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}修改專書論文{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">修改專書論文</h1>
+      <div class="mb-3">
+        <label for="book_name" class="form-label">Book Name</label>
+        {% if artical_to_mod['book_name']%}
+        <input value={{artical_to_mod['book_name']}} type="text" id="book_name" name="book_name" class="form-control" placeholder="Enter Book Name" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="collaborators" class="form-label">Collaborators</label>
+        {% if artical_to_mod['collaborators']%}
+        <input value={{artical_to_mod['collaborators']}} type="text" id="collaborators" name="collaborators" class="form-control" placeholder="Enter Collaborators">
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="page_number_of_the_artical" class="form-label">Page Number of the Artical</label>
+        {% if artical_to_mod['page_number_of_artical']%}
+        <input value={{artical_to_mod['page_number_of_artical']}} type="text" id="page_number_of_the_artical" name="page_number_of_the_artical" class="form-control" placeholder="Enter Page Number of the Artical" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="time" class="form-label">Time</label>
+        {% if artical_to_mod['time']%}
+        <input value={{artical_to_mod['time']}} type="date" id="time" name="time"  required>
+        {% endif %}
+      </div>
+      <button type="submit" class="btn btn-primary">SUBMIT</button>
+  </form>
+  <br>
+{% endblock %}

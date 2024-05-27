@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from .models import Role, Teacher, ClassSchedule, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork
+from .models import Role, Teacher, ClassSchedule, JournalArtical, ProceedingArtical, BookReport, NationalProject, UniversityProject, Award, Reward, Speech, BookChapter, TeachingWork, InternalExperience, ExternalExperience
 from . import db
 from datetime import datetime
+import os, sys
 
 views = Blueprint("views", __name__)
 
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "static/images/")
 
 @views.route("/")
 @views.route("/home")
@@ -174,9 +176,9 @@ def add_national_project():
         attribute = request.form.get("attribute")
         host = request.form.get("host")
 
-        if host == "0":
-            flash("請選擇職位名稱", category="error")
-            return render_template("add_national_project.html", user=current_user)
+        # if host == "0":
+        #     flash("請選擇職位名稱", category="error")
+        #     return render_template("add_national_project.html", user=current_user)
 
         date_format = "%Y-%m-%d"
         time = datetime.strptime(time, date_format).date()
@@ -206,10 +208,9 @@ def add_university_project():
         time = request.form.get("time")
         host = request.form.get("host")
 
-        if host == "0":
-            flash("請選擇職位名稱", category="error")
-            return render_template("add_university_project.html", user=current_user)
-        
+        # if host == "0":
+        #     flash("請選擇職位名稱", category="error")
+        #     return render_template("add_university_project.html", user=current_user)
 
         date_format = "%Y-%m-%d"
         time = datetime.strptime(time, date_format).date()
@@ -370,7 +371,317 @@ def add_book_chapter():
     return render_template("add_book_chapter.html", user=current_user)
 
 
+# Modification Part
+@views.route("/teacher/<teacher_id>/modify-journal-artical/<journal_artical_id>", methods=["GET", "POST"])
+@login_required
+def modify_journal_artical(teacher_id, journal_artical_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id).first()
+        artical_to_mod = artical.to_dict()
+        return render_template("modify_journal_artical.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        indexed_time = submission["indexed_time"]
+        date_format = "%Y-%m-%d"
+        submission["indexed_time"] = datetime.strptime(indexed_time, date_format).date()
 
+        artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Journal Artical", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-proceeding-artical/<proceeding_artical_id>", methods=["GET", "POST"])
+@login_required
+def modify_proceeding_artical(teacher_id, proceeding_artical_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(ProceedingArtical).filter_by(proceeding_artical_id=proceeding_artical_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_proceeding_artical.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        time = submission["time"]
+        date_format = "%Y-%m-%d"
+        submission["time"] = datetime.strptime(time, date_format).date()
+
+        artical = db.session.query(ProceedingArtical).filter_by(proceeding_artical_id=proceeding_artical_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Proceeding Artical", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-book-report/<book_report_id>", methods=["GET", "POST"])
+@login_required
+def modify_book_report(teacher_id, book_report_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(BookReport).filter_by(book_report_id=book_report_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_book_report.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        date = submission["date"]
+        date_format = "%Y-%m-%d"
+        submission["date"] = datetime.strptime(date, date_format).date()
+        artical = db.session.query(BookReport).filter_by(book_report_id=book_report_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Book Report", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-national-project/<national_project_id>", methods=["GET", "POST"])
+@login_required
+def modify_national_project(teacher_id, national_project_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(NationalProject).filter_by(national_project_id=national_project_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_national_project.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        time = submission["time"]
+        date_format = "%Y-%m-%d"
+        submission["time"] = datetime.strptime(time, date_format).date()
+        artical = db.session.query(NationalProject).filter_by(national_project_id=national_project_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify National Project", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-university-project/<university_project_id>", methods=["GET", "POST"])
+@login_required
+def modify_university_project(teacher_id, university_project_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(UniversityProject).filter_by(university_project_id=university_project_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_university_project.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        time = submission["time"]
+        date_format = "%Y-%m-%d"
+        submission["time"] = datetime.strptime(time, date_format).date()
+        artical = db.session.query(UniversityProject).filter_by(university_project_id=university_project_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify University Project", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-award/<award_id>", methods=["GET", "POST"])
+@login_required
+def modify_award(teacher_id, award_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(Award).filter_by(award_id=award_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_award.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        submission["year"] = int(submission["year"])
+        artical = db.session.query(Award).filter_by(award_id=award_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Award", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-reward/<reward_id>", methods=["GET", "POST"])
+@login_required
+def modify_reward(teacher_id, reward_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(Reward).filter_by(reward_id=reward_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_reward.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        reward_time = submission["reward_time"]
+        date_format = "%Y-%m-%d"
+        submission["reward_time"] = datetime.strptime(reward_time, date_format).date()
+        artical = db.session.query(Reward).filter_by(reward_id=reward_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Reward", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-speech/<speech_id>", methods=["GET", "POST"])
+@login_required
+def modify_speech(teacher_id, speech_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(Speech).filter_by(speech_id=speech_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_speech.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        date = submission["date"]
+        date_format = "%Y-%m-%d"
+        submission["date"] = datetime.strptime(date, date_format).date()
+        artical = db.session.query(Speech).filter_by(speech_id=speech_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Speech", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-book-chapter/<book_chapter_id>", methods=["GET", "POST"])
+@login_required
+def modify_book_chapter(teacher_id, book_chapter_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(BookChapter).filter_by(book_chapter_id=book_chapter_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_book_chapter.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        time = submission["time"]
+        date_format = "%Y-%m-%d"
+        submission["time"] = datetime.strptime(time, date_format).date()
+        artical = db.session.query(BookChapter).filter_by(book_chapter_id=book_chapter_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Book Chapter", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/modify-teaching-work/<teaching_work_id>", methods=["GET", "POST"])
+@login_required
+def modify_teaching_work(teacher_id, teaching_work_id):
+    # If user wants to modify
+    if request.method == "GET":
+        artical = db.session.query(TeachingWork).filter_by(teaching_work_id=teaching_work_id).first()
+        artical_to_mod = artical.to_dict()
+
+        return render_template("modify_teaching_work.html", user=current_user.get_id(), artical_to_mod=artical_to_mod)
+    # Else if user submit the modify
+    else:
+        submission = request.form.to_dict()
+        artical = db.session.query(TeachingWork).filter_by(teaching_work_id=teaching_work_id)
+        artical.update(submission)
+
+        db.session.commit()
+        flash("Modify Teaching Work", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+
+# Deletion Part
+@views.route("/teacher/<teacher_id>/delete-journal-artical/<journal_artical_id>", methods=["POST"])
+@login_required
+def delete_journal_artical(teacher_id, journal_artical_id):
+    artical = db.session.query(JournalArtical).filter_by(journal_artical_id=journal_artical_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Journal Artical", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-proceeding-artical/<proceeding_artical_id>", methods=["POST"])
+@login_required
+def delete_proceeding_artical(teacher_id, proceeding_artical_id):
+    artical = db.session.query(ProceedingArtical).filter_by(proceeding_artical_id=proceeding_artical_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Proceeding Artical", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-book-report/<book_report_id>", methods=["GET", "POST"])
+@login_required
+def delete_book_report(teacher_id, book_report_id):
+    artical = db.session.query(BookReport).filter_by(book_report_id=book_report_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Book Report", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-national-project/<national_project_id>", methods=["GET", "POST"])
+@login_required
+def delete_national_project(teacher_id, national_project_id):
+    artical = db.session.query(NationalProject).filter_by(national_project_id=national_project_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete National Project", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-university-project/<university_project_id>", methods=["GET", "POST"])
+@login_required
+def delete_university_project(teacher_id, university_project_id):
+    artical = db.session.query(UniversityProject).filter_by(university_project_id=university_project_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete University Project", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-award/<award_id>", methods=["GET", "POST"])
+@login_required
+def delete_award(teacher_id, award_id):
+    artical = db.session.query(Award).filter_by(award_id=award_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Award", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-reward/<reward_id>", methods=["GET", "POST"])
+@login_required
+def delete_reward(teacher_id, reward_id):
+    artical = db.session.query(Reward).filter_by(reward_id=reward_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Reward", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-speech/<speech_id>", methods=["GET", "POST"])
+@login_required
+def delete_speech(teacher_id, speech_id):
+    artical = db.session.query(Speech).filter_by(speech_id=speech_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Speech", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-book-chapter/<book_chapter_id>", methods=["GET", "POST"])
+@login_required
+def delete_book_chapter(teacher_id, book_chapter_id):
+    artical = db.session.query(BookChapter).filter_by(book_chapter_id=book_chapter_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Book Chapter", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/delete-teaching-work/<teaching_work_id>", methods=["GET", "POST"])
+@login_required
+def delete_teaching_work(teacher_id, teaching_work_id):
+    artical = db.session.query(TeachingWork).filter_by(teaching_work_id=teaching_work_id).first()
+    db.session.delete(artical)
+    db.session.commit()
+    flash("Delete Teaching Work", category="success")
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+
+# Edit introduction
 @views.route("/teacher/<teacher_id>/edit-introduction", methods=["GET", "POST"])
 @login_required
 def edit_introduction(teacher_id):
@@ -385,3 +696,96 @@ def edit_introduction(teacher_id):
         return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
     return render_template("self_introduction.html", user=current_user, teacher=teacher)
+
+
+@views.route("/teacher/<teacher_id>/edit-school", methods=["GET", "POST"])
+@login_required
+def edit_school(teacher_id):
+    teacher = Teacher.query.filter_by(teacher_id = teacher_id).first()
+    if request.method == "POST":
+        school = request.form.get("school")
+        teacher.school = school
+
+        db.session.commit()
+        flash("Change saved", category="success")
+
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("school.html", user=current_user, teacher=teacher)
+
+
+@views.route("/teacher/<teacher_id>/edit-photo", methods=["POST"])
+@login_required
+def edit_photo(teacher_id):
+    img = request.files['img']
+    if img.filename != '':
+        # Save image file
+        file_name = teacher_id + os.path.splitext(os.path.basename(img.filename))[1]
+        file_path = os.path.join(UPLOAD_FOLDER, file_name)
+        img.save(file_path)
+        # Update database
+        teacher = Teacher.query.filter_by(teacher_id = teacher_id).first()
+        teacher.photo = file_name
+        db.session.commit()
+    else:
+        flash("Please choose an image", category='error')
+
+    return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+@views.route("/teacher/<teacher_id>/edit-interest", methods=["GET", "POST"])
+@login_required
+def edit_interest(teacher_id):
+    teacher = Teacher.query.filter_by(teacher_id = teacher_id).first()
+    if request.method == "POST":
+        interest = request.form.get("interest")
+        teacher.interest = interest
+
+        db.session.commit()
+        flash("Change saved", category="success")
+
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("interest.html", user=current_user, teacher=teacher)
+
+
+@views.route("/add-internal-experience/", methods=["GET", "POST"])
+@login_required
+def add_internal_experience():
+    if request.method == "POST":
+        department = request.form.get("department")
+        position = request.form.get("position")
+
+        experience = InternalExperience(department, position, current_user.get_id())
+
+        experience.teacher = current_user
+        db.session.add(experience)
+        db.session.commit()
+
+        flash("Add Internal Experience", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("add_internal_experience.html", user=current_user)
+
+
+@views.route("/add-external-experience/", methods=["GET", "POST"])
+@login_required
+def add_external_experience():
+    if request.method == "POST":
+        date = request.form.get("date")
+        school = request.form.get("school")
+        department = request.form.get("department")
+        position = request.form.get("position")
+
+        date_format = "%Y-%m-%d"
+        date = datetime.strptime(date, date_format).date()
+
+        experience = ExternalExperience(date, school, department, position, current_user.get_id())
+
+        experience.teacher = current_user
+        db.session.add(experience)
+        db.session.commit()
+
+        flash("Add Internal Experience", category="success")
+        return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
+
+    return render_template("add_external_experience.html", user=current_user)

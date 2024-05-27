@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}School{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">School</h1>
+      <div class="mb-3">
+        <label for="school" class="form-label">School</label>
+        <br>
+        <textarea class="form-control" id="school" name="school" rows="10">{{teacher.school}}</textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+  <br>
+{% endblock %}

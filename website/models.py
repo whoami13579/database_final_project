@@ -103,6 +103,7 @@ class Teacher(db.Model, UserMixin):
         self.password = password
         self.role_id = role_id
         self.self_introduction = ""
+        self.photo = "default.jpg"
     
     def get_id(self):
         return (self.teacher_id)
@@ -112,7 +113,7 @@ class Teacher(db.Model, UserMixin):
     name = db.Column(db.String(50))
     password = db.Column(db.String(150))
     self_introduction = db.Column(db.String(500), nullable=True)
-    photo_path = db.Column(db.String(150), nullable=True)
+    photo = db.Column(db.String(150), nullable=True)
     offict_phone = db.Column(db.String(10), nullable=True)
     personal_website = db.Column(db.String(150), nullable=True)
     interest = db.Column(db.String(150), nullable=True)
@@ -148,6 +149,9 @@ class Reward(db.Model):
 
     def __repr__(self):
         return f"id: {self.reward_id}, time: {self.reward_time}, award: {self.award}, school: {self.school}, attribute: {self.attribute}, name: {self.name}, teacher_id: {self.teacher_id}"
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 class Patent(db.Model):
@@ -262,8 +266,10 @@ class JournalArtical(db.Model):
             return False
         if self.indexed_time != other.indexed_time:
             return False
-         
         return True
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 # teaching_materials_and_works
@@ -300,8 +306,10 @@ class TeachingWork(db.Model):
             return False
         if self.teaching_work_type != other.teaching_work_type:
             return False
-
         return True
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 class Speech(db.Model):
@@ -323,6 +331,9 @@ class Speech(db.Model):
 
     def __repr__(self):
         return f"id: {self.speech_id}, name: {self.speech_id}, location: {self.location}, date: {self.date}, teacher_id: {self.teacher_id}"
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 # awards_and_honors
@@ -347,6 +358,9 @@ class Award(db.Model):
 
     def __repr__(self):
         return f"id: {self.award_id}, government: {self.government}, award name: {self.award_name}, year: {self.year}, students: {self.students}, teacher id: {self.teacher_id}"
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 class ProceedingArtical(db.Model):
@@ -391,9 +405,10 @@ class ProceedingArtical(db.Model):
             return False
         if self.time != other.time:
             return False
-        
         return True
 
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 class BookChapter(db.Model):
     __tablename__ = "book_chapters"
@@ -428,6 +443,9 @@ class BookChapter(db.Model):
             return False
 
         return True
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 # books_and_technical_reports
@@ -472,8 +490,10 @@ class BookReport(db.Model):
             return False
         if self.date != other.date:
             return False
-
         return True
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
 
 
 # national_science_and_technology_council_projects
@@ -501,6 +521,9 @@ class NationalProject(db.Model):
     def __repr__(self):
         return f"id: {self.national_project_id}, name: {self.name}, time: {self.time}, number: {self.number}, attribute: {self.attribute}, host: {self.host}, teacher_id: {self.teacher_id}"
 
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
+
 
 # university_industry_cooperation_projects
 class UniversityProject(db.Model):
@@ -523,3 +546,5 @@ class UniversityProject(db.Model):
     def __repr__(self):
         return f"id: {self.university_project_id}, name: {self.name}, time: {self.time}, host: {self.host}, teacher_id: {self.teacher_id}"
 
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}
