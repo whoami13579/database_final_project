@@ -121,7 +121,7 @@
   <h3>校外經歷</h3>
   <br>
   {% for experience in teacher.external_experiences %}
-  <pre>{{experience.position}}</pre>
+  <pre>{{experience.school}} {{experience.department}} {{experience.position}}</pre>
   {% endfor %}
   {% if user.teacher_id == teacher.teacher_id %}
   <a href="/add-external-experience">新增校外經歷</a>
