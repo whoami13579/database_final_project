@@ -9,8 +9,12 @@
   -webkit-box-orient: vertical;
   }
   /* Handmade CSS Part */
-  #role-sep{
-    margin-top: 5%;
+  #home-page {
+    margin-top: 2.25%;
+    margin-bottom: 1.5%;
+  }
+  #role-sep {
+    margin-top: 3.5%;
     margin-bottom: 2.5%;
     padding: 2% 0;
     border-top: 1px dashed #aaa;
@@ -18,7 +22,7 @@
   }
 </style>
 <div align="center">
-    <h1>Home Page</h1>
+    <h1 id="home-page">Home Page</h1>
 
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,4 +59,8 @@
     {% if user.is_authenticated %}
     {% endif %}
 </div>
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
 {% endblock %}
