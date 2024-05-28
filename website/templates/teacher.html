@@ -48,6 +48,20 @@
     width: 200px;
     height: 200px;
   }
+
+  .flash-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    margin-top: 20px;
+}
 </style>
 
 <div align="center">
@@ -72,6 +86,32 @@
   <h1>{{teacher.name}}</h1>
 
   <h3>信箱: {{teacher.email}}</h3>
+
+  <h3>信箱: <span id="teacher-email">john.doe@example.com</span></h3>
+
+  <button onclick="copyEmail()" class="add-class-btn">信箱</button>
+
+  <div id="flash-message" class="flash-message">複製成功</div>
+
+  <script>
+      function copyEmail() {
+          const emailElement = document.getElementById('teacher-email');
+          const email = emailElement.textContent;
+
+          const tempTextArea = document.createElement('textarea');
+          tempTextArea.value = email;
+          document.body.appendChild(tempTextArea);
+          tempTextArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempTextArea);
+
+          const flashMessage = document.getElementById('flash-message');
+          flashMessage.style.display = 'block';
+          setTimeout(() => {
+              flashMessage.style.display = 'none';
+          }, 2000);
+      }
+  </script>
 
     <div class="accordion-body">
       <a href="/teacher/{{teacher.teacher_id}}/class-schedule" class="add-class-btn">課表時間</a>
@@ -121,7 +161,7 @@
   <h3>校外經歷</h3>
   <br>
   {% for experience in teacher.external_experiences %}
-  <pre>{{experience.position}}</pre>
+  <pre>{{experience.school}} {{experience.department}} {{experience.position}}</pre>
   {% endfor %}
   {% if user.teacher_id == teacher.teacher_id %}
   <a href="/add-external-experience">新增校外經歷</a>
