@@ -32,17 +32,8 @@
   th {
     background-color: #dedede;
   }
-  .class-btn {
-      display: inline-block;
-      padding: 8px 16px;
-      color: rgb(60, 60, 60);
-      border: 2px solid rgb(60, 60, 60);
-      background-color: white;
-      border-radius: 20px;
-      text-decoration: none;
-      text-align: center;
-  }
 
+  .class-btn,
   .add-class-btn {
     display: inline-block;
     padding: 8px 16px;
@@ -53,6 +44,7 @@
     text-decoration: none;
     text-align: center;
   }
+
 
   .add-class-btn:hover {
     background-color: #f0f0f0;
@@ -196,6 +188,10 @@
     margin-bottom: 1.5%;
   }
 
+  .lunwen-align {
+    text-align: center;
+  }
+
   .add-lunwen {
     text-align: center;
   }
@@ -212,7 +208,7 @@
     border-radius: 5px;
     z-index: 1000;
     margin-top: 20px;
-}
+  }
 </style>
 
 <div id="container">
@@ -235,59 +231,60 @@
       </div>
       {% endif %}
     </div> <!-- end teacher-photo -->
-
+    <!-- contact -->
     <div id="teacher-contact">
       <div id="teacher-contact-content">
         <h1 id="teacher-name">{{teacher.name}}</h1>
 
-    <div class="accordion-body">
-      <a href="/teacher/{{teacher.teacher_id}}/class-schedule" class="class-btn" role="button">課表時間</a>
+        <div class="accordion-body">
+          <!-- <a href="/teacher/{{teacher.teacher_id}}/class-schedule" class="class-btn" role="button">課表時間</a> -->
 
-        <!-- <h3 id="teacher-self-intro">個人簡介</h3> -->
-        <br>
-        <div class="wrapper">
-          <p class="demo-1" align="left">{{teacher.self_introduction}}</p>
+          <!-- <h3 id="teacher-self-intro">個人簡介</h3> -->
+          <br>
+          <div class="wrapper">
+            <p class="demo-1" align="left">{{teacher.self_introduction}}</p>
+          </div>
+          {% if user.teacher_id == teacher.teacher_id %}
+          <div id="edit-self-intro">
+            <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-introduction">Edit self-intro</a>
+          </div>
+          {% endif %}
+
+          <button onclick="copyEmail()" class="add-class-btn" id="cpy-btn" value="{{teacher.email}}">
+            信箱: {{teacher.email}}
+          </button>
+
+          <div id="flash-message" class="flash-message">複製成功</div>
+
+          <script>
+            function copyEmail() {
+              const email = document.getElementById('cpy-btn').value;
+
+              const tempTextArea = document.createElement('textarea');
+              tempTextArea.value = email;
+              document.body.appendChild(tempTextArea);
+              tempTextArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(tempTextArea);
+
+              const flashMessage = document.getElementById('flash-message');
+              flashMessage.style.display = 'block';
+              setTimeout(() => {
+                flashMessage.style.display = 'none';
+              }, 2000);
+            }
+          </script>
+
+
+          <div class="accordion-body" id="teacher-class-schedule">
+            <a href="/teacher/{{teacher.teacher_id}}/class-schedule" class="add-class-btn">課表時間</a>
+          </div>
+
         </div>
-        {% if user.teacher_id == teacher.teacher_id %}
-        <div id="edit-self-intro">
-          <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-introduction">Edit self-intro</a>
-        </div>
-        {% endif %}
-
-  <button onclick="copyEmail()" class="add-class-btn" id="cpy-btn" value="{{teacher.email}}">
-    信箱: {{teacher.email}}
-  </button>
-
-  <div id="flash-message" class="flash-message">複製成功</div>
-
-  <script>
-      function copyEmail() {
-          const email = document.getElementById('cpy-btn').value;
-
-          const tempTextArea = document.createElement('textarea');
-          tempTextArea.value = email;
-          document.body.appendChild(tempTextArea);
-          tempTextArea.select();
-          document.execCommand('copy');
-          document.body.removeChild(tempTextArea);
-
-          const flashMessage = document.getElementById('flash-message');
-          flashMessage.style.display = 'block';
-          setTimeout(() => {
-              flashMessage.style.display = 'none';
-          }, 2000);
-      }
-  </script>
-
-
-        <div class="accordion-body" id="teacher-class-schedule">
-          <a href="/teacher/{{teacher.teacher_id}}/class-schedule" class="add-class-btn">課表時間</a>
-        </div>
-
       </div>
+      <br><br>
     </div>
-    <br>
-    <br>
+
 
     <div id="teacher-edu">
       <h3>學歷</h3>
@@ -295,7 +292,8 @@
       <pre>{{teacher.school}}</pre>
 
       {% if user.teacher_id == teacher.teacher_id %}
-      <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-school">Edit educational qualifications</a>
+      <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-school">Edit educational
+        qualifications</a>
       {% endif %}
       <br>
 
@@ -330,8 +328,9 @@
       </div>
       {% endif %}
     </div> <!-- end teacher-edu -->
-    <br>
   </div>
+  <br>
+
 
   <div id="teacher-lunwen">
     <h3 id="lunwen">論文及參與計畫</h3>
@@ -348,8 +347,9 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.journal_articals %}
+            <strong>{{loop.index}}.</strong>
             <a>
               {{i.course_name}}, {{i.journal_name}},
               {% if i.collaborators != "" %}
@@ -387,8 +387,9 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.proceeding_articals%}
+            <strong>{{loop.index}}.</strong>
             <a>
               {{i.artical_name}},
               {% if i.collaborators != "" %}
@@ -426,9 +427,12 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.book_reports %}
-            <a>{{i.book_report_type}}, {{i.authors}}, {{i.name}}, {{i.publisher}}, {{i.country}}, {{i.date}}</a>
+            <strong>{{loop.index}}.</strong>
+            <a>
+              {{i.book_report_type}}, {{i.authors}}, {{i.name}}, {{i.publisher}}, {{i.country}}, {{i.date}}
+            </a>
             {% if user.teacher_id == teacher.teacher_id %}
             <a href="/teacher/{{user.teacher_id}}/modify-book-report/{{i.book_report_id}}" class="add-class-btn">修改</a>
             <form action="/teacher/{{user.teacher_id}}/delete-book-report/{{i.book_report_id}}"
@@ -457,9 +461,12 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.national_projects %}
-            <a>{{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}, {{i.host}}</a>
+            <strong>{{loop.index}}.</strong>
+            <a>
+              {{i.name}}, {{i.time}}, {{i.number}}, {{i.attribute}}, {{i.host}}
+            </a>
             {% if user.teacher_id == teacher.teacher_id %}
             <a href="/teacher/{{user.teacher_id}}/modify-national-project/{{i.national_project_id}}"
               class="add-class-btn">修改</a>
@@ -489,9 +496,12 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapse5" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.university_projects %}
-            <a>{{i.name}}, {{i.time}}, {{i.host}}</a>
+            <strong>{{loop.index}}.</strong>
+            <a>
+              {{i.name}}, {{i.time}}, {{i.host}}
+            </a>
             {% if user.teacher_id == teacher.teacher_id %}
             <a href="/teacher/{{user.teacher_id}}/modify-university-project/{{i.university_project_id}}"
               class="add-class-btn">修改</a>
@@ -521,9 +531,12 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.awards %}
-            <a>{{i.government}}, {{i.award_name}}, {{i.year}}, {{i.students}}</a>
+            <strong>{{loop.index}}.</strong>
+            <a>
+              {{i.government}}, {{i.award_name}}, {{i.year}}, {{i.students}}
+            </a>
             {% if user.teacher_id == teacher.teacher_id %}
             <a href="/teacher/{{user.teacher_id}}/modify-award/{{i.award_id}}" class="add-class-btn">修改</a>
             <form action="/teacher/{{user.teacher_id}}/delete-award/{{i.award_id}}"
@@ -552,9 +565,12 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapse7" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.rewards %}
-            <a>{{i.reward_time}}, {{i.award}}, {{i.school}}, {{i.attribute}}, {{i.name}}</a>
+            <strong>{{loop.index}}.</strong>
+            <a>
+              {{i.reward_time}}, {{i.award}}, {{i.school}}, {{i.attribute}}, {{i.name}}
+            </a>
             {% if user.teacher_id == teacher.teacher_id %}
             <a href="/teacher/{{user.teacher_id}}/modify-reward/{{i.reward_id}}" class="add-class-btn">修改</a>
             <form action="/teacher/{{user.teacher_id}}/delete-reward/{{i.reward_id}}"
@@ -583,8 +599,9 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapse8" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.speeches %}
+            <strong>{{loop.index}}.</strong>
             <a>{{i.name}}, {{i.location}}, {{i.date}}</a>
             {% if user.teacher_id == teacher.teacher_id %}
             <a href="/teacher/{{user.teacher_id}}/modify-speech/{{i.speech_id}}" class="add-class-btn">修改</a>
@@ -614,8 +631,9 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapse9" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.book_chapters %}
+            <strong>{{loop.index}}.</strong>
             <a>
               {{i.book_name}},
               {% if i.collaborators != "" %}
@@ -652,9 +670,12 @@
           </button>
         </h2>
         <div id="panelsStayOpen-collapse10" class="accordion-collapse collapse">
-          <div class="accordion-body">
+          <div class="accordion-body lunwen-align">
             {% for i in teacher.teaching_works %}
-            <a>{{i.publisher}}, {{i.name}}, {{i.authors}}, {{i.teaching_work_type}}</a>
+            <strong>{{loop.index}}.</strong>
+            <a>
+              {{i.publisher}}, {{i.name}}, {{i.authors}}, {{i.teaching_work_type}}
+            </a>
             {% if user.teacher_id == teacher.teacher_id %}
             <a href="/teacher/{{user.teacher_id}}/modify-teaching-work/{{i.teaching_work_id}}"
               class="add-class-btn">修改</a>
