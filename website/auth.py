@@ -14,6 +14,7 @@ def sign_up():
         name = request.form.get("name")
         email = request.form.get("email")
         password1 = request.form.get("password1")
+        print(password1)
         password2 = request.form.get("password2")
         role_type = request.form.get("role_type")
         role_id = ord(role_type) - ord("0")
