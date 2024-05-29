@@ -189,6 +189,20 @@
   .add-lunwen {
     text-align: center;
   }
+
+  .flash-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    margin-top: 20px;
+}
 </style>
 
 <div id="container">
@@ -216,6 +230,7 @@
       <div id="teacher-contact-content">
         <h1 id="teacher-name">{{teacher.name}}</h1>
 
+
         <!-- <h3 id="teacher-self-intro">個人簡介</h3> -->
         <br>
         <div class="wrapper">
@@ -226,6 +241,32 @@
           <a class="btn btn-primary" href="/teacher/{{teacher.teacher_id}}/edit-introduction">Edit self-intro</a>
         </div>
         {% endif %}
+
+  <button onclick="copyEmail()" class="add-class-btn" id="cpy-btn" value="{{teacher.email}}">
+    信箱: {{teacher.email}}
+  </button>
+
+  <div id="flash-message" class="flash-message">複製成功</div>
+
+  <script>
+      function copyEmail() {
+          const email = document.getElementById('cpy-btn').value;
+
+          const tempTextArea = document.createElement('textarea');
+          tempTextArea.value = email;
+          document.body.appendChild(tempTextArea);
+          tempTextArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempTextArea);
+
+          const flashMessage = document.getElementById('flash-message');
+          flashMessage.style.display = 'block';
+          setTimeout(() => {
+              flashMessage.style.display = 'none';
+          }, 2000);
+      }
+  </script>
+
 
         <h3>信箱: {{teacher.email}}</h3>
 
