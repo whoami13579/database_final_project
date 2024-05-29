@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}修改校內外演講{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">修改校內外演講</h1>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        {% if artical_to_mod['name']%}
+        <input value={{artical_to_mod['name']}} type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        {% if artical_to_mod['location']%}
+        <input value={{artical_to_mod['location']}} type="text" id="location" name="location" class="form-control" placeholder="Enter Location" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        {% if artical_to_mod['date']%}
+        <input value={{artical_to_mod['date']}} type="date" id="date" name="date" required>
+        {% endif %}
+      </div>
+      <button type="submit" class="btn btn-primary">SUBMIT</button>
+  </form>
+  <br>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}修改校外獎勵及指導學生獲獎{% endblock %}
+{% block content %}
+<form method="POST">
+    <h1 align="left">修改校外獎勵及指導學生獲獎</h1>
+      <div class="mb-3">
+        <label for="government" class="form-label">Government</label>
+        {% if artical_to_mod['government'] %}
+        <input value={{artical_to_mod['government']}} type="text" id="goartical_to_modvernment" name="government" class="form-control" placeholder="Enter Government" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="award_name" class="form-label">Award Name</label>
+        {% if artical_to_mod['award_name'] %}
+        <input value={{artical_to_mod['award_name']}} type="text" id="award_name" name="award_name" class="form-control" placeholder="Enter Award Name" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="year" class="form-label">Year</label>
+        <!-- <input type="text" id="year" name="year" class="form-control" placeholder="Enter Year" required> -->
+        {% if artical_to_mod['year'] %}
+        <input value={{artical_to_mod['year']}} type="number" id="year" name="year" class="form-control" placeholder="Enter/Select Year" min="0000" max="9999" required>
+        {% endif %}
+      </div>
+      <div class="mb-3">
+        <label for="students" class="form-label">Students</label>
+        {% if artical_to_mod['students'] %}
+        <input value={{artical_to_mod['students']}} type="text" id="students" name="students" class="form-control" placeholder="Enter Students Name" required>
+        {% endif %}
+      </div>
+      <button type="submit" class="btn btn-primary">SUBMIT</button>
+  </form>
+  <br>
+{% endblock %}

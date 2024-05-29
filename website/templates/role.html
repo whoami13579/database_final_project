@@ -1,14 +1,42 @@
 {% extends "base.html" %}
 {% block title %}Role{% endblock %}
 {% block content %}
+<style>
+  #role-name {
+    margin-top: 2.25%;
+    margin-bottom: 1.5%;
+  }
+</style>
+
 <div align="center">
-    <h2>{{role.role_name}}</h2>
+    <h2 id="role-name">{{role.role_name}}</h2>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        查詢選單
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/role/1">系主任</a></li>
+        <li><a class="dropdown-item" href="/role/2">榮譽特聘講座</a></li>
+        <li><a class="dropdown-item" href="/role/3">講座教授</a></li>
+        <li><a class="dropdown-item" href="/role/4">特約講座</a></li>
+        <li><a class="dropdown-item" href="/role/5">特聘教授</a></li>
+        <li><a class="dropdown-item" href="/role/6">專任教師</a></li>
+        <li><a class="dropdown-item" href="/role/7">兼任教師</a></li>
+        <li><a class="dropdown-item" href="/role/8">行政人員</a></li>
+        <li><a class="dropdown-item" href="/role/9">退休教師</a></li>
+      </ul>
+    </div>
+    <br>
 
     {% for teacher in role.teachers %}
-        <a href="/teacher/{{teacher.teacher_id}}">{{teacher.name}}</a>
-        <br>
-        <a>{{teacher.email}}</a>
-        <br>
+        <div class="card" style="width: 18rem;">
+          <img src="{{ url_for('static', filename='images/' ~ teacher.photo) }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{teacher.name}}</h5>
+            <p class="card-text introduction">{{teacher.self_introduction}}</p>
+            <a href="/teacher/{{teacher.teacher_id}}" class="btn btn-primary">View Profile</a>
+          </div>
+        </div>
         <br>
     {% endfor %}
 

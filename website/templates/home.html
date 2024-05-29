@@ -1,8 +1,28 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
+<style>
+  .introduction {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  }
+  /* Handmade CSS Part */
+  #home-page {
+    margin-top: 2.25%;
+    margin-bottom: 1.5%;
+  }
+  #role-sep {
+    margin-top: 3.5%;
+    margin-bottom: 2.5%;
+    padding: 2% 0;
+    border-top: 1px dashed #aaa;
+    border-bottom: 1px dashed #aaa;
+  }
+</style>
 <div align="center">
-    <h1>Home Page</h1>
+    <h1 id="home-page">Home Page</h1>
 
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -22,17 +42,25 @@
       </div>
 
       {% for role in roles %}
-        <h2>{{role.role_name}}</h2>
+        <h2 id="role-sep">{{role.role_name}}</h2>
         {% for teacher in role.teachers %}
-            <a href="/teacher/{{teacher.teacher_id}}">{{teacher.name}}</a>
-            <br>
-            <a>{{teacher.email}}</a>
-            <br>
-            <br>
+        <div class="card" style="width: 18rem;">
+          <img src="./static/images/{{teacher.photo}}" class="card-img-top" alt="..." loading="lazy">
+          <div class="card-body">
+            <h5 class="card-title">{{teacher.name}}</h5>
+            <p class="card-text introduction">{{teacher.self_introduction}}</p>
+            <a href="/teacher/{{teacher.teacher_id}}" class="btn btn-primary">View Profile</a>
+          </div>
+        </div>
+        <br>
         {% endfor %}
       {% endfor %}
 
     {% if user.is_authenticated %}
     {% endif %}
 </div>
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
 {% endblock %}
