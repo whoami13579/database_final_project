@@ -85,18 +85,15 @@
 
   <h1>{{teacher.name}}</h1>
 
-  <h3>信箱: {{teacher.email}}</h3>
-
-  <h3>信箱: <span id="teacher-email">john.doe@example.com</span></h3>
-
-  <button onclick="copyEmail()" class="add-class-btn">信箱</button>
+  <button onclick="copyEmail()" class="add-class-btn" id="cpy-btn" value="{{teacher.email}}">
+    信箱: {{teacher.email}}
+  </button>
 
   <div id="flash-message" class="flash-message">複製成功</div>
 
   <script>
       function copyEmail() {
-          const emailElement = document.getElementById('teacher-email');
-          const email = emailElement.textContent;
+          const email = document.getElementById('cpy-btn').value;
 
           const tempTextArea = document.createElement('textarea');
           tempTextArea.value = email;
