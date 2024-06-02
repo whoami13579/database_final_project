@@ -6,6 +6,9 @@
     <div class="mb-3">
       <label for="week" class="form-label">Week</label>
       <select id="week" name="week" class="form-control" required value={{ class_schedule.week }}>
+      {% if class_schedule.week %}
+          <option value={{class_schedule.week}}>星期{{class_schedule.week}}</option>
+      {% endif %}
         <option value="1">星期一</option>
         <option value="2">星期二</option>
         <option value="3">星期三</option>
@@ -18,6 +21,9 @@
     <div class="mb-3">
       <label for="time" class="form-label">Time</label>
       <select id="time" name="time" class="form-control" required value={{ class_schedule.time }}>
+      {% if class_schedule.time %}
+          <option value={{class_schedule.time}}>第{{class_schedule.time}}節</option>
+      {% endif %}
         <option value="1">第1節</option>
         <option value="2">第2節</option>
         <option value="3">第3節</option>
