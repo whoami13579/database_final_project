@@ -33,30 +33,23 @@ def class_schedule(teacher_id):
         schedules_table.append([" "]*14)
     
     for schedule in schedules:
-        schedules_table[schedule.week-1][schedule.time-1] = ClassSchedule.query.filter_by(week=schedule.week, time=schedule.time).first()
+        schedules_table[schedule.week-1][schedule.time-1] = ClassSchedule.query.filter_by(week=schedule.week, time=schedule.time, teacher_id=teacher_id).first()
     
 
     return render_template("class_schedule.html", user=current_user, teacher=teacher, schedules_table=schedules_table)
 
 @views.route("/teacher/<int:teacher_id>/class-schedule/add-class-schedule/", methods=['GET', 'POST'])
 @login_required
-def add_class_schedule():
+def add_class_schedule(teacher_id):
     if request.method == "POST":
         week = request.form.get("week")
         time = request.form.get("time")
         name = request.form.get("name")
+        print(name)
         teacher_id = current_user.get_id()
 
         if ClassSchedule.query.filter_by(week=week, time=time, teacher_id=teacher_id).first():
-            class_schedule = ClassSchedule.query.filter_by(week=week, time=time, teacher_id=teacher_id).first()
-            if class_schedule.compare(class_schedule):
-                class_schedule.teachers.append(current_user)
-                
-                db.session.commit()
-
-                return redirect(url_for("views.class_schedule", teacher_id=teacher_id))
-            else:
-                flash("This Class already exists", category="error")
+            flash("This Class already exists", category="error")
             
             #return render_template("add_class.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=current_user.get_id()).first())
 
