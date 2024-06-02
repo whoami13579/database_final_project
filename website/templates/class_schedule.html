@@ -49,12 +49,12 @@
                 <tr>
                     <td>第{{ time }}節</td>
                     {% for week in range(1, 8) %}
-                        <td>{{ schedules_table[week-1][time-1] }}
+                        <td>{{ schedules_table[week-1][time-1].name }}
                         {% if user.teacher_id == teacher.teacher_id %}
                             {% set class_schedule = schedules_table[week-1][time-1] %}
                             {% if class_schedule != " " %}
-                                <a href="/teacher/{{teacher.teacher_id}}/class-schedule/update-class-schedule/{{class_schedule.schedule_id}}" role="button">修改</a>
-                                <a href="/teacher/{{teacher.teacher_id}}/class-schedule/delete-class-schedule/{{class_schedule.schedule_id}}" role="botton">刪除</a>
+                                <a href="/teacher/{{teacher.teacher_id}}/class-schedule/update-class-schedule/{{class_schedule.schedule_id}}">修改</a>
+                                <a href="/teacher/{{teacher.teacher_id}}/class-schedule/delete-class-schedule/{{class_schedule.schedule_id}}">刪除</a>
                             {% endif %}
                         {% endif %}
                         </td>

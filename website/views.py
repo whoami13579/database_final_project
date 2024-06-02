@@ -33,7 +33,7 @@ def class_schedule(teacher_id):
         schedules_table.append([" "]*14)
     
     for schedule in schedules:
-        schedules_table[schedule.week-1][schedule.time-1] = schedule.name
+        schedules_table[schedule.week-1][schedule.time-1] = ClassSchedule.query.filter_by(week=schedule.week, time=schedule.time).first()
     
 
     return render_template("class_schedule.html", user=current_user, teacher=teacher, schedules_table=schedules_table)
@@ -89,15 +89,18 @@ def update_class_schedule(teacher_id, schedule_id):
     else:
         return render_template("update_class_schedule.html", user=current_user, class_schedule=class_schedule)
 
-@views.route("/teacher/<int:teacher_id>/class-schedule/delete-class-schedule/<int:schedule_id>", methods=['GET'])
+# @views.route("/teacher/<int:teacher_id>/class-schedule/delete-class-schedule/<int:schedule_id>", methods=['GET'])
+@views.route("/teacher/<teacher_id>/class-schedule/delete-class-schedule/<schedule_id>")
 @login_required
-def delete_class_schedule(schedule_id):
-    class_schedule = ClassSchedule.query.get(schedule_id)
+@login_required
+def delete_class_schedule(teacher_id, schedule_id):
+    class_schedule = ClassSchedule.query.filter_by(schedule_id=schedule_id).first()
     
     db.session.delete(class_schedule)
     db.session.commit()
     
-    return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=current_user.get_id()).first())
+    # return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=current_user.get_id()).first())
+    return redirect(url_for("views.class_schedule", teacher_id=teacher_id))
     
 @views.route("/add-journal-artical/", methods=["GET", "POST"])
 @login_required
