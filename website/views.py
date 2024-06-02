@@ -831,3 +831,14 @@ def add_external_experience():
         return redirect(url_for("views.teacher", teacher_id=current_user.get_id()))
 
     return render_template("add_external_experience.html", user=current_user)
+
+
+@views.route("/search", methods=["GET", "POST"])
+def search():
+    teachers = []
+
+    if request.method == "POST":
+        search = request.form.get("search")
+        teachers = Teacher.query.filter(Teacher.interest.like('%' + search + '%'))
+
+    return render_template("search.html", user=current_user, teachers=teachers)
