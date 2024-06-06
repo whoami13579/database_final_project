@@ -89,7 +89,10 @@ def update_class_schedule(teacher_id, schedule_id):
 def delete_class_schedule(teacher_id, schedule_id):
     class_schedule = ClassSchedule.query.filter_by(schedule_id=schedule_id).first()
     
-    db.session.delete(class_schedule)
+    for i in range(5):
+        tmp_class_schedule = ClassSchedule.query.filter_by(schedule_id=(schedule_id-i+2)).first()
+        if tmp_class_schedule.name == class_schedule.name:
+            db.session.delete(tmp_class_schedule)
     db.session.commit()
     
     # return render_template("class_schedule.html", user=current_user, teacher=Teacher.query.filter_by(teacher_id=current_user.get_id()).first())
