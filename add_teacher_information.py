@@ -4,7 +4,7 @@ con = sqlite3.connect("instance/database.db")
 cur = con.cursor()
 
 journalArticals = [
-    (1, "Blockchain-based pipeline custody system (BPCS) for preserving critical video evidence", "Journal of Internet Technology", "Fan, Y.Y., Chew, C. J., Hong, W. Z., Chen, Y. C., Lee, J.S.*", "447-454", "SCIE" ,"2024-06-03"),
+    (1, "Blockchain-based-pipeline-custody-system-(BPCS)-for-preserving-critical-video-evidence", "Journal-of-Internet-Technology", "Fan,Y.Y.,Chew,C.J.,Hong,W.Z.,Chen,Y.C.,Lee,J.S.*", "447-454", "SCIE" ,"2024-06-03"),
     (2, "Preserving Manipulated and Synthetic Deepfake Detection through Face Texture Naturalness", "Accepted byJournal of Information Security and Applications", "Chew, C. J., Lin, Y. C., Chen, Y. C., Fan, Y.Y., and Lee, J.S.*", "000", "SCIE" ,"2024-05-01"),
 ]
 cur.executemany("INSERT INTO journal_articals VALUES(?, ?, ?, ?, ?, ?, ?)", journalArticals)
