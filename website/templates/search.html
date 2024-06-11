@@ -1,0 +1,51 @@
+
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+<style>
+    .brief {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    }
+  .introduction {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  }
+</style>
+<div align="center">
+    <h1>Search Interest</h1>
+    <br>
+    <br>
+
+<form method="POST">
+      <div class="mb-3">
+        <input type="text" id="search" name="search" class="form-control" placeholder="Enter interest" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
+    <br>
+    <br>
+        {% for teacher in teachers %}
+        <div class="card" style="width: 18rem;">
+          <img src="./static/images/{{teacher.photo}}" class="card-img-top" alt="..." loading="lazy">
+          <div class="card-body">
+            <h5 class="card-title">{{teacher.name}}</h5>
+            <p class="card-text introduction">{{teacher.self_introduction}}</p>
+            <a href="/teacher/{{teacher.teacher_id}}" class="btn btn-primary">View Profile</a>
+          </div>
+        </div>
+        <br>
+        {% endfor %}
+      <br>
+      <br>
+      <br>
+      <br>
+    {% if user.is_authenticated %}
+    {% endif %}
+</div>
+{% endblock %}

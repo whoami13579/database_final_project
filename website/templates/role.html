@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Role{% endblock %}
 {% block content %}
+<style>
+  #role-name {
+    margin-top: 2.25%;
+    margin-bottom: 1.5%;
+  }
+</style>
+
 <div align="center">
-    <h2>{{role.role_name}}</h2>
+    <h2 id="role-name">{{role.role_name}}</h2>
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         查詢選單
